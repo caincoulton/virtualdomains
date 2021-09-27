@@ -10,9 +10,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
- 
 class VirtualdomainsViewParam  extends JViewLegacy {
 
 	
@@ -41,6 +38,11 @@ class VirtualdomainsViewParam  extends JViewLegacy {
 		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
+		}
+
+		if(version_compare(JVERSION,'4','<')){
+			$this->sidebar = JHtmlSidebar::render();
+			$tpl = "3";
 		}
 		
 		parent::display($tpl);	

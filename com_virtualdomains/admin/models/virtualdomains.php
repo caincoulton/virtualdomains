@@ -1,5 +1,8 @@
  <?php
 
+defined('_JEXEC') or die('Restricted access');
+
+use Joomla\CMS\Factory;
 
 jimport('joomla.application.component.modellist');
 jimport('joomla.application.component.helper');
@@ -17,15 +20,15 @@ class VirtualdomainsModelvirtualdomains extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 			parent::populateState();
-			$app = JFactory::getApplication();
-			$id = JRequest::getVar('id', 0, '', 'int');
+			$app = Factory::getApplication();
+			$id = $app->input->get('id', 0, 'int');
 			$this->setState('virtualdomainlist.id', $id);			
 			
 			// Load the filter state.
 			$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 			$this->setState('filter.search', $search);
 
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 			$limit = $value;
 			$this->setState('list.limit', $limit);
@@ -36,10 +39,11 @@ class VirtualdomainsModelvirtualdomains extends JModelList
 			
 			$value = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', $ordering);
 			$this->setState('list.ordering', $value);			
-						$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
+			
+			$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
 			$this->setState('list.direction', $value);
 
-					$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
+			$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 			$this->setState('filter.state', $state);
 					
 	}

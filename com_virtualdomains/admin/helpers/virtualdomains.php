@@ -2,6 +2,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+
 /**
  * @version		$Id$
  * @package		Virtualdomain
@@ -77,7 +80,7 @@ class VirtualdomainsHelper
      */
     public static function getActions($categoryId = 0)
     {
-    	$user	= JFactory::getUser();
+    	$user	= Factory::getUser();
     	$result	= new JObject;
     
     	if (empty($categoryId))
@@ -91,7 +94,10 @@ class VirtualdomainsHelper
     		$level = 'category';
     	}
     
-    	$actions = JAccess::getActions('com_virtualdomains', $level);
+		$actions = Access::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/com_virtualdomains/access.xml',
+			"/access/section[@name='$level']/"
+		);
     
     	foreach ($actions as $action)
     	{
@@ -112,7 +118,7 @@ class VirtualdomainsHelper
 		
 		$chapter = ($chapter) ? "#".$chapter : "";
 		
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		
 		if ($jv->RELEASE > 1.5) {
 			$text	= JText::_('JTOOLBAR_HELP');
@@ -141,7 +147,7 @@ abstract class JHtmlVirtualdomains {
 	 public static function domains ($domain, $control = 'jform[domain]', $attribs = array('selecttext'=>null, 'class'=>"inputbox", 'onchange'=>'', 'multiple'=>'', 'size'=>''))
         { 
                 
-                $db             = JFactory::getDbo();
+                $db             = Factory::getDbo();
                 
                 $query = "SELECT domain as value, domain as text
                                                 FROM #__virtualdomain

@@ -10,9 +10,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-
- 
 class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 
 	
@@ -55,6 +52,12 @@ class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 		
 		$doc->addScriptDeclaration($code);
 		$this->_tabs();
+
+		if(version_compare(JVERSION,'4','<')){
+			$this->sidebar = JHtmlSidebar::render();
+			$tpl = "3";
+		}
+
 		parent::display($tpl);	
 	}	
 	
@@ -71,7 +74,6 @@ class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 			$this->tabs['accesslevels'] = JHtml::_('tabs.panel',JText::_('Access_Level_Inheritance'), 'advanced-accesslevel');
 			$this->tabs['components'] = JHtml::_('tabs.panel',JText::_( 'COMPONENTS_FILTER' ), 'components');
 			$this->tabs['translation'] = JHtml::_('tabs.panel',JText::_('Translation'), 'advanced-translation');
-			$this->tabs['custom-params'] = JHtml::_('tabs.panel',JText::_( 'Custom Parameters' ), 'custom-params');
 	
 		} else {
 			$this->tabsstart = JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details'));
@@ -82,9 +84,7 @@ class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 			$this->tabs['menufilter'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-menus', JText::_('Menu_Filter'));
 			$this->tabs['accesslevels'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-accesslevel', JText::_('Access_Level_Inheritance'));
 			$this->tabs['components'] = JHtml::_('bootstrap.addTab', 'myTab', 'components', JText::_( 'COMPONENTS_FILTER' ));
-			$this->tabs['translation'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-translation', JText::_('Translation'));
-			$this->tabs['custom-params'] = JHtml::_('bootstrap.addTab', 'myTab', 'custom-params', JText::_( 'Custom Parameters' ));
-	
+			$this->tabs['translation'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-translation', JText::_('Translation'));	
 		}
 		 
 	}

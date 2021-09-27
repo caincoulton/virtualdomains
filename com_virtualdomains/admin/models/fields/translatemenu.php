@@ -19,6 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * details.
 */
  
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 
 class JFormFieldTranslateMenu extends JFormField
 {
@@ -32,8 +34,7 @@ class JFormFieldTranslateMenu extends JFormField
 
     protected function getInput()
     {
-		$lang = JFactory::getLanguage();
-		$langs = $lang->getKnownLanguages();
+		$langs = LanguageHelper::getKnownLanguages();
         $class = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
 		$html ="<table class='table table-striped'>";
 

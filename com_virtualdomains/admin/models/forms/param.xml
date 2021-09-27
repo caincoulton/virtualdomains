@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields>
+	<fieldset name="details">
 	
 		<field
 			name="id"
@@ -21,22 +21,6 @@
 			size="40"/>						
 
 		<field
-			id="home"
-			name="home"
-			type="radio"			
-			label="PARAMS_HOME_ONLY"
-			description="PARAMS_HOME_ONLY_DESC"
-			labelclass="control-label"
-			class="inputbox">
-			<option
-				value="0">
-				JNO</option>
-			<option
-				value="1">
-				JYES</option>			
-		</field>												
-														
-		<field
 			id="action"
 			name="action"
 			type="list"
@@ -56,8 +40,23 @@
 				value="globals">
 				JOption_Action_Globals</option>
 		</field>
-								
-								
-	</fields>	
+
+		<field
+			id="home"
+			name="home"
+			type="radio"			
+			label="PARAMS_HOME_ONLY"
+			description="PARAMS_HOME_ONLY_DESC"
+			labelclass="control-label"
+			class="inputbox">
+			<option
+				value="0">
+				JNO</option>
+			<option
+				value="1">
+				JYES</option>			
+		</field>												
+				
+	</fieldset>	
 		
 </form>	

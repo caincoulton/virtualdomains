@@ -6,11 +6,28 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
+if(version_compare(JVERSION,'4','<')){
+	HTMLHelper::_('behavior.core');
+	HTMLHelper::_('behavior.tooltip');
+	HTMLHelper::_('behavior.formvalidation');
+	$tabFramework = 'bootstrap';
+} else {
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
+	$wa->useScript('keepalive')
+		->useScript('form.validate');
+	$tabFramework = 'uitab';
+}
+
 
 // Set toolbar items for the page
-$edit		= JRequest::getVar('edit', true);
+$edit		= Factory::getApplication()->input->get('edit', true);
 $text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
 JToolBarHelper::title(   JText::_( 'Params' ).': <small><small>[ ' . $text.' ]</small></small>' );
 JToolBarHelper::apply('param.apply');
@@ -25,65 +42,23 @@ if (!$edit) {
 }
 ?>
 
-<script language="javascript" type="text/javascript">
+<form method="post" action="<?php echo JRoute::_('index.php?option=com_virtualdomains&layout=edit&id='.(int) $this->item->id);  ?>" id="adminForm" name="adminForm" aria-label="<?php echo Text::_('COM_VIRUTALDOMAINS_PARAM_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
+	<?php //echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-Joomla.submitbutton = function(task)
-{
-	if (task == 'param.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-		Joomla.submitform(task, document.getElementById('adminForm'));
-	}
-}
+	<div class="main-card">
+		<?php echo HTMLHelper::_($tabFramework . '.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-</script>
+		<?php echo HTMLHelper::_($tabFramework . '.addTab', 'myTab', 'details', Text::_('Details')); ?>
+			<?php echo $this->form->renderFieldset('details'); ?>
+		<?php echo HTMLHelper::_($tabFramework . '.endTab'); ?>
 
-	 	<form method="post" action="<?php echo JRoute::_('index.php?option=com_virtualdomains&layout=edit&id='.(int) $this->item->id);  ?>" id="adminForm" name="adminForm">
-	 	<div class="col <?php if(version_compare(JVERSION,'3.0','lt')):  ?>width-60  <?php endif; ?>span8 form-horizontal fltlft">
-		  <fieldset class="adminform">
-			<legend><?php echo JText::_( 'Details' ); ?></legend>
-		
-				<div class="control-group">
-					<div class="control-label">					
-						<?php echo $this->form->getLabel('name'); ?>
-					</div>
-					
-					<div class="controls">	
-						<?php echo $this->form->getInput('name');  ?>
-					</div>
-				</div>		
+	<?php echo HTMLHelper::_($tabFramework . '.endTabSet'); ?>	        
 
-				<div class="control-group">
-					<div class="control-label">					
-						<?php echo $this->form->getLabel('action'); ?>
-					</div>
-					
-					<div class="controls">	
-						<?php echo $this->form->getInput('action');  ?>
-					</div>
-				</div>		
-
-				<div class="control-group">
-					<div class="control-label">					
-						<?php echo $this->form->getLabel('home'); ?>
-					</div>
-					
-					<div class="controls">	
-						<?php echo $this->form->getInput('home');  ?>
-					</div>
-				</div>		
-					
-					
-			
-						
-          </fieldset>                      
-        </div>
-        <div class="col <?php if(version_compare(JVERSION,'3.0','lt')):  ?>width-30  <?php endif; ?>span2 fltrgt">
-			        
-
-        </div>                   
-		<input type="hidden" name="option" value="com_virtualdomains" />
-	    <input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="view" value="param" />
-		<?php echo JHTML::_( 'form.token' ); ?>
-	</form>
+	</div>                   
+	<input type="hidden" name="option" value="com_virtualdomains" />
+	<input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="view" value="param" />
+	<?php echo HTMLHelper::_( 'form.token' ); ?>
+</form>

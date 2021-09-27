@@ -10,7 +10,9 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
+use Joomla\CMS\Factory;
+
+$app = Factory::getApplication();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" >
@@ -64,13 +66,13 @@ $app = JFactory::getApplication();
 			<jdoc:include type="modules" name="status" />
 			<?php
 				//Display an harcoded logout
-				$task = JRequest::getCmd('task');
-				if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
+				$task = $app->input->get('task', NULL, 'CMD');
+				if ($task == 'edit' || $task == 'editA' || $app->input->get('hidemainmenu', NULL, 'INT')) {
 					$logoutLink = '';
 				} else {
 					$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JUtility::getToken() .'=1');
 				}
-				$hideLinks	= JRequest::getBool('hidemainmenu');
+				$hideLinks	= $app->input->get('hidemainmenu', NULL, 'BOOL');
 				$output = array();
 				// Print the logout link.
 				$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
@@ -107,7 +109,7 @@ $app = JFactory::getApplication();
 			</div>
 		</div>
 		<div class="clr"></div>
-		<?php if (!JRequest::getInt('hidemainmenu')): ?>
+		<?php if (!$app->input->get('hidemainmenu', NULL, 'INT')): ?>
 		<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
 		<?php endif; ?>
 		<jdoc:include type="message" />

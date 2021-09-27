@@ -10,11 +10,12 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 
 		JSubMenuHelper::addEntry(
 			JText::_('COM_VD_SUBMENU_HOMES'),
 			'index.php?option=com_virtualdomains&view=homes',
-			JRequest::getVar('view') == 'homes'
+			Factory::getApplication()->input->get('view') == 'homes'
 		);
 
 

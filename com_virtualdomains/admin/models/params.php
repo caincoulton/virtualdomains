@@ -18,7 +18,7 @@ class VirtualdomainsModelparams extends JModelList
 	{
 			parent::populateState();
 			$app = JFactory::getApplication();
-			$id = JRequest::getVar('id', 0, '', 'int');
+			$id = $app->input->get('id', 0, 'int');
 			$this->setState('paramlist.id', $id);			
 			
 			// Load the filter state.

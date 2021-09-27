@@ -6,8 +6,8 @@
  */
 
 defined('JPATH_BASE') or die;
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
+
+use Joomla\CMS\Factory;
 
 /**
  * Form Field class for the Joomla Framework.
@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
  * @subpackage	Form
  * @since		1.6
  */
-class JFormFieldTemplates extends JFormField {
+class JFormFieldTemplates extends JFormFieldList {
 
 	/**
 	 * The field type.
@@ -24,30 +24,38 @@ class JFormFieldTemplates extends JFormField {
 	 * @var		string
 	 */
 	public $type = 'Templates';
-		/**
-	 * Method to get the field input.
+
+	/**
+	 * Method to get a list of options for a list input.
 	 *
-	 * @return	string		The field input.
+	 * @return  array  An array of JHtml options.
 	 */
-	protected function getInput()
+	protected function getOptions()
 	{
-		$jv = new JVersion();
-		$tBaseDir = JPATH_SITE.'/templates';
-		$trows = array();
-		
-		if ($jv->RELEASE > 1.5) {
-			
-			require_once( JPATH_BASE.'/components'.'/com_templates/helpers/templates.php' );
-  			$trows =TemplatesHelper::getTemplateOptions("0");
-			$html  = JHTML::_('select.genericlist', $trows, $this->name, 'class="inputbox"', 'value', 'text', $this->value );
-						
-		} else {
-			
-			require_once( JPATH_BASE.'/components'.'/com_templates/helpers/template.php' );					
-			$trows = TemplatesHelper::parseXMLTemplateFiles($tBaseDir);
-			$html  = JHTML::_('select.genericlist', $trows, $this->name, 'class="inputbox"', 'directory', 'directory', $this->value );
-			
+		$db    = Factory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('name, element');
+		$query->from('#__extensions')
+				->where('type = "template"')
+				->where('enabled = TRUE')
+				->order('`name` ASC');
+
+		$db->setQuery((string) $query);
+		$templates = $db->loadObjectList();
+		$options  = array(
+			JHtml::_('select.option', '', '- Select Template -')
+		);
+
+		if ($templates)
+		{
+			foreach ($templates as $template)
+			{
+				$options[] = JHtml::_('select.option', $template->element, $template->name);
+			}
 		}
-		return $html;
+
+		$options = array_merge(parent::getOptions(), $options);
+
+		return $options;
 	}
 }

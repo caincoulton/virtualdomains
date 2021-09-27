@@ -10,6 +10,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+
 jimport('joomla.application.component.view');
 
  
@@ -29,10 +31,22 @@ class VirtualdomainsViewparams  extends JViewLegacy {
      */
 	public function display($tpl = null)
 	{
+		$doc = JFactory::getDocument();
+		if(version_compare(JVERSION, '3.0', 'lt')) {
+			$doc->addScript('components/com_virtualdomains/assets/js/jquery.min.js');
+		} else {
+			JHtml::_('jquery.framework');
+		}
+
+		$app = Factory::getApplication();
 		
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filter_order 	= $app->getUserStateFromRequest($context.'filter_order', 'filter_order', 'name', 'cmd');
+		$this->filter_order_Dir = $app->getUserStateFromRequest($context.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -44,13 +58,12 @@ class VirtualdomainsViewparams  extends JViewLegacy {
 		VirtualdomainsHelper::addSubmenu('params');
 
 		$this->addToolbar();
-		if(!version_compare(JVERSION,'3','<')){
+
+		if(version_compare(JVERSION,'4','<')){
 			$this->sidebar = JHtmlSidebar::render();
+			$tpl = "3";
 		}
-		
-		if(version_compare(JVERSION,'3','<')){
-			$tpl = "25";
-		}
+
 		parent::display($tpl);
 	}
 	
@@ -71,6 +84,7 @@ class VirtualdomainsViewparams  extends JViewLegacy {
 		
 		$canDo = VirtualdomainsHelper::getActions();
 		$user = JFactory::getUser();
+
 		JToolBarHelper::title( JText::_( 'Params' ), 'generic.png' );
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('param.add');
@@ -91,7 +105,7 @@ class VirtualdomainsViewparams  extends JViewLegacy {
 				
 		
 		JToolBarHelper::preferences('com_virtualdomains', '550');  
-		if(!version_compare(JVERSION,'3','<')){		
+		if(version_compare(JVERSION,'4','<')){		
 			JHtmlSidebar::setAction('index.php?option=com_virtualdomains&view=params');
 		}
 							

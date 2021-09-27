@@ -57,7 +57,7 @@ class VirtualdomainsModelParam  extends JModelAdmin {
 		
 		}
 		
-		if(!version_compare(JVERSION,'3','<')){
+		if(version_compare(JVERSION,'4','<')){
 			$this->preprocessData('com_virtualdomains.param', $data);
 		}
 		

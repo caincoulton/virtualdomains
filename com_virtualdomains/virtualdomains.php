@@ -14,6 +14,11 @@
 
 //--No direct access
 defined('_JEXEC') or die('Resrtricted Access');
+
+use Joomla\CMS\Factory;
+
+$app = Factory::getApplication();
+
 // Require the base controller
 require_once( JPATH_COMPONENT.'/controller.php' );
 
@@ -31,7 +36,7 @@ $jv = new JVersion();
 $GLOBALS['alt_libdir'] = ($jv->RELEASE < 1.6) ? JPATH_COMPONENT_ADMINISTRATOR : null;
 
 //set the default view
-$controller = JRequest::getWord('view', 'virtualdomain');
+$controller = $app->input->get('view', 'virtualdomain', 'WORD');
 
 require_once( JPATH_COMPONENT.'/helpers/virtualdomains.php' );
 
@@ -54,7 +59,7 @@ $classname    = 'VirtualdomainsController'.$controller;
 $controller   = new $classname($ControllerConfig );
 
 // Perform the Request task
-$controller->execute( JRequest::getVar( 'task' ) );
+$controller->execute( $app->input->get('task') );
 
 // Redirect if set by the controller
 $controller->redirect();

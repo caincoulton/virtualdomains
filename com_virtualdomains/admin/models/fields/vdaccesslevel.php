@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
@@ -73,7 +75,7 @@ class JFormFieldVdAccessLevel extends JFormFieldList
 		
 		$options = array();
 		
-		$db		= JFactory::getDbo();
+		$db		= Factory::getDbo();
 		
 		$query = "SELECT GROUP_CONCAT( DISTINCT `viewlevel`
 						SEPARATOR ', ' )

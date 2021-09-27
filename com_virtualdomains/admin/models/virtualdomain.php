@@ -8,6 +8,9 @@
 * @license #http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
 */
  defined('_JEXEC') or die('Restricted access');
+
+ use Joomla\CMS\Factory;
+
 /**
  * VirtualdomainsModelVirtualdomain 
  * @author Michael Liebler
@@ -50,7 +53,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 	{
 		
 		// Check the session for previously entered form data.
-		$app  = JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$data = $app->getUserState('com_virtualdomains.edit.virtualdomain.data', array());
 
 		if (empty($data))
@@ -59,7 +62,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 		
 		}
 		
-		if(!version_compare(JVERSION,'3','<')){
+		if(version_compare(JVERSION,'4','<')){
 			$this->preprocessData('com_virtualdomains.virtualdomain', $data);
 		}
 		
@@ -69,7 +72,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 	
 	public function beforeSave($data)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		if(isset($data['template_style_id'])) {
 			$db->setQuery('Select template from #__template_styles where id = '.(int) $data['template_style_id']);
 			$data['template'] = $db->loadResult();
@@ -83,12 +86,12 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 		if($viewlevel) {
 			$query = "UPDATE #__viewlevels SET title = ".$db->Quote($data['domain'])." WHERE id = ". (int) $viewlevel ;
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			$data['viewlevel'] = $viewlevel;
 		} else {
 			$query = "INSERT INTO #__viewlevels SET rules = ". $db->Quote('[]').",  title = ".$db->Quote($data['domain']);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			$data['viewlevel'] = $db->insertid();
 		}
 		return $data;
@@ -100,7 +103,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
  * @return boolean
  */
 	public function preDelete($cid) {
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		if(is_array($cid)) {
 			foreach($cid as $id) {
 				$row = $this->getTable();
@@ -109,7 +112,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 				if($row->viewlevel) {
 					echo 'DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel.'<br />';
 					$db->setQuery('DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel);
-					$db->query();
+					$db->execute();
 				}
 			}
 		} else {
@@ -118,7 +121,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 			if($row->viewlevel) {
 				echo 'DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel.'<br />';
 				$db->setQuery('DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel);
-				$db->query();
+				$db->execute();
 			}
 		}
 		return true;	
@@ -151,7 +154,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 	public function setDefault($cids, $value = 1)
 	{
 		// Initialise variables.
-		$user	= JFactory::getUser();
+		$user	= Factory::getUser();
 		$db		= $this->getDbo();		
 		$cids = (array) $cids;
 		$id = (int) $cids[0];
@@ -163,7 +166,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 				' WHERE home = '.$db->Quote('1')
 		);
 	
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			throw new Exception($db->getErrorMsg());
 		}
 	
@@ -174,7 +177,7 @@ class VirtualdomainsModelVirtualdomain  extends JModelAdmin {
 				' WHERE id = '.(int) $id
 		);
 	
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			throw new Exception($db->getErrorMsg());
 		}
 	

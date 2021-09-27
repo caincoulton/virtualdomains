@@ -10,8 +10,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
+use Joomla\CMS\Factory;
 
+jimport('joomla.application.component.view');
 
 class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 
@@ -37,11 +38,20 @@ class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 			JHtml::_('jquery.framework');
 		}
 		$doc->addScript('components/com_virtualdomains/assets/js/hostcheck.js');
-		JHTML::_('behavior.modal', 'a.modal');
-				
+
+		if(version_compare(JVERSION, '4.0', 'lt')) {
+			JHTML::_('behavior.modal', 'a.modal');
+		}
+		
+		$app = Factory::getApplication();
+
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filter_order 	= $app->getUserStateFromRequest($context.'filter_order', 'filter_order', 'name', 'cmd');
+		$this->filter_order_Dir = $app->getUserStateFromRequest($context.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
+		$this->filterForm    	= $this->get('FilterForm');
+		$this->activeFilters 	= $this->get('ActiveFilters');
 
 		$this->params = JComponentHelper::getParams( 'com_virtualdomains' );
 		
@@ -55,13 +65,12 @@ class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 		VirtualdomainsHelper::addSubmenu('virtualdomains');
 
 		$this->addToolbar();
-		if(!version_compare(JVERSION,'3','<')){
+
+		if(version_compare(JVERSION,'4','<')){
 			$this->sidebar = JHtmlSidebar::render();
+			$tpl = "3";
 		}
 
-		if(version_compare(JVERSION,'3','<')){
-			$tpl = "25";
-		}
 		parent::display($tpl);
 	}
 
@@ -105,13 +114,13 @@ class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 
 
 		JToolBarHelper::preferences('com_virtualdomains', '550');
-		if(!version_compare(JVERSION,'3','<')){
+		if(version_compare(JVERSION,'4','<')){
 			JHtmlSidebar::setAction('index.php?option=com_virtualdomains&view=virtualdomains');
 		}
 		
 		$excludeOptions = array('archived' => false, 'trash' => false);
 		
-		if(!version_compare(JVERSION,'3','<')){
+		if(version_compare(JVERSION,'4','<')){
 			JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_state',

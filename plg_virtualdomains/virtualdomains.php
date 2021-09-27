@@ -15,6 +15,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+use Joomla\CMS\Factory;
+use Joomla\String\StringHelper;
+
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.plugin.plugin' );
 jimport('joomla.application.module.helper');
@@ -23,7 +26,7 @@ jimport('joomla.application.module.helper');
 */
 
 
-class plgSystemVirtualdomains extends JPlugin
+class PlgSystemVirtualdomains extends JPlugin
 {
 
 	private $_db = null;
@@ -43,8 +46,8 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	public function __construct( &$subject, $config )
 	{
-		$this->_db = JFactory::getDBO();
-		$this->input = JFactory::getApplication()->input;
+		$this->_db = Factory::getDBO();
+		$this->input = Factory::getApplication()->input;
 		parent::__construct( $subject, $config );
 	}
 
@@ -62,14 +65,14 @@ class plgSystemVirtualdomains extends JPlugin
 			jimport('joomla.application.router');
 		}
 
-		$app 	= JFactory::getApplication();
-		$db 	= JFactory::getDBO();
-		$user 	= JFactory::getUser();
+		$app 	= Factory::getApplication();
+		$db 	= Factory::getDBO();
+		$user 	= Factory::getUser();
 		$conf 	= JComponentHelper::getParams('com_virtualdomains');
 		$uri = JUri::getInstance();
 
 		// we just have to give full access for all users in backend - nothing else has to be done
-		if ( $app->isAdmin() )
+		if ( $app->isClient('administrator') )
 		{
 
 			if(!$conf->get('denyadminaccess', 0)) {
@@ -184,14 +187,14 @@ class plgSystemVirtualdomains extends JPlugin
 		$componentsDenied = (array) $this->_hostparams->get('components');
 		if(!count($componentsDenied)) return;
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$option = false;
 
 		//try to get current component from input
 		if (!($option = $input->get('option'))) {
 
 			//try to get current component from mene
-			$menu = JFactory::getApplication()->getMenu('site',array());
+			$menu = Factory::getApplication()->getMenu('site',array());
 			$active = $menu->getActive();
 			if ($active && $active->type == 'component') {
 				$option = $active->component;
@@ -200,7 +203,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		// check if component is denied
 		if($option && in_array($option, $componentsDenied)) {
-			JFactory::getLanguage()->load('lib_joomla');
+			Factory::getLanguage()->load('lib_joomla');
 			if (class_exists('Exception')) {
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 			} else {
@@ -216,14 +219,14 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	private function checkHome(&$curDomain) {
 
-	    $app = JFactory::getApplication();
+	    $app = Factory::getApplication();
 
 	    $menu = $app->getMenu('site',array());
 		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
 
 		$router = $app->getRouter();
 		$uri = JUri::getInstance();
-		$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
+		$mode_sef = Factory::getConfig()->get('sef');
 
 		$origHome = $this->getDefaultmenu();
 		$curDomain->isHome = false;
@@ -248,7 +251,7 @@ class plgSystemVirtualdomains extends JPlugin
 
 		if($mode_sef) {
 			$route	= $uri->getPath();
-			$route_lowercase = JString::strtolower($route);
+			$route_lowercase = StringHelper::strtolower($route);
 
 			// Handle an empty URL (special case)
 			if (empty($route)) {
@@ -263,7 +266,7 @@ class plgSystemVirtualdomains extends JPlugin
 				foreach ($items as $item) {
 					$length = strlen($item->route); //get the length of the route
 
-					if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
+					if ($length > 0 && StringHelper::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
 						$route = substr($route, $length);
 						if ($route) {
 							$route = substr($route, 1);
@@ -301,21 +304,15 @@ class plgSystemVirtualdomains extends JPlugin
 
 		// Needed for searching articles on backend,
 		// thanks to Javi
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
+		$db = Factory::getDbo();
+		$user = Factory::getUser();
 
 		// get VD domains from db
-		$db->setQuery("SELECT * FROM #__virtualdomain WHERE published > 0");
-		$allDomains = $db->loadObjectList();
-
-		if ($error = $db->getErrorMsg())
-		{
-			if(class_exists('Exception')) {
-				throw new Exception($error, 500);
-			} else {
-				JError::raiseWarning(500, $error);
-			}
-
+		try {
+			$db->setQuery("SELECT * FROM #__virtualdomain WHERE published > 0");
+			$allDomains = $db->loadObjectList();
+		} catch(Exception $e) {
+			throw new Exception($e->getMessage(), 500);
 			return false;
 		}
 
@@ -360,19 +357,20 @@ class plgSystemVirtualdomains extends JPlugin
 		static $instance;
 
 		$vd = JComponentHelper::getComponent('com_virtualdomains');
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if(!empty($instance)) return $instance;
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$db->setQuery(
 				"SELECT * FROM #__virtualdomain
 				WHERE `domain` = ".$db->Quote($this->_curhost ). " AND published > 0"
 		);
 
-		$curDomain = $db->loadObject();
-
-		if($db->getError() ) {
+		try {
+            $curDomain = $db->loadObject();
+		} catch(Exception $e) {
+			$app->enqueueMessage(JText::_($e->getMessage()), 'error');
 			return null;
 		}
 
@@ -422,16 +420,16 @@ class plgSystemVirtualdomains extends JPlugin
 
 		if(!empty($_defaultmenu)) return $_defaultmenu;
 
-		$menu = JFactory::getApplication()->getMenu('site',array());
+		$menu = Factory::getApplication()->getMenu('site',array());
 		$_defaultmenu = $menu->getDefault();
 
 		//fallback if default home item was not found
 		if($_defaultmenu === 0) {
-			$lang = JFactory::getLanguage();
-			$db = JFactory::getDbo();
+			$lang = Factory::getLanguage();
+			$db = Factory::getDbo();
 
 			// first try to find a language specific home item
-			$query  = "SELECT * FROM #__menu WHERE home = 1 AND language = ".$db->Quote(JFactory::getLanguage()->getTag())." AND published >0";
+			$query  = "SELECT * FROM #__menu WHERE home = 1 AND language = ".$db->Quote(Factory::getLanguage()->getTag())." AND published >0";
 			$db->setQuery($query);
 			$_defaultmenu = $db->loadObject();
 
@@ -450,7 +448,7 @@ class plgSystemVirtualdomains extends JPlugin
 	 * Return the host check on backend request
 	 */
 	private function hostCheck() {
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		// Joomla 3.2 will throw an error, if language filter is set
 		if(method_exists($app, 'setLanguageFilter')) {
 			$app->setLanguageFilter(false);
@@ -482,7 +480,7 @@ class plgSystemVirtualdomains extends JPlugin
 		}
 
 		// get domains home item
-		$menu = JFactory::getApplication()->getMenu('site', array());
+		$menu = Factory::getApplication()->getMenu('site', array());
 		$menuItem = $menu->getItem( ( int ) $curDomain->menuid );
 		if ( !$menuItem )
 		{
@@ -544,7 +542,7 @@ class plgSystemVirtualdomains extends JPlugin
 	 */
 	private function setActions( $home = 0 )
 	{
-		$db = JFactory::getDBO();
+		$db = Factory::getDBO();
 		$db->setQuery( 'Select * From #__virtualdomain_params Where 1' );
 		$result = $db->loadObjectList();
 
@@ -581,7 +579,7 @@ class plgSystemVirtualdomains extends JPlugin
 	 * Change the domains global settings
 	 */
 	private function setConfig() {
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 		// options that can be changed
 		$options = array('MetaDesc', 'sitename', 'list_limit', 'mailfrom', 'fromname');
 
@@ -628,7 +626,7 @@ class plgSystemVirtualdomains extends JPlugin
 		$lang_code = $this->_hostparams->get( 'language' );
 
 		$lang->setDefault($this->_hostparams->get( 'language' ));
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// don't override Joomfish cookie if present
 		$jfcookie = $this->input->cookie->get('jfcookie');
@@ -638,7 +636,7 @@ class plgSystemVirtualdomains extends JPlugin
 		}
 
 		// set Joomfish cookie
-		$conf = JFactory::getConfig();
+		$conf = Factory::getConfig();
 		$cookie_domain 	= $conf->get('config.cookie_domain', '');
 		$cookie_path 	= $conf->get('config.cookie_path', '/');
 		setcookie($hash , $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
@@ -694,6 +692,9 @@ class plgSystemVirtualdomains extends JPlugin
  * @author michel
  */
 class vdMenuFilter extends JMenu {
+
+	public function load() {}
+	
 	/**
 	 *
 	 * Method to Filter Menu Items
@@ -707,7 +708,7 @@ class vdMenuFilter extends JMenu {
 		$items = $params->get( 'menufilter' );
 		$translatations = $params->get( 'translatemenu' );
 
-		$lang =  JFactory::getLanguage()->getTag() ;
+		$lang =  Factory::getLanguage()->getTag() ;
 
 		//Get the instance
 		$menu = parent::getInstance('site',array());
@@ -752,11 +753,11 @@ class vdMenuFilter extends JMenu {
 class vdLanguage extends JLanguage {
 
 	public function setDefault($lang) {
-		$refresh = JFactory::getLanguage();
+		$refresh = Factory::getLanguage();
 		$refresh->metadata['tag'] = $lang;
 
 		$refresh->default	= $lang;
-		$new = JFactory::getLanguage();
+		$new = Factory::getLanguage();
 
 	}
 }
@@ -777,7 +778,7 @@ class vdJAccess extends JAccess {
 		$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 		// Get a database object.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the base query.
 		$query = $db->getQuery(true)
@@ -828,7 +829,7 @@ class vdUser extends JUser {
 		if(!count($viewlevels)) return;
 		//is the user not logged in
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if(!$this->id) {
 			$user->guest = 1;
@@ -844,7 +845,7 @@ class vdUser extends JUser {
 		}
 
 		//put this to the session
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 		$session->set('user', $user);
 	}
 }

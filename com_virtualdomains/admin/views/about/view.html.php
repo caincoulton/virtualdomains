@@ -28,7 +28,7 @@ class virtualdomainsViewAbout extends JViewLegacy
 	{
 		VirtualdomainsHelper::addSubmenu('about');
 		
-		if(!version_compare(JVERSION,'3','<')){
+		if(version_compare(JVERSION,'4','<')){
 			$this->sidebar = JHtmlSidebar::render();
 		}
 		
