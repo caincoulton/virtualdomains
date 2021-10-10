@@ -8,6 +8,9 @@
 		<field name="viewlevel" type="hidden" default="0" required="true"
 			readonly="true" />
 
+		<field name="home" type="hidden" default="0" required="true"
+			readonly="true" />
+
 		<field id="domain" name="domain" type="text" required="true"
 			validate="host" label="Host_Name" description="hostname_Desc" class="inputbox input-xlarge"
 			labelclass="control-label" size="40" />
@@ -15,6 +18,9 @@
 		<field id="menuid" name="menuid" type="menuitem" required="false"
 			label="Menuid" labelclass="control-label" description="menuid_Desc"
 			class="inputbox" size="15" />
+
+		<field name="template" type="hidden" default="" required="false"
+			readonly="true" />
 
 		<field name="template_style_id" type="templatestyle" label="Template"
 			labelclass="control-label" description="template_Desc" filter="int"

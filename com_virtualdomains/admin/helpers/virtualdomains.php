@@ -4,6 +4,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * @version		$Id$
@@ -140,7 +141,7 @@ class VirtualdomainsHelper
 
 }
 
-abstract class JHtmlVirtualdomains {
+abstract class HTMLHelperVirtualdomains {
 
         
 	
@@ -158,16 +159,16 @@ abstract class JHtmlVirtualdomains {
                 
                 $selecttext  = (isset($attribs['selecttext']) && $attribs['selecttext']) ? $attribs['selecttext'] :  JText::_('JALL');
 
-                array_unshift($options, JHtml::_('select.option', '',$selecttext));
+                array_unshift($options, HTMLHelper::_('select.option', '',$selecttext));
                 
                 $attr = "";
                 $attr .= (isset($attribs['class']) && $attribs['class']) ? ' class="'.(string) $attribs['class'].'"' : '';
                 $attr .= (isset($attribs['onchange']) && $attribs['onchange']) ? ' onchange="'.(string) $attribs['onchange'].'"' : '';
                 $attr .= (isset($attribs['multiple']) && $attribs['multiple']) ? ' multiple="multiple"' : '';
                 $attr .= (isset($attribs['size']) && $attribs['size']) ? ' size="'.(int) $attribs['size'].'"' : '';
-                //return JHtml::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
+                //return HTMLHelper::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
 
-                return JHtml::_('select.genericlist', $options, $control,
+                return HTMLHelper::_('select.genericlist', $options, $control,
                         array(
                                 'list.attr' => $attr,
                                 'list.select' => $domain,
@@ -177,10 +178,10 @@ abstract class JHtmlVirtualdomains {
         
         public static function languages($lang,  $control = 'jform[language]', $attribs='class="inputbox"') {
                         
-        				$options = JHtml::_('contentlanguage.existing', true, true);
-        				array_unshift($options, JHtml::_('select.option', '', JText::_('JALL')));
+        				$options = HTMLHelper::_('contentlanguage.existing', true, true);
+        				array_unshift($options, HTMLHelper::_('select.option', '', JText::_('JALL')));
    
-   						return JHtml::_('select.genericlist', $options, $control,
+   						return HTMLHelper::_('select.genericlist', $options, $control,
                         array(
                                 'list.attr' => $attribs,
                                 'list.select' => $lang,

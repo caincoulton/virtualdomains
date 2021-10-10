@@ -8,6 +8,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Form Field class for the Joomla Framework.
@@ -28,7 +29,7 @@ class JFormFieldTemplates extends JFormFieldList {
 	/**
 	 * Method to get a list of options for a list input.
 	 *
-	 * @return  array  An array of JHtml options.
+	 * @return  array  An array of HTMLHelper options.
 	 */
 	protected function getOptions()
 	{
@@ -43,14 +44,14 @@ class JFormFieldTemplates extends JFormFieldList {
 		$db->setQuery((string) $query);
 		$templates = $db->loadObjectList();
 		$options  = array(
-			JHtml::_('select.option', '', '- Select Template -')
+			HTMLHelper::_('select.option', '', '- Select Template -')
 		);
 
 		if ($templates)
 		{
 			foreach ($templates as $template)
 			{
-				$options[] = JHtml::_('select.option', $template->element, $template->name);
+				$options[] = HTMLHelper::_('select.option', $template->element, $template->name);
 			}
 		}
 

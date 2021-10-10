@@ -7,10 +7,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
-JHtml::_('formbehavior.chosen', 'select');
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('dropdown.init');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
@@ -23,7 +25,7 @@ $saveOrder	= $listOrder == 'ordering';
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_virtualdomains&task=params.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
 ?>
@@ -86,7 +88,7 @@ $sortFields = $this->getSortFields();
 						<option value="">
 							<?php echo JText::_('JGLOBAL_SORT_BY');?>
 						</option>
-						<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
+						<?php echo HTMLHelper::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
 					</select>
 				</div>
 			</div>
@@ -101,9 +103,9 @@ $sortFields = $this->getSortFields();
 								value="" title="(<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>"
 								onclick="Joomla.checkAll(this)" />
 							</th>
-							<th class="title"><?php echo JHTML::_('grid.sort', 'Name', 'a.name', $listDirn, $listOrder ); ?>
+							<th class="title"><?php echo HTMLHelper::_('grid.sort', 'Name', 'a.name', $listDirn, $listOrder ); ?>
 							</th>
-							<th class="title"><?php echo JHTML::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
+							<th class="title"><?php echo HTMLHelper::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
 							</th>
 						</tr>
 					</thead>
@@ -131,7 +133,7 @@ $sortFields = $this->getSortFields();
 
 				
     						$link = JRoute::_( 'index.php?option=com_virtualdomains&view=param&task=param.edit&id='. $item->id );
-    						$checked = JHTML::_('grid.id', $i, $item->id);
+    						$checked = HTMLHelper::_('grid.id', $i, $item->id);
 
     				?>
 						<tr class="row<?php echo $i % 2; ?>"">
@@ -151,10 +153,10 @@ $sortFields = $this->getSortFields();
 								<div class="pull-left">
 									<?php
 									// Create dropdown items
-									JHtml::_('dropdown.edit', $item->id, 'param.');
+									HTMLHelper::_('dropdown.edit', $item->id, 'param.');
 
 									// render dropdown list
-									echo JHtml::_('dropdown.render');
+									echo HTMLHelper::_('dropdown.render');
 									?>
 								</div>
 							</td>
@@ -182,6 +184,6 @@ $sortFields = $this->getSortFields();
 				value="0" /> <input type="hidden" name="filter_order"
 				value="<?php echo $listOrder; ?>" /> <input type="hidden"
 				name="filter_order_Dir" value="" />
-			<?php echo JHTML::_( 'form.token' ); ?>
+			<?php echo HTMLHelper::_( 'form.token' ); ?>
 
 </form>

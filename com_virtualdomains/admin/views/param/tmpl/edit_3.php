@@ -8,9 +8,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+HTMLHelper::_('behavior.tooltip');
+HTMLHelper::_('behavior.formvalidation');
 
 // Set toolbar items for the page
 $edit		= Factory::getApplication()->input->get('edit', true);
@@ -88,5 +89,5 @@ Joomla.submitbutton = function(task)
 	    <input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="view" value="param" />
-		<?php echo JHTML::_( 'form.token' ); ?>
+		<?php echo HTMLHelper::_( 'form.token' ); ?>
 	</form>

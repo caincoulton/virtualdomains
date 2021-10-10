@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 jimport('joomla.application.component.view');
 
@@ -35,7 +36,7 @@ class VirtualdomainsViewparams  extends JViewLegacy {
 		if(version_compare(JVERSION, '3.0', 'lt')) {
 			$doc->addScript('components/com_virtualdomains/assets/js/jquery.min.js');
 		} else {
-			JHtml::_('jquery.framework');
+			HTMLHelper::_('jquery.framework');
 		}
 
 		$app = Factory::getApplication();

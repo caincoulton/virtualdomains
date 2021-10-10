@@ -7,10 +7,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
-JHtml::_('formbehavior.chosen', 'select');
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('dropdown.init');
+HTMLHelper::_('formbehavior.chosen', 'select');
 
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
@@ -23,7 +25,7 @@ $saveOrder	= $listOrder == 'ordering';
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_virtualdomains&task=virtualdomains.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
 ?>
@@ -102,7 +104,7 @@ $sortFields = $this->getSortFields();
 						<option value="">
 							<?php echo JText::_('JGLOBAL_SORT_BY');?>
 						</option>
-						<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
+						<?php echo HTMLHelper::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
 					</select>
 				</div>
 			</div>
@@ -113,24 +115,24 @@ $sortFields = $this->getSortFields();
 				<table class="adminlist table table-striped" id="articleList">
 					<thead>
 						<tr>
-							<th width="1%" class="nowrap center hidden-phone"><?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+							<th width="1%" class="nowrap center hidden-phone"><?php echo HTMLHelper::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 							</th>
 
 							<th width="20"><input type="checkbox" name="checkall-toggle"
 								value="" title="(<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>"
 								onclick="Joomla.checkAll(this)" />
 							</th>
-							<th class="title"><?php echo JHTML::_('grid.sort', 'Domain', 'a.domain', $listDirn, $listOrder ); ?>
+							<th class="title"><?php echo HTMLHelper::_('grid.sort', 'Domain', 'a.domain', $listDirn, $listOrder ); ?>
 							</th>
-							<th class="title"><?php echo JHTML::_('grid.sort', 'Template', 'a.template', $listDirn, $listOrder ); ?>
+							<th class="title"><?php echo HTMLHelper::_('grid.sort', 'Template', 'a.template', $listDirn, $listOrder ); ?>
 							</th>
 							<th class="title"><?php echo JText::_('HOST_CHECK');?></th>							
-							<th class="title"><?php echo JHTML::_('grid.sort', 'Default_Domain', 'a.home', $listDirn, $listOrder ); ?>
+							<th class="title"><?php echo HTMLHelper::_('grid.sort', 'Default_Domain', 'a.home', $listDirn, $listOrder ); ?>
 							</th>
-							<th class="title"><?php echo JHTML::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder ); ?>
+							<th class="title"><?php echo HTMLHelper::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder ); ?>
 							</th>
 							<th width="13%" class="title"><?php echo JText::_('Preview');?> </th>
-							<th class="title"><?php echo JHTML::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
+							<th class="title"><?php echo HTMLHelper::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
 							</th>
 						</tr>         				
 					</thead>
@@ -164,7 +166,7 @@ $sortFields = $this->getSortFields();
     			}
 
     			$link = JRoute::_( 'index.php?option=com_virtualdomains&view=virtualdomain&task=virtualdomain.edit&id='. $item->id );
-    			$checked = JHTML::_('grid.checkedout', $item, $i );
+    			$checked = HTMLHelper::_('grid.checkedout', $item, $i );
     			$preViewModalHandlerLink= "http://". $this->escape( $item->domain );
 				
 
@@ -197,25 +199,25 @@ $sortFields = $this->getSortFields();
 								<div class="pull-left">
 									<?php
 									// Create dropdown items
-									JHtml::_('dropdown.edit', $item->id, 'virtualdomain.');
-									JHtml::_('dropdown.divider');
+									HTMLHelper::_('dropdown.edit', $item->id, 'virtualdomain.');
+									HTMLHelper::_('dropdown.divider');
 									if ($item->published) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'virtualdomains.');
+									HTMLHelper::_('dropdown.unpublish', 'cb' . $i, 'virtualdomains.');
 									else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'virtualdomains.');
+									HTMLHelper::_('dropdown.publish', 'cb' . $i, 'virtualdomains.');
 									endif;
-									JHtml::_('dropdown.divider');
-									JHtml::_('dropdown.trash', 'cb' . $i, 'virtualdomains.');									
-									JHtml::_('dropdown.divider');
+									HTMLHelper::_('dropdown.divider');
+									HTMLHelper::_('dropdown.trash', 'cb' . $i, 'virtualdomains.');									
+									HTMLHelper::_('dropdown.divider');
 									// render dropdown list
-									echo JHtml::_('dropdown.render');
+									echo HTMLHelper::_('dropdown.render');
 									?>
 								</div>
 							</td>														
 							<td><?php echo $item->template; ?></td>
 							<td ><span data-host="<?php echo $item->domain; ?>" class="hostcheck"></span></td>														
-							<td><?php echo JHtml::_('jgrid.isdefault', $item->home != '0' , $i, 'virtualdomains.', $item->home!='1');?></td>
-							<td><?php echo JHtml::_('jgrid.published', $item->published, $i, 'virtualdomains.', $canChange, 'cb'); ?>
+							<td><?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0' , $i, 'virtualdomains.', $item->home!='1');?></td>
+							<td><?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'virtualdomains.', $canChange, 'cb'); ?>
 							</td>
 						<td style="text-align:center"><a class="modal" title="<?php JText::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x: <?php echo $this->params->get('framewidth',400) ?>, y:<?php echo $this->params->get('frameheight',400) ?>}}"><?php echo JText::_('Preview')?></a></td>
 							<td><?php echo $item->id; ?></td>
@@ -241,6 +243,6 @@ $sortFields = $this->getSortFields();
 				<input type="hidden" name="boxchecked" value="0" /> 
 				<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" /> <input
 				type="hidden" name="filter_order_Dir" value="" />
-			<?php echo JHTML::_( 'form.token' ); ?>
+			<?php echo HTMLHelper::_( 'form.token' ); ?>
 
 </form>

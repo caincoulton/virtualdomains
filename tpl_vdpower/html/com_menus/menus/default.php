@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 		JSubMenuHelper::addEntry(
 			JText::_('COM_VD_SUBMENU_HOMES'),
@@ -19,11 +20,11 @@ use Joomla\CMS\Factory;
 
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 // Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
-JHtml::_('script','system/multiselect.js',false,true);
+HTMLHelper::_('behavior.tooltip');
+HTMLHelper::_('script','system/multiselect.js',false,true);
 
 $uri		= JFactory::getUri();
 $return		= base64_encode($uri);
@@ -47,7 +48,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
 				</th>
 				<th rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('grid.sort',  'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="30%" colspan="3">
 					<?php echo JText::_('COM_MENUS_HEADING_NUMBER_MENU_ITEMS'); ?>
@@ -56,7 +57,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
 				</th>
 				<th width="1%" class="nowrap" rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					<?php echo HTMLHelper::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 			<tr>
@@ -86,7 +87,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
-					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> ">
@@ -145,6 +146,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 </form>

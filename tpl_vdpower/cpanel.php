@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $app = Factory::getApplication();
 ?>
@@ -98,9 +99,9 @@ $app = Factory::getApplication();
 					<div class="adminform">
 						<div class="cpanel-left">
 							<?php if ($this->countModules('icon')>1):?>
-								<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
+								<?php echo HTMLHelper::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
 								<jdoc:include type="modules" name="icon" style="sliders" />
-								<?php echo JHtml::_('sliders.end');?>
+								<?php echo HTMLHelper::_('sliders.end');?>
 							<?php else:?>
 								<jdoc:include type="modules" name="icon" />
 							<?php endif;?>

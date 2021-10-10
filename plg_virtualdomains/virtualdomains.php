@@ -13,20 +13,14 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\String\StringHelper;
 
-jimport( 'joomla.application.menu' );
-jimport( 'joomla.plugin.plugin' );
-jimport('joomla.application.module.helper');
-/*
- * test
-*/
-
-
-class PlgSystemVirtualdomains extends JPlugin
+class PlgSystemVirtualdomains extends CMSPlugin
 {
 
 	private $_db = null;
@@ -205,9 +199,9 @@ class PlgSystemVirtualdomains extends JPlugin
 		if($option && in_array($option, $componentsDenied)) {
 			Factory::getLanguage()->load('lib_joomla');
 			if (class_exists('Exception')) {
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+				throw new Exception(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 			} else {
-				JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+				JError::raiseError(404, Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 			}
 		}
 	}
@@ -370,7 +364,7 @@ class PlgSystemVirtualdomains extends JPlugin
 		try {
             $curDomain = $db->loadObject();
 		} catch(Exception $e) {
-			$app->enqueueMessage(JText::_($e->getMessage()), 'error');
+			$app->enqueueMessage(Text::_($e->getMessage()), 'error');
 			return null;
 		}
 

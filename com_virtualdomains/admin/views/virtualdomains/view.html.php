@@ -11,6 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 jimport('joomla.application.component.view');
 
@@ -31,16 +32,16 @@ class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 	public function display($tpl = null)
 	{
 
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 		if(version_compare(JVERSION, '3.0', 'lt')) {
 			$doc->addScript('components/com_virtualdomains/assets/js/jquery.min.js');
 		} else {
-			JHtml::_('jquery.framework');
+			HTMLHelper::_('jquery.framework');
 		}
 		$doc->addScript('components/com_virtualdomains/assets/js/hostcheck.js');
 
 		if(version_compare(JVERSION, '4.0', 'lt')) {
-			JHTML::_('behavior.modal', 'a.modal');
+			HTMLHelper::_('behavior.modal', 'a.modal');
 		}
 		
 		$app = Factory::getApplication();
@@ -83,9 +84,9 @@ class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 	{
 
 		$canDo = VirtualdomainsHelper::getActions();
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
-		$lang = JFactory::getLanguage()->getTag();
+		$lang = Factory::getLanguage()->getTag();
 		if($lang != 'de-DE') {
 			$lang = 'en-GB';
 		}
@@ -124,7 +125,7 @@ class VirtualdomainsViewvirtualdomains  extends JViewLegacy {
 			JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_state',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', $excludeOptions ), 'value', 'text', $this->state->get('filter.state'), true)
+			HTMLHelper::_('select.options', HTMLHelper::_('jgrid.publishedOptions', $excludeOptions ), 'value', 'text', $this->state->get('filter.state'), true)
 			);
 		}
 

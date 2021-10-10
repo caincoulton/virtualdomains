@@ -10,6 +10,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 
 	
@@ -27,13 +30,13 @@ class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 	public function display($tpl = null) 
 	{
 		
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 		
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 		
-		JHTML::stylesheet( 'fields.css', 'administrator/components/com_virtualdomains/assets/' );
+		HTMLHelper::stylesheet( 'fields.css', 'administrator/components/com_virtualdomains/assets/' );
 		if(version_compare(JVERSION, '3', 'lt')) {
-			JHTML::stylesheet( 'bootstrap-forms.css', 'administrator/components/com_virtualdomains/assets/' );
+			HTMLHelper::stylesheet( 'bootstrap-forms.css', 'administrator/components/com_virtualdomains/assets/' );
 		}
 		
 		// Initialiase variables.
@@ -65,26 +68,26 @@ class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 	private function _tabs() {
 		$this->tabs = array();
 		if(version_compare(JVERSION,'3.0','lt')) {
-			$this->tabsstart = JHtml::_('tabs.start','vd-sliders-'.$this->item->id, array('useCookie'=>1));
-			$this->tabsend = JHtml::_('tabs.end');
+			$this->tabsstart = HTMLHelper::_('tabs.start','vd-sliders-'.$this->item->id, array('useCookie'=>1));
+			$this->tabsend = HTMLHelper::_('tabs.end');
 			$this->endtab = "";
-			$this->tabs['details'] = JHtml::_('tabs.panel',JText::_('Details'), 'details');
-			$this->tabs['siteconfig'] = JHtml::_('tabs.panel',JText::_('Main Config'), 'advanced-config');
-			$this->tabs['menufilter'] = JHtml::_('tabs.panel',JText::_('Menu_Filter'), 'advanced-menus');
-			$this->tabs['accesslevels'] = JHtml::_('tabs.panel',JText::_('Access_Level_Inheritance'), 'advanced-accesslevel');
-			$this->tabs['components'] = JHtml::_('tabs.panel',JText::_( 'COMPONENTS_FILTER' ), 'components');
-			$this->tabs['translation'] = JHtml::_('tabs.panel',JText::_('Translation'), 'advanced-translation');
+			$this->tabs['details'] = HTMLHelper::_('tabs.panel',JText::_('Details'), 'details');
+			$this->tabs['siteconfig'] = HTMLHelper::_('tabs.panel',JText::_('Main Config'), 'advanced-config');
+			$this->tabs['menufilter'] = HTMLHelper::_('tabs.panel',JText::_('Menu_Filter'), 'advanced-menus');
+			$this->tabs['accesslevels'] = HTMLHelper::_('tabs.panel',JText::_('Access_Level_Inheritance'), 'advanced-accesslevel');
+			$this->tabs['components'] = HTMLHelper::_('tabs.panel',JText::_( 'COMPONENTS_FILTER' ), 'components');
+			$this->tabs['translation'] = HTMLHelper::_('tabs.panel',JText::_('Translation'), 'advanced-translation');
 	
 		} else {
-			$this->tabsstart = JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details'));
-			$this->tabsend = JHtml::_('bootstrap.endTabSet');
-			$this->endtab = JHtml::_('bootstrap.endTab');
-			$this->tabs['details'] = JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('Details'));
-			$this->tabs['siteconfig'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-config', JText::_('Site_Config'));
-			$this->tabs['menufilter'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-menus', JText::_('Menu_Filter'));
-			$this->tabs['accesslevels'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-accesslevel', JText::_('Access_Level_Inheritance'));
-			$this->tabs['components'] = JHtml::_('bootstrap.addTab', 'myTab', 'components', JText::_( 'COMPONENTS_FILTER' ));
-			$this->tabs['translation'] = JHtml::_('bootstrap.addTab', 'myTab', 'advanced-translation', JText::_('Translation'));	
+			$this->tabsstart = HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details'));
+			$this->tabsend = HTMLHelper::_('bootstrap.endTabSet');
+			$this->endtab = HTMLHelper::_('bootstrap.endTab');
+			$this->tabs['details'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', JText::_('Details'));
+			$this->tabs['siteconfig'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-config', JText::_('Site_Config'));
+			$this->tabs['menufilter'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-menus', JText::_('Menu_Filter'));
+			$this->tabs['accesslevels'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-accesslevel', JText::_('Access_Level_Inheritance'));
+			$this->tabs['components'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'components', JText::_( 'COMPONENTS_FILTER' ));
+			$this->tabs['translation'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-translation', JText::_('Translation'));	
 		}
 		 
 	}

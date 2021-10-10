@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
@@ -61,9 +62,9 @@ class JFormFieldComponents extends JFormFieldList
 		$options = $this->getOptions();
 		
 		if(!is_array($options)) $options = array();
-        array_unshift($options, JHtml::_('select.option', '', JText::_('JOption_ItemAll')));
-		//return JHtml::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
-		return JHtml::_('select.genericlist', $options, $this->name,
+        array_unshift($options, HTMLHelper::_('select.option', '', JText::_('JOption_ItemAll')));
+		//return HTMLHelper::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
+		return HTMLHelper::_('select.genericlist', $options, $this->name,
 			array(
 				'list.attr' => $attr,
 				'list.select' => $this->value,

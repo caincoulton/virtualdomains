@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 // Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.modal');
+HTMLHelper::_('behavior.tooltip');
+HTMLHelper::_('behavior.formvalidation');
+HTMLHelper::_('behavior.modal');
 ?>
 
 <script type="text/javascript">
@@ -114,23 +116,23 @@ JHtml::_('behavior.modal');
 </div>
 
 <div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start','menu-sliders-'.$this->item->id); ?>
+	<?php echo HTMLHelper::_('sliders.start','menu-sliders-'.$this->item->id); ?>
 	<?php //Load  parameters.
 		echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
+			<?php echo HTMLHelper::_('sliders.panel',JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
 			</fieldset>
 		<?php endif; ?>
 
-	<?php echo JHtml::_('sliders.end'); ?>
+	<?php echo HTMLHelper::_('sliders.end'); ?>
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </div>
 <input type="hidden" id="fieldtype" name="fieldtype" value="" />
 </form>

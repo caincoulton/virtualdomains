@@ -16,6 +16,7 @@
 defined('_JEXEC') or die('Resrtricted Access');
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $app = Factory::getApplication();
 
@@ -27,8 +28,8 @@ require_once( JPATH_COMPONENT.'/models/model.php' );
 // Component Helper
 jimport('joomla.application.component.helper');
 
-//add Helperpath to JHTML
-JHTML::addIncludePath(JPATH_COMPONENT.'/helpers');
+//add Helperpath to HTMLHelper
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 
 //Use the JForms, even in Joomla 1.5 

@@ -1,5 +1,5 @@
 <?php
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 /**
 * @package    Virtualdomains
@@ -15,12 +15,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 
 class plgSystemVirtualdomainsInstallerScript
-
 {
-	
 	public function postflight($route, $adapter)
 	{
-		
 		if (stripos($route, 'install') !== false)
 		{			
 			$db = JFactory::getDBo();
@@ -28,7 +25,4 @@ class plgSystemVirtualdomainsInstallerScript
 			$db->execute();
 		}
 	}
-	 
-
-	
 }
