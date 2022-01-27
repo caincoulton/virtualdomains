@@ -84,6 +84,11 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		// strip the www from hostname
 		$this->_curhost = str_replace( 'www.', '', $uri->getHost() );
 
+		// if the core API is being called, no further processing needs to be done
+		if(str_contains($uri, $this->_curhost . '/api/index.php')) {
+			return;
+		}
+
 		// Cachebuster - special param for apps registeredurlparams
 		// prevents getting wrong things from cache store
 		if (!empty($app->registeredurlparams))
