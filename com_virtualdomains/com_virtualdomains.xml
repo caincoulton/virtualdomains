@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD component 1.0//EN" "http://www.janguo.de/xml/package-install.dtd">
-<extension type="component"
-           method="upgrade"
-           version="1.6.0">
+<extension type="component" version="1.6.0" method="upgrade">
     <name>Virtual Domains</name>
     <creationDate>2011-04-07</creationDate>
     <author>Michael Liebler, romacron</author>

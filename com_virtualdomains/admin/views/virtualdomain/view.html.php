@@ -79,15 +79,15 @@ class VirtualdomainsViewVirtualdomain  extends JViewLegacy {
 			$this->tabs['translation'] = HTMLHelper::_('tabs.panel',JText::_('Translation'), 'advanced-translation');
 	
 		} else {
-			$this->tabsstart = HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details'));
-			$this->tabsend = HTMLHelper::_('bootstrap.endTabSet');
-			$this->endtab = HTMLHelper::_('bootstrap.endTab');
-			$this->tabs['details'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', JText::_('Details'));
-			$this->tabs['siteconfig'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-config', JText::_('Site_Config'));
-			$this->tabs['menufilter'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-menus', JText::_('Menu_Filter'));
-			$this->tabs['accesslevels'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-accesslevel', JText::_('Access_Level_Inheritance'));
-			$this->tabs['components'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'components', JText::_( 'COMPONENTS_FILTER' ));
-			$this->tabs['translation'] = HTMLHelper::_('bootstrap.addTab', 'myTab', 'advanced-translation', JText::_('Translation'));	
+			$this->tabsstart = HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details'));
+			$this->tabsend = HTMLHelper::_('uitab.endTabSet');
+			$this->endtab = HTMLHelper::_('uitab.endTab');
+			$this->tabs['details'] = HTMLHelper::_('uitab.addTab', 'myTab', 'details', JText::_('Details'));
+			$this->tabs['siteconfig'] = HTMLHelper::_('uitab.addTab', 'myTab', 'advanced-config', JText::_('Site_Config'));
+			$this->tabs['menufilter'] = HTMLHelper::_('uitab.addTab', 'myTab', 'advanced-menus', JText::_('Menu_Filter'));
+			$this->tabs['accesslevels'] = HTMLHelper::_('uitab.addTab', 'myTab', 'advanced-accesslevel', JText::_('Access_Level_Inheritance'));
+			$this->tabs['components'] = HTMLHelper::_('uitab.addTab', 'myTab', 'components', JText::_( 'COMPONENTS_FILTER' ));
+			$this->tabs['translation'] = HTMLHelper::_('uitab.addTab', 'myTab', 'advanced-translation', JText::_('Translation'));	
 		}
 		 
 	}

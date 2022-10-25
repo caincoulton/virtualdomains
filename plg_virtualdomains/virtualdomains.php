@@ -15,10 +15,16 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Router\Router;
+
 
 class PlgSystemVirtualdomains extends CMSPlugin
 {
@@ -51,7 +57,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	public function onAfterInitialise()
 	{
 		jimport('joomla.filesystem.folder');
-		if(!JFolder::exists(JPATH_ADMINISTRATOR.'/components/com_virtualdomains')) {
+		if(!Folder::exists(JPATH_ADMINISTRATOR.'/components/com_virtualdomains')) {
 			return false;
 		}
 		jimport('joomla.user.authentication');
@@ -62,8 +68,8 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		$app 	= Factory::getApplication();
 		$db 	= Factory::getDBO();
 		$user 	= Factory::getUser();
-		$conf 	= JComponentHelper::getParams('com_virtualdomains');
-		$uri = JUri::getInstance();
+		$conf 	= ComponentHelper::getParams('com_virtualdomains');
+		$uri = Uri::getInstance();
 
 		// we just have to give full access for all users in backend - nothing else has to be done
 		if ( $app->isClient('administrator') )
@@ -104,10 +110,34 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		$app->registeredurlparams = $registeredurlparams;
 		$this->input->set('vdcachbuster',$this->_curhost);
 
+		// Remove first segment of SEF url which is the site root menu item
+		if($conf->get('stripmenuroot')){
+			$router = $app->getRouter();
+
+			$router->attachBuildRule(function(&$router, &$uri) {
+				$segments = array_filter(explode('/', $uri->getPath()));
+				$segments = array_slice($segments, 1);
+				$uri->setPath('/' . implode('/', $segments));
+			}, Router::PROCESS_AFTER);
+
+			$router->attachParseRule(function(&$router, &$uri) {
+				// If path is empty, processing isn't required (presumably it's all been handled, and/or it's the homepage)
+				if(strlen($uri->getPath()) > 0) {
+					$homeAlias = $this->getSiteAlias();
+					$url = $uri->toString();
+					$url = str_replace($uri->getHost(), $uri->getHost() . '/' . $homeAlias . '/', $url);
+					$uri->parse($url);
+
+					// Remove leading slash from path
+					$uri->setPath(implode('/', array_filter(explode('/', $uri->getPath()))));
+				}
+			}, Router::PROCESS_BEFORE);
+		}
+
 		// get current domains settings
 		$currentDomain = $this->getCurrentDomain();
 
-		//let joomla do its work, if the domain is not managed by VD
+		// let joomla do its work, if the domain is not managed by VD
 		if ($currentDomain === null) return;
 
 		// set the vd id to users session
@@ -123,7 +153,6 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		// add viewlevels to the user object
 		$vdUser->addAuthLevel($viewlevels);
 
-
 		// Get the params
 		$this->_hostparams = $currentDomain ->params;
 
@@ -133,7 +162,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		// override the original config with domain specific settings
 		$this->setConfig();
 
-		//Set the route, if necessary
+		// Set the route, if necessary
 		if ( !$this->reRoute( $currentDomain , $uri ) )
 		{
 			$this->setActions();
@@ -224,7 +253,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
 
 		$router = $app->getRouter();
-		$uri = JUri::getInstance();
+		$uri = Uri::getInstance();
 		$mode_sef = Factory::getConfig()->get('sef');
 
 		$origHome = $this->getDefaultmenu();
@@ -348,6 +377,38 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	}
 
 	/**
+	 * 
+	 */
+	private function getSiteAlias() {
+		$app = Factory::getApplication();
+		$menu = $app->getMenu();
+
+		if(!empty($instance)) return $instance;
+
+		$db = Factory::getDbo();
+		$db->setQuery(
+				"SELECT * FROM #__virtualdomain
+				WHERE `domain` = ".$db->Quote($this->_curhost ). " AND published > 0"
+		);
+
+		try {
+            $curDomain = $db->loadObject();
+		} catch(Exception $e) {
+			$app->enqueueMessage(Text::_($e->getMessage()), 'error');
+			return null;
+		}
+
+		if($curDomain === null) {
+			return null;
+		}
+
+		$home = $menu->getItem($curDomain->menuid);
+		$parent = $home->getParent();
+
+		return $parent->alias;
+	}
+
+	/**
 	 * Get domains data from database
 	 * @return object|NULL <mixed, NULL>
 	 */
@@ -355,7 +416,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		static $instance;
 
-		$vd = JComponentHelper::getComponent('com_virtualdomains');
+		$vd = ComponentHelper::getComponent('com_virtualdomains');
 		$app = Factory::getApplication();
 
 		if(!empty($instance)) return $instance;
@@ -382,7 +443,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		//Set the global override styles settings, if not configured
 		if($curDomain->params->get('override') === '') $curDomain->params->set('override',$vd->params->get('override'));
 
-		$uri = JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		// Standard Domain uses Joomla settings
 		if($curDomain->home == 1) {
@@ -519,7 +580,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 			parse_str( $parse['query'], $request );
 
 			$this->_request = array_merge( $request, $this->_request );
-			$parse['query'] = JUri::buildQuery( $this->_request );
+			$parse['query'] = Uri::buildQuery( $this->_request );
 
 			//rewrite some server environment vars to fool joomla
 			$_SERVER['QUERY_STRING'] = $parse['query'];
@@ -612,7 +673,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 			return;
 		}
 
-		$hash = method_exists('JApplicationHelper', 'getHash') ? JApplicationHelper::getHash('language') : JApplication::getHash('language');
+		$hash = method_exists('ApplicationHelper', 'getHash') ? ApplicationHelper::getHash('language') : JApplication::getHash('language');
 
 		//Joomla Language selection is active?  do nothing
 		$joomlacookie = $this->input->cookie->get($hash);
@@ -772,9 +833,7 @@ class vdJAccess extends JAccess {
 
 	public static function addAuthorisedViewLevels($userId, $viewlevels)
 	{
-
-
-		$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+		$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 		// Get a database object.
 		$db = Factory::getDbo();

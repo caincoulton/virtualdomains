@@ -77,7 +77,7 @@ $sortFields = $this->getSortFields();
                                     <th width="1%" class="nowrap center hidden-phone"><?php echo HTMLHelper::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
                                     </th>
 
-                                    <th width="20"><input type="checkbox" name="checkall-toggle"
+                                    <th width="20"><input type="checkbox" name="checkall-toggle" class="form-check-input"
                                         value="" title="(<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>"
                                         onclick="Joomla.checkAll(this)" />
                                     </th>
