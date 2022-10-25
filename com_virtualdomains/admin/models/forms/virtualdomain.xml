@@ -13,23 +13,29 @@
 
 		<field id="domain" name="domain" type="text" required="true"
 			validate="host" label="Host_Name" description="hostname_Desc" class="inputbox input-xlarge"
-			labelclass="control-label" size="40" />
+			size="40" />
 
-		<field id="menuid" name="menuid" type="menuitem" required="false"
-			label="Menuid" labelclass="control-label" description="menuid_Desc"
-			class="inputbox" size="15" />
+		<field
+			id="menuid"
+			name="menuid"
+			type="menuitem"
+			required="false"
+			label="Menuid"
+			labelclass="control-label"
+			description="menuid_Desc"
+		/>
 
 		<field name="template" type="hidden" default="" required="false"
 			readonly="true" />
 
 		<field name="template_style_id" type="templatestyle" label="Template"
-			labelclass="control-label" description="template_Desc" filter="int"
+			description="template_Desc" filter="int"
 			class="inputbox">
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>
 
-		<field id="published" name="published" type="list" class="inputbox"
-			labelclass="control-label" default="1" size="1" label="JField_Published_Label"
+		<field id="published" name="published" type="list"
+			default="1" size="1" label="JField_Published_Label"
 			description="JField_Published_Desc">
 			<option value="1">
 				JOption_Published
@@ -54,100 +60,118 @@
 	</fieldset>
 
 
-	<fieldset name="siteconfig">
-		<field name="language" type="language" class="inputbox"
-			labelclass="control-label" size="1" default="" client="Site" label="Language"
-			description="Language_Desc">
-			<option value="">
-				Select Language
-			</option>
-		</field>
+	<fieldset name="siteconfig" group="params">
+		<fields name="params">
+			<field name="language" type="language"
+				size="1" default="" client="Site" label="Language"
+				description="Language_Desc">
+				<option value="">
+					Select Language
+				</option>
+			</field>
 
-		<field id="override" name="override" type="list" class="inputbox"
-			labelclass="control-label" default="" size="1"
-			label="JFIELD_VDOVERRIDE_TEMPLATESTYLES_LABEL" description="JFIELD_VDOVERRIDE_TEMPLATESTYLES_Desc">
-			<option value="">
-				JGLOBAL_USE_GLOBAL
-			</option>
-			<option value="2">
-				JFIELD_OVERRIDE_YES
-			</option>
-			<option value="1">
-				JFIELD_OVERRIDE_HOME
-			</option>
-			<option value="0">
-				JFIELD_OVERRIDE_NO
-			</option>
-		</field>
+			<field id="override" name="override" type="list"
+				default="" size="1"
+				label="JFIELD_VDOVERRIDE_TEMPLATESTYLES_LABEL" description="JFIELD_VDOVERRIDE_TEMPLATESTYLES_Desc">
+				<option value="">
+					JGLOBAL_USE_GLOBAL
+				</option>
+				<option value="2">
+					JFIELD_OVERRIDE_YES
+				</option>
+				<option value="1">
+					JFIELD_OVERRIDE_HOME
+				</option>
+				<option value="0">
+					JFIELD_OVERRIDE_NO
+				</option>
+			</field>
 
-		<field name="sitename" type="text" class="inputbox" labelclass="control-label"
-			default="" label="CONFIG_SITENAME" description="CONFIG_SITENAME_DESC">
-		</field>
-		<field name="list_limit" type="text" class="inputbox"
-			labelclass="control-label" default="" label="CONFIG_LIST_LIMIT"
-			description="CONFIG_LIST_LIMIT_DESC">
-		</field>
-		<field name="mailfrom" type="text" class="inputbox" labelclass="control-label"
-			default="" label="CONFIG_MAILFROM" description="CONFIG_MAILFROM_DESC">
-		</field>
-		<field name="fromname" type="text" class="inputbox" labelclass="control-label"
-			default="" label="CONFIG_FROMNAME" description="CONFIG_FROMNAME_DESC">
-		</field>
+			<field name="sitename" type="text"
+				default="" label="CONFIG_SITENAME" description="CONFIG_SITENAME_DESC">
+			</field>
 
-		<field name="metadesc" type="textarea" class="inputbox"
-			labelclass="control-label" rows="5" cols="30" default=""
-			label="Meta Description" description="Params_Metadesc_Desc">
-		</field>
+			<field name="list_limit" type="text"
+				default="" label="CONFIG_LIST_LIMIT"
+				description="CONFIG_LIST_LIMIT_DESC">
+			</field>
+			
+			<field name="mailfrom" type="text"
+				default="" label="CONFIG_MAILFROM" description="CONFIG_MAILFROM_DESC">
+			</field>
 
-		<field name="keywords" type="textarea" class="inputbox"
-			labelclass="control-label" rows="5" cols="30" default="" label="Keywords"
-			description="Params_Keywords_Desc">
-		</field>
+			<field name="fromname" type="text"
+				default="" label="CONFIG_FROMNAME" description="CONFIG_FROMNAME_DESC">
+			</field>
 
+			<field name="metadesc" type="textarea"
+				rows="5" cols="30" default=""
+				label="Meta Description" description="Params_Metadesc_Desc">
+			</field>
+
+			<field name="keywords" type="textarea"
+				rows="5" cols="30" default="" label="Keywords"
+				description="Params_Keywords_Desc">
+			</field>
+		</fields>
 	</fieldset>
 
 
 	<fieldset name="translation">
-		<field name="translatemenu" type="translatemenu" label="Translate Home Item"
-			description="Translate_Home_Item_DESC">
-		</field>
+		<fields name="params">
+			<field name="translatemenu" type="translatemenu" label="Translate Home Item"
+				description="Translate_Home_Item_DESC">
+			</field>
+		</fields>
 	</fieldset>
 
 
 	<fieldset name="accesslevels">
-		<field name="access" type="vdaccesslevel" id="access" class="inputbox"
-			labelclass="control-label" label="JFIELD_VDACCESS_LABEL"
-			description="JFIELD_VDACCESS_DESC" default="1" size="15"
-			selfexclude="true" multiple="true" />
+		<fields name="params">
+			<field 
+				name="access"
+				type="vdaccesslevel"
+				label="JFIELD_VDACCESS_LABEL"
+				description="JFIELD_VDACCESS_DESC"
+				default="1"
+				size="15"
+				selfexclude="true"
+				multiple="true"
+			/>
+		</fields>
 	</fieldset>
 
 
 	<fieldset name="components">
-		<field name="components" type="components" id="components" class="inputbox"
-			labelclass="control-label" label="JFIELD_COMPONENT_LABEL"
-			description="JFIELD_COMPONENT_DESC" default="" size="15"
-			selfexclude="true" multiple="true"  />
-		/>
+		<fields name="params">
+			<field name="components" type="components" id="components"
+				label="JFIELD_COMPONENT_LABEL"
+				description="JFIELD_COMPONENT_DESC" default="" size="15"
+				selfexclude="true" multiple="true"
+			/>
+		</fields>
 	</fieldset>
 
 
 	<fieldset name="menus">
-		<field id="menumode" name="menumode" type="list" class="inputbox"
-			labelclass="control-label" default="" label="JField_Menumode_Label"
-			description="JField_Menumode_Desc">
-			<option value="">
-				JOption_ItemAll
-			</option>
-			<option value="show">
-				JOption_ItemShow
-			</option>
-			<option value="hide">
-				JOption_ItemHide
-			</option>
-		</field>
-		<field id="menufilter" name="menufilter" type="menuitem"
-			required="false" label="JField_Menuselection" description="JField_Menuselection_Desc"
-			class="inputbox" labelclass="control-label" multiple="true" size="15" />
+		<fields name="params">
+			<field id="menumode" name="menumode" type="list"
+				default="" label="JField_Menumode_Label"
+				description="JField_Menumode_Desc">
+				<option value="">
+					JOption_ItemAll
+				</option>
+				<option value="show">
+					JOption_ItemShow
+				</option>
+				<option value="hide">
+					JOption_ItemHide
+				</option>
+			</field>
+			<field id="menufilter" name="menufilter" type="menuitem"
+				required="false" label="JField_Menuselection" description="JField_Menuselection_Desc"
+				class="inputbox" multiple="true" size="15" />
+		</fields>
 	</fieldset>
 
 

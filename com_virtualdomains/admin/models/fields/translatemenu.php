@@ -35,7 +35,7 @@ class JFormFieldTranslateMenu extends JFormField
     protected function getInput()
     {
 		$langs = LanguageHelper::getKnownLanguages();
-        $class = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+        $class = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : 'form-control';
 		$html ="<table class='table table-striped'>";
 
 					

@@ -12,6 +12,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -21,30 +22,18 @@ $wa->useScript('keepalive')
 // Set toolbar items for the page
 $edit		= Factory::getApplication()->input->get('edit', true);
 $text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
-JToolBarHelper::title(   JText::_( 'Virtualdomain' ).': <small><small>[ ' . $text.' ]</small></small>' );
-JToolBarHelper::apply('virtualdomain.apply');
-JToolBarHelper::save('virtualdomain.save');
-JToolbarHelper::save2new('virtualdomain.save2new');
-JToolbarHelper::save2copy('virtualdomain.save2copy');
+ToolBarHelper::title(   JText::_( 'Virtualdomain' ).': <small><small>[ ' . $text.' ]</small></small>' );
+ToolBarHelper::apply('virtualdomain.apply');
+ToolBarHelper::save('virtualdomain.save');
+ToolBarHelper::save2new('virtualdomain.save2new');
+ToolBarHelper::save2copy('virtualdomain.save2copy');
 if (!$edit) {
-	JToolBarHelper::cancel('virtualdomain.cancel');
+	ToolBarHelper::cancel('virtualdomain.cancel');
 } else {
 	// for existing items the button is renamed `close`
-	JToolBarHelper::cancel( 'virtualdomain.cancel');
+	ToolBarHelper::cancel( 'virtualdomain.cancel');
 }
 ?>
-
-<script language="javascript" type="text/javascript">
-
-
-// Joomla.submitbutton = function(task)
-// {
-// 	if (task == 'virtualdomain.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-// 		Joomla.submitform(task, document.getElementById('adminForm'));
-// 	}
-// }
-
-</script>
 
 <form action="<?php echo Route::_('index.php?option=com_virtualdomains&layout=edit&id='.(int) $this->item->id);  ?>" method="post" id="adminForm" name="adminForm" aria-label="<?php echo Text::_('COM_VIRTUALDOMAINS_VIRTUALDOMAIN_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
