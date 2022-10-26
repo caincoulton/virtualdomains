@@ -1,5 +1,5 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+
 /**
 * @author     	Michael Liebler {@link http://www.janguo.de}
 * @copyright	Copyright (C) 2008 - 2013 Open Source Matters. All rights reserved.
@@ -10,6 +10,8 @@ defined('_JEXEC') or die('Restricted access');
 * source software licenses. See COPYRIGHT.php for copyright notices and
 * details.
 */
+
+defined('_JEXEC') or die('Restricted access');
 
 $host = $_SERVER['HTTP_HOST'];
 $data = json_encode(array('hostname'=>$host));

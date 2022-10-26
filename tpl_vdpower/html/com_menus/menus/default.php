@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 		JSubMenuHelper::addEntry(
-			JText::_('COM_VD_SUBMENU_HOMES'),
+			Text::_('COM_VD_SUBMENU_HOMES'),
 			'index.php?option=com_virtualdomains&view=homes',
 			Factory::getApplication()->input->get('view') == 'homes'
 		);
@@ -26,16 +27,16 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 HTMLHelper::_('behavior.tooltip');
 HTMLHelper::_('script','system/multiselect.js',false,true);
 
-$uri		= JFactory::getUri();
+$uri		= Factory::getUri();
 $return		= base64_encode($uri);
-$user		= JFactory::getUser();
+$user		= Factory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task) {
-		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE',true);?>')) {
+		if (task != 'menus.delete' || confirm('<?php echo Text::_('COM_MENUS_MENU_CONFIRM_DELETE',true);?>')) {
 			Joomla.submitform(task);
 		}
 	}
@@ -51,10 +52,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo HTMLHelper::_('grid.sort',  'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="30%" colspan="3">
-					<?php echo JText::_('COM_MENUS_HEADING_NUMBER_MENU_ITEMS'); ?>
+					<?php echo Text::_('COM_MENUS_HEADING_NUMBER_MENU_ITEMS'); ?>
 				</th>
 				<th width="20%" rowspan="2">
-					<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
+					<?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
 				</th>
 				<th width="1%" class="nowrap" rowspan="2">
 					<?php echo HTMLHelper::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -62,13 +63,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</tr>
 			<tr>
 				<th width="10%">
-					<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
+					<?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?>
+					<?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?>
+					<?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -92,7 +93,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> ">
 						<?php echo $this->escape($item->title); ?></a>
-					<p class="smallsub">(<span><?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL') ?></span>
+					<p class="smallsub">(<span><?php echo Text::_('COM_MENUS_MENU_MENUTYPE_LABEL') ?></span>
 						<?php if ($canEdit) : ?>
 							<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&id='.$item->id).' title='.$this->escape($item->description).'">'.
 							$this->escape($item->menutype).'</a>'; ?>)
@@ -121,10 +122,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						?>
 						<li>
 							<?php if ($canEdit) : ?>
-								<a class="modal" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal');?>" rel="{handler: 'iframe', size: {x: 1024, y: 450}}"  title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
-								<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+								<a class="modal" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal');?>" rel="{handler: 'iframe', size: {x: 1024, y: 450}}"  title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
+								<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 							<?php else :?>
-								<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
+								<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
 							<?php endif; ?>
 						</li>
 						<?php

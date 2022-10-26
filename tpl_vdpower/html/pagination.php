@@ -10,6 +10,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 /**
  * This is a file to add template specific chrome to pagination rendering.
  *
@@ -66,10 +69,10 @@ defined('_JEXEC') or die;
 function pagination_list_footer($list)
 {
 	// Initialise variables.
-	$lang = JFactory::getLanguage();
+	$lang = Factory::getLanguage();
 	$html = "<div class=\"container\"><div class=\"pagination\">\n";
 
-	$html .= "\n<div class=\"limit\">".JText::_('JGLOBAL_DISPLAY_NUM').$list['limitfield']."</div>";
+	$html .= "\n<div class=\"limit\">".Text::_('JGLOBAL_DISPLAY_NUM').$list['limitfield']."</div>";
 	$html .= $list['pageslinks'];
 	$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
 
@@ -82,7 +85,7 @@ function pagination_list_footer($list)
 function pagination_list_render($list)
 {
 	// Initialise variables.
-	$lang = JFactory::getLanguage();
+	$lang = Factory::getLanguage();
 	$html = null;
 
 	if ($list['start']['active']) {

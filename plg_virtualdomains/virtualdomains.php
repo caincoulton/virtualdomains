@@ -56,7 +56,6 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		jimport('joomla.filesystem.folder');
 		if(!Folder::exists(JPATH_ADMINISTRATOR.'/components/com_virtualdomains')) {
 			return false;
 		}

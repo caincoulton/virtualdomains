@@ -11,7 +11,10 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
+$app = Factory::getApplication();
 //$template = $app->getTemplate(true);
 //$params = $template->params;
 ?>
@@ -41,9 +44,9 @@ $app = JFactory::getApplication();
 	<div id="content-box">
 		<div class="border">
 			<div class="padding">
-				<h1><?php echo $this->error->getCode() ?> - <?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED') ?></h1>
+				<h1><?php echo $this->error->getCode() ?> - <?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED') ?></h1>
 				<p><?php echo $this->error->getMessage(); ?></p>
-				<p><a href="index.php"><?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT') ?></a></p>
+				<p><a href="index.php"><?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT') ?></a></p>
 				<p><?php if ($this->debug) :
 					echo $this->renderBacktrace();
 				endif; ?></p>
@@ -52,7 +55,7 @@ $app = JFactory::getApplication();
 	</div>
 	<div class="clr"></div>
 	<noscript>
-			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
+			<?php echo  Text::_('JGLOBAL_WARNJAVASCRIPT') ?>
 	</noscript>
 	<div class="clr"></div>
 	<div id="border-bottom"><div><div></div></div></div>

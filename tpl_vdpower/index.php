@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 $app = Factory::getApplication();
 ?>
@@ -54,7 +55,7 @@ $app = Factory::getApplication();
 		<div>
 			<div>
 				<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="templates/<?php echo  $this->template ?>/images/logo.png" alt="Joomla!" /></a></span>
-				<span class="title"><a href="index.php"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('TPL_VDPOWER_HEADER'); ?></a></span>
+				<span class="title"><a href="index.php"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : Text::_('TPL_VDPOWER_HEADER'); ?></a></span>
 			</div>
 		</div>
 	</div>
@@ -75,7 +76,7 @@ $app = Factory::getApplication();
 				$hideLinks	= $app->input->get('hidemainmenu', NULL, 'BOOL');
 				$output = array();
 				// Print the logout link.
-				$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
+				$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').Text::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
 				// Reverse rendering order for rtl display.
 				if ($this->direction == "rtl") :
 					$output = array_reverse($output);
@@ -130,7 +131,7 @@ $app = Factory::getApplication();
 			</div>
 		</div>
 		<noscript>
-			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
+			<?php echo  Text::_('JGLOBAL_WARNJAVASCRIPT') ?>
 		</noscript>
 		<div class="clr"></div>
 	</div>
@@ -142,8 +143,8 @@ $app = Factory::getApplication();
 	<div id="footer">
 		<p class="copyright">
 			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
-				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
-			<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
+				echo Text::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
+			<span class="version"><?php echo  Text::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
 		</p>
 	</div>
 </body>

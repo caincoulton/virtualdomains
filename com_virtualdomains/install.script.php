@@ -5,6 +5,9 @@
  **/
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+
 class com_virtualdomainsInstallerScript
 
 {
@@ -16,7 +19,7 @@ class com_virtualdomainsInstallerScript
 		if (stripos($route, 'install') !== false)
 		{			
 			$host = $_SERVER['HTTP_HOST'];
-			$db = JFactory::getDBo();
+			$db = Factory::getDBo();
 			$db->setQuery('UPDATE #__virtualdomain set domain = '.$db->Quote($host).' WHERE `id` = 1 AND domain="replace-with-your-default-domain"');
 			$db->execute();
 		}

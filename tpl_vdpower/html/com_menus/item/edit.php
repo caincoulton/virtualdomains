@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 // Include the component HTML helpers.
 HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -49,7 +50,7 @@ HTMLHelper::_('behavior.modal');
 
 <div class="width-60 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
+		<legend><?php echo Text::_('COM_MENUS_ITEM_DETAILS');?></legend>
 			<ul class="adminformlist">
 
 
@@ -123,7 +124,7 @@ HTMLHelper::_('behavior.modal');
 		<div class="clr"></div>
 
 		<?php if (!empty($this->modules)) : ?>
-			<?php echo HTMLHelper::_('sliders.panel',JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
+			<?php echo HTMLHelper::_('sliders.panel',Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
 			<fieldset>
 				<?php echo $this->loadTemplate('modules'); ?>
 			</fieldset>

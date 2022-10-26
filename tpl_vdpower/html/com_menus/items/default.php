@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 		JSubMenuHelper::addEntry(
-			JText::_('COM_VD_SUBMENU_HOMES'),
+			Text::_('COM_VD_SUBMENU_HOMES'),
 			'index.php?option=com_virtualdomains&view=homes',
 			Factory::getApplication()->input->get('view') == 'homes'
 		);
@@ -25,7 +26,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 HTMLHelper::_('behavior.tooltip');
 HTMLHelper::_('script','system/multiselect.js',false,true);
 
-$user	= JFactory::getUser();
+$user	= Factory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
@@ -37,10 +38,10 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<label class="filter-search-lbl" for="filter_search"><?php echo Text::_('JSEARCH_FILTER_LABEL'); ?></label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo Text::_('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
+			<button type="submit"><?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
 
@@ -49,23 +50,23 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			</select>
 
 			<select name="filter_level" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL');?></option>
+				<option value=""><?php echo Text::_('COM_MENUS_OPTION_SELECT_LEVEL');?></option>
 				<?php echo HTMLHelper::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 			</select>
 
             <select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
+				<option value=""><?php echo Text::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo HTMLHelper::_('select.options', HTMLHelper::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
             <select name="filter_access" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
+				<option value=""><?php echo Text::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo HTMLHelper::_('select.options', HTMLHelper::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 
 
 			<select name="filter_language" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
+				<option value=""><?php echo Text::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo HTMLHelper::_('select.options', HTMLHelper::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
 
@@ -95,7 +96,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<?php echo HTMLHelper::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
-					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
+					<?php echo Text::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
 				</th>
 				<th width="5%">
 					<?php echo HTMLHelper::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
@@ -145,12 +146,12 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
 						<?php if ($item->type !='url') : ?>
 							<?php if (empty($item->note)) : ?>
-								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+								<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
 							<?php else : ?>
-								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
+								<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
 							<?php endif; ?>
 						<?php elseif($item->type =='url' && $item->note) : ?>
-							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
+							<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 						<?php endif; ?></p>
 				</td>
 				<td class="center">
@@ -182,7 +183,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 							<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 						<?php elseif ($canChange):?>
 							<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JUtility::getToken().'=1');?>">
-								<?php echo HTMLHelper::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+								<?php echo HTMLHelper::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
 							</a>
 						<?php else:?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>$item->language_title), true);?>
@@ -191,11 +192,11 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				</td>
 				<td class="center">
 					<?php if ($item->language==''):?>
-						<?php echo JText::_('JDEFAULT'); ?>
+						<?php echo Text::_('JDEFAULT'); ?>
 					<?php elseif ($item->language=='*'):?>
-						<?php echo JText::alt('JALL','language'); ?>
+						<?php echo Text::alt('JALL','language'); ?>
 					<?php else:?>
-						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+						<?php echo $item->language_title ? $this->escape($item->language_title) : Text::_('JUNDEFINED'); ?>
 					<?php endif;?>
 				</td>
 				<td class="center">

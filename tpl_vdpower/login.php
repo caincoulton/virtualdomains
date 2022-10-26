@@ -10,9 +10,11 @@
 // no direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 HTMLHelper::_('behavior.noframes');
 HTMLHelper::_('behavior.framework');
 ?>
@@ -49,7 +51,7 @@ HTMLHelper::_('behavior.framework');
 	<div id="border-top" class="h_blue">
 		<div>
 			<div>
-				<span class="title"><a href="index.php"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : JText::_('TPL_BLUESTORK_HEADER'); ?></a></span>
+				<span class="title"><a href="index.php"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') : Text::_('TPL_BLUESTORK_HEADER'); ?></a></span>
 			</div>
 		</div>
 	</div>
@@ -63,11 +65,11 @@ HTMLHelper::_('behavior.framework');
 					</div>
 				</div>
 				<div class="m wbg">
-					<h1><?php echo JText::_('COM_LOGIN_JOOMLA_ADMINISTRATION_LOGIN') ?></h1>
+					<h1><?php echo Text::_('COM_LOGIN_JOOMLA_ADMINISTRATION_LOGIN') ?></h1>
 					<jdoc:include type="message" />
 					<jdoc:include type="component" />
-					<p><?php echo JText::_('COM_LOGIN_VALID') ?></p>
-					<p><a href="<?php echo JURI::root(); ?>"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a></p>
+					<p><?php echo Text::_('COM_LOGIN_VALID') ?></p>
+					<p><a href="<?php echo JURI::root(); ?>"><?php echo Text::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a></p>
 					<div id="lock"></div>
 					<div class="clr"></div>
 				</div>
@@ -78,7 +80,7 @@ HTMLHelper::_('behavior.framework');
 				</div>
 			</div>
 			<noscript>
-				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
+				<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT') ?>
 			</noscript>
 			<div class="clr"></div>
 		</div>
@@ -88,7 +90,7 @@ HTMLHelper::_('behavior.framework');
 <div id="footer">
 	<p class="copyright">
 		<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
-		echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
+		echo Text::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 	</p>
 </div>
 </body>

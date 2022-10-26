@@ -17,7 +17,8 @@
 //--No direct access
 defined('_JEXEC') or die('=;)');
 
-jimport('joomla.application.helper');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 $status = new JObject();
 $status->modules = array();
@@ -46,7 +47,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children()))
 		}
 		else
 		{
-			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('No module file specified'));
+			$this->parent->abort(Text::_('Module').' '.Text::_('Install').': '.Text::_('No module file specified'));
 			return false;
 		}
 
@@ -55,7 +56,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children()))
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$db = &JFactory::getDBO();
+		$db = &Factory::getDBO();
 
 		//--Lets delete all the module copies for the type we are uninstalling
 		$query = 'SELECT `id`' .
@@ -76,7 +77,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children()))
 			$db->setQuery($query);
 			if( ! $db->query())
 			{
-				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
+				JError::raiseWarning(100, Text::_('Module').' '.Text::_('Uninstall').': '.$db->stderr(true));
 				$retval = false;
 			}
 		}
@@ -86,7 +87,7 @@ if (is_a($modules, 'JSimpleXMLElement') && count($modules->children()))
 		$db->setQuery($query);
 		if( ! $db->query())
 		{
-			JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.$db->stderr(true));
+			JError::raiseWarning(100, Text::_('Plugin').' '.Text::_('Uninstall').': '.$db->stderr(true));
 			$retval = false;
 		}
 
@@ -146,7 +147,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 		}
 		else
 		{
-			$this->parent->abort(JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('No plugin file specified'));
+			$this->parent->abort(Text::_('Plugin').' '.Text::_('Uninstall').': '.Text::_('No plugin file specified'));
 			return false;
 		}
 
@@ -155,14 +156,14 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$db = &JFactory::getDBO();
+		$db = &Factory::getDBO();
 
 		//--Delete the plugins in the #__plugins table
 		$query = 'DELETE FROM #__plugins WHERE element = '.$db->Quote($pname).' AND folder = '.$db->Quote($pgroup);
 		$db->setQuery($query);
 		if ( ! $db->query())
 		{
-			JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.$db->stderr(true));
+			JError::raiseWarning(100, Text::_('Plugin').' '.Text::_('Uninstall').': '.$db->stderr(true));
 			$retval = false;
 		}
 
@@ -208,8 +209,8 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 <table class="adminlist">
 	<thead>
 		<tr>
-			<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
-			<th width="30%"><?php echo JText::_('Status'); ?></th>
+			<th class="title" colspan="2"><?php echo Text::_('Extension'); ?></th>
+			<th width="30%"><?php echo Text::_('Status'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -219,34 +220,34 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 	</tfoot>
 	<tbody>
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo 'Jimtawl '.JText::_('Component'); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /><strong><?php echo JText::_('Removed'); ?></strong></td>
+			<td class="key" colspan="2"><?php echo 'Jimtawl '.Text::_('Component'); ?></td>
+			<td><img src="images/publish_g.png" alt="OK" /><strong><?php echo Text::_('Removed'); ?></strong></td>
 		</tr>
 <?php if (count($status->modules)) : ?>
 		<tr>
-			<th><?php echo JText::_('Module'); ?></th>
-			<th><?php echo JText::_('Client'); ?></th>
+			<th><?php echo Text::_('Module'); ?></th>
+			<th><?php echo Text::_('Client'); ?></th>
 			<th></th>
 		</tr>
 	<?php foreach ($status->modules as $module) : ?>
 		<tr class="row<?php echo (++ $rows % 2); ?>">
 			<td class="key"><?php echo $module['name']; ?></td>
 			<td class="key"><?php echo ucfirst($module['client']); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /><strong><?php echo JText::_('Removed'); ?></strong></td>
+			<td><img src="images/publish_g.png" alt="OK" /><strong><?php echo Text::_('Removed'); ?></strong></td>
 		</tr>
 	<?php endforeach;
 endif;
 if (count($status->plugins)) : ?>
 		<tr>
-			<th><?php echo JText::_('Plugin'); ?></th>
-			<th><?php echo JText::_('Group'); ?></th>
+			<th><?php echo Text::_('Plugin'); ?></th>
+			<th><?php echo Text::_('Group'); ?></th>
 			<th></th>
 		</tr>
 	<?php foreach ($status->plugins as $plugin) : ?>
 		<tr class="row<?php echo (++ $rows % 2); ?>">
 			<td class="key"><?php echo ucfirst($plugin['name']); ?></td>
 			<td class="key"><?php echo ucfirst($plugin['group']); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /><strong><?php echo JText::_('Removed'); ?></strong></td>
+			<td><img src="images/publish_g.png" alt="OK" /><strong><?php echo Text::_('Removed'); ?></strong></td>
 		</tr>
 	<?php endforeach;
 endif; ?>

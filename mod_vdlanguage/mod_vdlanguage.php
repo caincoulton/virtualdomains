@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 // Include the syndicate functions only once
 require_once dirname(__FILE__).'/helper.php';
 
 $headerText	= JString::trim($params->get('header_text'));
 $footerText	= JString::trim($params->get('footer_text'));
-JFactory::getLanguage()->load('mod_languages');
+Factory::getLanguage()->load('mod_languages');
 $list = ModVDLanguagesHelper::getList($params);
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));

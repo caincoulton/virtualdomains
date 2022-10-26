@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
@@ -21,9 +23,9 @@ abstract class ModVDLanguagesHelper
 {
 	public static function getList(&$params)
 	{
-		$user	= JFactory::getUser();
-		$lang 	= JFactory::getLanguage();
-		$app	= JFactory::getApplication();
+		$user	= Factory::getUser();
+		$lang 	= Factory::getLanguage();
+		$app	= Factory::getApplication();
 		$menu 	= $app->getMenu();
 
 		// Get menu home items

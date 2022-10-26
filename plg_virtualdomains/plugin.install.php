@@ -1,4 +1,5 @@
 <?php
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,13 +15,15 @@ defined('_JEXEC') or die;
 * details.
 */
 
+use Joomla\CMS\Factory;
+
 class plgSystemVirtualdomainsInstallerScript
 {
 	public function postflight($route, $adapter)
 	{
 		if (stripos($route, 'install') !== false)
 		{			
-			$db = JFactory::getDBo();
+			$db = Factory::getDBo();
 			$db->setQuery('UPDATE #__extensions set enabled = 1 WHERE `type` = "plugin" AND element = "virtualdomains"');
 			$db->execute();
 		}

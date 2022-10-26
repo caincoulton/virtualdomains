@@ -13,16 +13,19 @@
  * @author     Michael Liebler {@link http://www.janguo.de}
  * @author     Created on 14-Aug-09
  */
-
+ 
 //--No direct access
 defined('_JEXEC') or die('=;)');
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 $status = new JObject();
 $status->modules = array();
 $status->plugins = array();
 
 //no frontend menu item for VD
-$db	= & JFactory::getDBO();
+$db	= & Factory::getDBO();
 $query = "UPDATE #__components set link='' WHERE `option` = 'com_virtualdomains'";
 $db->setQuery($query);
 $db->query();
@@ -70,7 +73,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 		if ( ! empty($pname) && ! empty($pgroup)) {
 			$this->parent->setPath('extension_root', JPATH_ROOT.'/plugins/'.$pgroup);
 		} else {
-			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('No plugin file specified'));
+			$this->parent->abort(Text::_('Plugin').' '.Text::_('Install').': '.Text::_('No plugin file specified'));
 			return false;
 		}
 
@@ -84,7 +87,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 		$created = false;
 		if ( ! file_exists($this->parent->getPath('extension_root'))) {
 			if ( ! $created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(Text::_('Plugin').' '.Text::_('Install').': '.Text::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
@@ -127,7 +130,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$db = &JFactory::getDBO();
+		$db = &Factory::getDBO();
 
 		//--Check to see if a plugin by the same name is already installed
 		$query = 'SELECT `id`' .
@@ -137,7 +140,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 		$db->setQuery($query);
 		if ( ! $db->Query()) {
 			//--Install failed, roll back changes
-			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(Text::_('Plugin').' '.Text::_('Install').': '.$db->stderr(true));
 			return false;
 		}
 		$id = $db->loadResult();
@@ -147,13 +150,13 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 
 			if ( ! $this->parent->getOverwrite()) {
 				//--Install failed, roll back changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Plugin').' "'.$pname.'" '.JText::_('already exists!'));
+				$this->parent->abort(Text::_('Plugin').' '.Text::_('Install').': '.Text::_('Plugin').' "'.$pname.'" '.Text::_('already exists!'));
 				return false;
 			}
 
 		} else {
 			$row =& JTable::getInstance('plugin');
-			$row->name = JText::_(ucfirst($pgroup)).' - '.JText::_(ucfirst($pname));
+			$row->name = Text::_(ucfirst($pgroup)).' - '.Text::_(ucfirst($pname));
 			$row->ordering = $porder;
 			$row->folder = $pgroup;
 			$row->iscore = 0;
@@ -165,7 +168,7 @@ if (is_a($plugins, 'JSimpleXMLElement') && count($plugins->children()))
 
 			if ( ! $row->store()) {
 				//--Install failed, roll back changes
-				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
+				$this->parent->abort(Text::_('Plugin').' '.Text::_('Install').': '.$db->stderr(true));
 				return false;
 			}
 		}
@@ -217,8 +220,8 @@ $rows = 0;
 <table class="adminlist">
 	<thead>
 		<tr>
-			<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
-			<th width="30%"><?php echo JText::_('Status'); ?></th>
+			<th class="title" colspan="2"><?php echo Text::_('Extension'); ?></th>
+			<th width="30%"><?php echo Text::_('Status'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>
@@ -228,34 +231,34 @@ $rows = 0;
 	</tfoot>
 	<tbody>
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo 'virtualdomains '.JText::_('Component'); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo JText::_('Installed'); ?></strong></td>
+			<td class="key" colspan="2"><?php echo 'virtualdomains '.Text::_('Component'); ?></td>
+			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo Text::_('Installed'); ?></strong></td>
 		</tr>
 <?php if (count($status->modules)) : ?>
 		<tr>
-			<th><?php echo JText::_('Module'); ?></th>
-			<th><?php echo JText::_('Client'); ?></th>
+			<th><?php echo Text::_('Module'); ?></th>
+			<th><?php echo Text::_('Client'); ?></th>
 			<th></th>
 		</tr>
 	<?php foreach ($status->modules as $module) : ?>
 		<tr class="row<?php echo (++ $rows % 2); ?>">
 			<td class="key"><?php echo $module['name']; ?></td>
 			<td class="key"><?php echo ucfirst($module['client']); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo JText::_('Installed'); ?></strong></td>
+			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo Text::_('Installed'); ?></strong></td>
 		</tr>
 	<?php endforeach;
 	endif;
 if (count($status->plugins)) : ?>
 		<tr>
-			<th><?php echo JText::_('Plugin'); ?></th>
-			<th><?php echo JText::_('Group'); ?></th>
+			<th><?php echo Text::_('Plugin'); ?></th>
+			<th><?php echo Text::_('Group'); ?></th>
 			<th></th>
 		</tr>
 	<?php foreach ($status->plugins as $plugin) : ?>
 		<tr class="row<?php echo (++ $rows % 2); ?>">
 			<td class="key"><?php echo ucfirst($plugin['name']); ?></td>
 			<td class="key"><?php echo ucfirst($plugin['group']); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo JText::_('Installed'); ?></strong></td>
+			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo Text::_('Installed'); ?></strong></td>
 		</tr>
 	<?php endforeach;
 endif; ?>

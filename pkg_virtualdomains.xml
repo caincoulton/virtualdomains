@@ -7,8 +7,8 @@
     <version>{VERSION}</version>
     <url>http://www.janguo.de</url>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <packager>Samuel Mehrbrodt</packager>
-    <packagerurl>https://github.com/smehrbrodt/virtualdomains</packagerurl>
+    <packager>Cain Coulton</packager>
+    <packagerurl>https://github.com/caincoulton/virtualdomains</packagerurl>
     <description>
         <![CDATA[	<h3>Virtual Domains</h3>
   <p>
@@ -79,6 +79,6 @@
     </files>
     
     <updateservers>
-        <server type="extension" priority="1" name="Virtual Domains Updates">https://raw.githubusercontent.com/smehrbrodt/virtualdomains/master/updateserver/vd-update.xml</server>
+        <server type="extension" priority="1" name="Virtual Domains Updates">https://raw.githubusercontent.com/caincoulton/virtualdomains/feature/joomla-4/updateserver/vd-update.xml</server>
     </updateservers>
 </extension>
