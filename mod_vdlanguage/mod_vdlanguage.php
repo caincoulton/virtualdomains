@@ -10,15 +10,18 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\String\StringHelper;
+use Joomla\CMS\Helper\ModuleHelper;
+use Janguo\Module\VDLanguages\Site\Helper\VDLanguagesHelper;
 
 // Include the syndicate functions only once
 require_once dirname(__FILE__).'/helper.php';
 
-$headerText	= JString::trim($params->get('header_text'));
-$footerText	= JString::trim($params->get('footer_text'));
+$headerText	= StringHelper::trim($params->get('header_text'));
+$footerText	= StringHelper::trim($params->get('footer_text'));
 Factory::getLanguage()->load('mod_languages');
-$list = ModVDLanguagesHelper::getList($params);
+$list = VDLanguagesHelper::getList($params);
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
-require JModuleHelper::getLayoutPath('mod_languages', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_languages', $params->get('layout', 'default'));

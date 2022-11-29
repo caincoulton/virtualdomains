@@ -29,10 +29,15 @@
     </update>
 
     <files folder="site">
+        <folder>src</folder>
         <filename>virtualdomains.php</filename>
     </files>
 
     <scriptfile>install.script.php</scriptfile>
+
+    <media destination="com_virtualdomains" folder="media">
+        <folder>js</folder>
+    </media>
 
     <administration>
         <menu view="virtualdomains">Virtualdomains</menu>
@@ -43,7 +48,6 @@
         </submenu>
 
         <files folder="admin">
-            <folder>assets</folder>
             <folder>forms</folder>
             <folder>services</folder>
             <folder>sql</folder>
@@ -53,10 +57,6 @@
             <filename>config.xml</filename>
             <filename>install.script.php</filename>
         </files>
-
-        <media destination="com_virtualdomains" folder="media">
-            <folder>js</folder>
-        </media>
 
         <languages folder="admin/language">
             <language tag="en-GB">en-GB/en-GB.com_virtualdomains.ini</language>

@@ -5,4 +5,10 @@
 /.settings
 /build/
 /dist/
+/node_modules/
+
+.vscode
+gulp*
+package*
+
 phing-latest.phar

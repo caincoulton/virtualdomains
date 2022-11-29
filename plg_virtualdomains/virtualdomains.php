@@ -1,16 +1,18 @@
-<?php /**
-* @version		$Id: virtualdomains.php 13 2013-03-30 00:14:57Z michel $
-* @package		Virtualdomains
-* @subpackage	plug_virtualdomains
-* @copyright	Copyright (C) 2008 - 2009 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Virtualdomains is free software. This version may have been modified pursuant
-* @author     	Michael Liebler {@link http://www.janguo.de}
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+<?php
+
+/**
+ * @version		$Id: virtualdomains.php 13 2013-03-30 00:14:57Z michel $
+ * @package		Virtualdomains
+ * @subpackage	plug_virtualdomains
+ * @copyright	Copyright (C) 2008 - 2009 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Virtualdomains is free software. This version may have been modified pursuant
+ * @author     	Michael Liebler {@link http://www.janguo.de}
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // no direct access
 defined('_JEXEC') or die;
@@ -24,6 +26,13 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Associations;
+use Janguo\Component\VirtualDomains\Site\Library\VdUser;
+use Janguo\Component\VirtualDomains\Site\Library\VdAccess;
+use Janguo\Component\VirtualDomains\Site\Library\VdLanguage;
+use Janguo\Component\VirtualDomains\Site\Library\VdMenuFilter;
 
 
 class PlgSystemVirtualdomains extends CMSPlugin
@@ -34,8 +43,6 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	private $_hostparams = null;
 	private $_curhost = array();
 	private $input = null;
-
-
 
 	/**
 	 * Constructor
@@ -58,10 +65,6 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	{
 		if(!Folder::exists(JPATH_ADMINISTRATOR.'/components/com_virtualdomains')) {
 			return false;
-		}
-		jimport('joomla.user.authentication');
-		if(version_compare(JVERSION, '3.2', 'lt')) {
-			jimport('joomla.application.router');
 		}
 
 		$app 	= Factory::getApplication();
@@ -107,22 +110,26 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		$registeredurlparams->vdcachbuster = 'WORD';
 		$app->registeredurlparams = $registeredurlparams;
-		$this->input->set('vdcachbuster',$this->_curhost);
+		$this->input->set('vdcachbuster', $this->_curhost);
 
 		// Remove first segment of SEF url which is the site root menu item
 		if($conf->get('stripmenuroot')){
 			$router = $app->getRouter();
 
+			// If URL uses top level segment, then redirect to new URL
+			$this->redirectToRemoveTopLevelAlias($uri);
+			
+			// Remove top level menu item from SEF url
 			$router->attachBuildRule(function(&$router, &$uri) {
-				$segments = array_filter(explode('/', $uri->getPath()));
-				$segments = array_slice($segments, 1);
-				$uri->setPath('/' . implode('/', $segments));
+				$homeAlias = $this->getBuildSiteAlias($uri);
+				$uri->setPath(preg_replace('/(' . $homeAlias . '\/)/', '', $uri->getPath(), 1));
 			}, Router::PROCESS_AFTER);
 
+			// Put top level menu item back in for internal processing
 			$router->attachParseRule(function(&$router, &$uri) {
 				// If path is empty, processing isn't required (presumably it's all been handled, and/or it's the homepage)
 				if(strlen($uri->getPath()) > 0) {
-					$homeAlias = $this->getSiteAlias();
+					$homeAlias = $this->getParseSiteAlias($uri);
 					$url = $uri->toString();
 					$url = str_replace($uri->getHost(), $uri->getHost() . '/' . $homeAlias . '/', $url);
 					$uri->parse($url);
@@ -142,13 +149,13 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		// set the vd id to users session
 		$user->set('virtualdomain_id', $currentDomain->id);
 		// add viewlevel(s) for the current domain to the user object
-		$vdUser = new vdUser($user->get('id'));
+		$vdUser = new VdUser($user->get('id'));
 		// there may be viewlevels inherited from other domains
 		$viewlevels =  (array) $currentDomain ->params->get('access');
 		// add current domains viewlevel
 		$viewlevels[] = $currentDomain ->viewlevel;
 		// override method addAuthorisedViewLevels
-		vdJAccess::addAuthorisedViewLevels($user->get('id'), $viewlevels);
+		VdAccess::addAuthorisedViewLevels($user->get('id'), $viewlevels);
 		// add viewlevels to the user object
 		$vdUser->addAuthLevel($viewlevels);
 
@@ -177,20 +184,15 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		if ( $currentDomain->template )
 		{
 
-			if( $currentDomain ->template_style_id ) {
-				$this->addRequest( 'templateStyle' , $currentDomain ->template_style_id);
-
-				// after 3.5 the template param must not be set together with template_style_id
-				if (version_compare(JVERSION, '3.5', 'lt')) {
-				    $this->addRequest('template' , $currentDomain ->template );
-				}
+			if( $currentDomain->template_style_id ) {
+				$this->addRequest( 'templateStyle' , $currentDomain->template_style_id);
 			} else {
-			    $this->addRequest('template' , $currentDomain ->template );
+			    $this->addRequest('template' , $currentDomain->template );
 			}
 		}
 
 		// filter menues if required
-		$this->filterMenus($currentDomain ->menuid, $currentDomain ->template, $currentDomain ->template_style_id);
+		$this->filterMenus($currentDomain->menuid, $currentDomain->template, $currentDomain->template_style_id);
 
 		//set all requests
 		$this->setRequests();
@@ -248,7 +250,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 	    $app = Factory::getApplication();
 
-	    $menu = $app->getMenu('site',array());
+	    $menu = $app->getMenu('site', array());
 		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
 
 		$router = $app->getRouter();
@@ -319,8 +321,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	 */
 	private function filterMenus($default, $template, $style)
 	{
-
-		$menu = new vdMenuFilter();
+		$menu = new VdMenuFilter();
 		$menu->filterMenues($this->_hostparams, $default);
 	}
 
@@ -344,7 +345,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		}
 
 		// current user
-		$vdUser = new vdUser($user->get('id'));
+		$vdUser = new VdUser($user->get('id'));
 
 		// assign all viewlevels to user session
 		foreach($allDomains as $domain) {
@@ -376,35 +377,145 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	}
 
 	/**
+	 * Retrieves menu root alias with respect to the current URL and domain
 	 * 
+	 * @param Uri
+	 * 
+	 * @return string
 	 */
-	private function getSiteAlias() {
-		$app = Factory::getApplication();
-		$menu = $app->getMenu();
+	private function getBuildSiteAlias(&$uri) {
 
 		if(!empty($instance)) return $instance;
 
-		$db = Factory::getDbo();
-		$db->setQuery(
-				"SELECT * FROM #__virtualdomain
-				WHERE `domain` = ".$db->Quote($this->_curhost ). " AND published > 0"
-		);
+		$domainMenuItem = $this->getDomainMenuItem();
+		$parentAlias = $this->getTopLevelAlias($domainMenuItem);
 
-		try {
-            $curDomain = $db->loadObject();
-		} catch(Exception $e) {
-			$app->enqueueMessage(Text::_($e->getMessage()), 'error');
-			return null;
+		// Load parent aliases on an associations of home menu item
+		// Check language is not generic signifying that a specific language is set
+		if($domainMenuItem->language != '*') {
+			$db = $this->_db;
+			$query = $db->getQuery(true);
+			$query->clear()
+				->select('mparent.alias')
+				->from('#__menu AS mparent')
+				->join('INNER', '#__menu AS m ON mparent.id = m.parent_id')
+				->join('INNER', '#__associations AS a ON a.id = m.id')
+				->join('INNER', '#__associations AS a2 ON a.`key` = a2.`key`')
+				->where('a2.id = ' . $domainMenuItem->id)
+				->where('m.menutype != \'' . $domainMenuItem->menutype . '\'');
+			$associationAliases = $db->setQuery($query)->loadColumn();
 		}
 
-		if($curDomain === null) {
-			return null;
+		$topLevelAliases = array_merge($associationAliases, array($parentAlias));
+		foreach($topLevelAliases as $alias) {
+			if(strpos($uri->getPath(), $alias)) {
+				return $alias;
+			}
+		}
+	}
+
+	/**
+	 * Retrieves menu root alias with respect to the current URL and domain
+	 * 
+	 * @param Uri
+	 * 
+	 * @return string
+	 */
+	private function getParseSiteAlias(&$uri) {
+
+		if(!empty($instance)) return $instance;
+
+		$domainMenuItem = $this->getDomainMenuItem();
+		$parentAlias = $this->getTopLevelAlias($domainMenuItem);
+
+		// Load parent aliases on an associations of home menu item
+		// Check language is not generic signifying that a specific language is set
+		if($domainMenuItem->language == '*') {
+			return $parentAlias;
+		} else {
+			$db = $this->_db;
+			$query = $db->getQuery(true);
+			$query->clear()
+				->select('mparent.alias')
+				->from('#__menu AS mparent')
+				->join('INNER', '#__menu AS m ON mparent.id = m.parent_id')
+				->join('INNER', '#__associations AS a ON a.id = m.id')
+				->join('INNER', '#__associations AS a2 ON a.`key` = a2.`key`')
+				->where('a2.id = ' . $domainMenuItem->id)
+				->where('m.language = \'' . Factory::getLanguage()->getTag() . '\'');
+			return $db->setQuery($query)->loadResult();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private function getDomainMenuItem() {
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+
+		// Get menutype from domain
+		$query->select('m.*')
+			->from($db->quoteName('#__menu') . ' AS m')
+			->join('INNER', '#__virtualdomain AS vd ON m.id = vd.menuid')
+			->where('domain = ' . $db->quote($this->_curhost));
+		return $db->setQuery($query)->loadObject();
+	}
+
+	/**
+	 * 
+	 */
+	private function getTopLevelAlias($domainMenuItem) {
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+
+		// Get parent alias for given domain
+		$query->clear()
+			->select('alias')
+			->from('#__menu AS m')
+			->where('id = ' . $domainMenuItem->parent_id);
+		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * 
+	 */
+	private function redirectToRemoveTopLevelAlias(&$uri) {
+		$db = $this->_db;
+
+		// Get the current language tag.
+		$languageTag = Factory::getLanguage()->getTag();
+
+		// Get all languages.
+		$languages = LanguageHelper::getLanguages('lang_code');
+
+		// Get the SEF tag of current language.
+		$sefTag = $languages[$languageTag]->sef;
+		$currentUriPath = $uri->getPath();
+
+		// If page file extension is not enabled, then use:  /^\/([a-z]{2}\/)?(.+)$/
+		preg_match('/^\/([a-z]{2}\/)?(.+)(\.html)$/', $currentUriPath, $matches);
+
+		// If no matches, then assume we don't have to redirect (possibly home page with no path)
+		if(count($matches) == 0) {
+			return;
 		}
 
-		$home = $menu->getItem($curDomain->menuid);
-		$parent = $home->getParent();
+		$searchPath = $matches[2];
 
-		return $parent->alias;
+		// Get menu item path
+		$query = $db->getQuery(true);
+		$query->select('m.id')
+			->from($db->quoteName('#__menu') . ' AS m')
+			->where('path = ' . $db->quote($searchPath));
+		$itemId = $db->setQuery($query)->loadResult();
+
+		// If uri path exists on a menu item, then we need to redirect to remove the top level alias
+		if(!is_null($itemId)) {
+			$domainMenuItem = $this->getDomainMenuItem();
+			$topLevelAlias = $this->getTopLevelAlias($domainMenuItem);
+			Factory::getApplication()->redirect(str_replace('/' . $topLevelAlias, '', $currentUriPath));
+		}
 	}
 
 	/**
@@ -417,13 +528,13 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		$vd = ComponentHelper::getComponent('com_virtualdomains');
 		$app = Factory::getApplication();
+		$db = $this->_db;
 
 		if(!empty($instance)) return $instance;
 
-		$db = Factory::getDbo();
 		$db->setQuery(
-				"SELECT * FROM #__virtualdomain
-				WHERE `domain` = ".$db->Quote($this->_curhost ). " AND published > 0"
+			"SELECT * FROM #__virtualdomain
+			WHERE `domain` = ".$db->Quote($this->_curhost ). " AND published > 0"
 		);
 
 		try {
@@ -437,10 +548,10 @@ class PlgSystemVirtualdomains extends CMSPlugin
 			return null;
 		}
 
-		$curDomain->params = new JObject(json_decode($curDomain->params));
+		$curDomain->params = new CMSObject(json_decode($curDomain->params));
 
 		//Set the global override styles settings, if not configured
-		if($curDomain->params->get('override') === '') $curDomain->params->set('override',$vd->params->get('override'));
+		if($curDomain->params->get('override') === '') $curDomain->params->set('override', $vd->params->get('override'));
 
 		$uri = Uri::getInstance();
 
@@ -465,6 +576,8 @@ class PlgSystemVirtualdomains extends CMSPlugin
 				break;
 		}
 
+		$curDomain->menuid = $curDomain->activeItemId;
+
 		$instance = $curDomain;
 
 		return $instance;
@@ -479,13 +592,13 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		if(!empty($_defaultmenu)) return $_defaultmenu;
 
-		$menu = Factory::getApplication()->getMenu('site',array());
+		$menu = Factory::getApplication()->getMenu('site', array());
 		$_defaultmenu = $menu->getDefault();
 
-		//fallback if default home item was not found
+		// fallback if default home item was not found
 		if($_defaultmenu === 0) {
 			$lang = Factory::getLanguage();
-			$db = Factory::getDbo();
+			$db = $this->_db;
 
 			// first try to find a language specific home item
 			$query  = "SELECT * FROM #__menu WHERE home = 1 AND language = ".$db->Quote(Factory::getLanguage()->getTag())." AND published >0";
@@ -525,6 +638,23 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	}
 
 	/**
+	 * 
+	 */
+	private function getLangHomeMenuItem($vdHomeMenuId) {
+		$menu = Factory::getApplication()->getMenu('site', array());
+		$menuItem = $menu->getItem( ( int ) $vdHomeMenuId);
+
+		// Check menu item associations for current language, if menu item is not for all languages
+		$langTag = Factory::getLanguage()->getTag();
+		if($menuItem->language != '*' && $menuItem->language != $langTag) {
+			$associations = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', (int)$menuItem->id, 'id', 'alias', null);
+			$menuItem = $menu->getItem(explode(':', $associations[$langTag]->id)[0]);
+		}
+
+		return $menuItem;
+	}
+
+	/**
 	 *
 	 *  Routes to VD-Hosts home, if necessery
 	 */
@@ -538,9 +668,6 @@ class PlgSystemVirtualdomains extends CMSPlugin
 			return false;
 		}
 
-		// get domains home item
-		$menu = Factory::getApplication()->getMenu('site', array());
-		$menuItem = $menu->getItem( ( int ) $curDomain->menuid );
 		if ( !$menuItem )
 		{
 			//item is lost
@@ -601,7 +728,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	 */
 	private function setActions( $home = 0 )
 	{
-		$db = Factory::getDBO();
+		$db = $this->_db;
 		$db->setQuery( 'Select * From #__virtualdomain_params Where 1' );
 		$result = $db->loadObjectList();
 
@@ -666,13 +793,12 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	private function setLangVars()
 	{
 		// default language is not set
-
 		if ( !$this->_hostparams->get( 'language' ) )
 		{
 			return;
 		}
 
-		$hash = method_exists('ApplicationHelper', 'getHash') ? ApplicationHelper::getHash('language') : JApplication::getHash('language');
+		$hash = ApplicationHelper::getHash('language');
 
 		//Joomla Language selection is active?  do nothing
 		$joomlacookie = $this->input->cookie->get($hash);
@@ -681,7 +807,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		}
 
 		// we have to override the joomla method to set the language
-		$lang = new vdLanguage();
+		$lang = new VdLanguage();
 		$lang_code = $this->_hostparams->get( 'language' );
 
 		$lang->setDefault($this->_hostparams->get( 'language' ));
@@ -714,11 +840,6 @@ class PlgSystemVirtualdomains extends CMSPlugin
 			foreach( $this->_request as $key=>$var) {
 				// set the request
 				$this->input->set($key, $var);
-				// legacy method
-				if (class_exists('JRequest')) {
-					JRequest::setVar($key,$var,'get');
-					JRequest::setVar($key,$var,'post');
-				}
 			}
 		}
 	}
@@ -743,166 +864,4 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		$menu->setDefault( $newhome->id);
 	}
 
-}
-
-/**
- *
- * Dummy JMenu Class
- * @author michel
- */
-class vdMenuFilter extends JMenu {
-
-	public function load() {}
-	
-	/**
-	 *
-	 * Method to Filter Menu Items
-	 * @param array $items - Array of menu item id's
-	 * @param string $filter - show/hide
-	 */
-
-	function filterMenues($params, $default) {
-		//Menu filter settings for current domain
-		$filter = $params->get( 'menumode' );
-		$items = $params->get( 'menufilter' );
-		$translatations = $params->get( 'translatemenu' );
-
-		$lang =  Factory::getLanguage()->getTag() ;
-
-		//Get the instance
-		$menu = parent::getInstance('site',array());
-
-		//Set all defaults on default
-		//TODO: Allow language specific home items
-		if($default) {
-			$menu->setDefault($default, $lang);
-			$menu->setDefault($default,'*');
-			$menu->setDefault($default);
-		}
-
-		//Check each item
-		foreach($menu->_items  as $item) {
-			//Translate if translation available
-			if ($item->home) {
-				if(isset($translatations->$lang) && ($menutranslation = trim($translatations->$lang))) {
-					$item->title = $menutranslation;
-				}
-			}
-
-			switch($filter) {
-				case "hide":
-					//Delete menu item, if the item id  is in the items list
-					if(in_array($item->id, $items)) {
-						unset($menu->_items[$item->id]);
-					}
-					break;
-				case "show":
-					//Delete menu item, if the item id  is not in the items list
-					if(!in_array($item->id, $items)) {
-						unset($menu->_items[$item->id]);
-					}
-			}
-		}
-	}
-}
-
-/**
- * Dummy JLanguage class
- */
-class vdLanguage extends JLanguage {
-
-	public function setDefault($lang) {
-		$refresh = Factory::getLanguage();
-		$refresh->metadata['tag'] = $lang;
-
-		$refresh->default	= $lang;
-		$new = Factory::getLanguage();
-
-	}
-}
-
-/**
- *
- * Dummy JAccess class
- * Override viewlevels
- * @author michel
- *
- */
-class vdJAccess extends JAccess {
-
-	public static function addAuthorisedViewLevels($userId, $viewlevels)
-	{
-		$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-
-		// Get a database object.
-		$db = Factory::getDbo();
-
-		// Build the base query.
-		$query = $db->getQuery(true)
-		->select('id, rules')
-		->from($db->quoteName('#__viewlevels'));
-
-		// Set the query for execution.
-		$db->setQuery($query);
-
-		// Build the view levels array.
-		foreach ($db->loadAssocList() as $level)
-		{
-			$rules = (array) json_decode($level['rules']);
-
-			//The magic: guest usergroup must never be configured in database and is now added dynamically
-			if(in_array($level['id'], $viewlevels) &! in_array($guestUsergroup, $rules)) {
-				$rules[] = $guestUsergroup;
-			}
-
-			self::$viewLevels[$level['id']] = $rules;
-
-		}
-	}
-}
-
-/**
- *
- * Dummy User Class
- * Override authlevels
- * @author michel
- *
- */
-class vdUser extends JUser {
-
-	function __construct($identifier) {
-		parent::__construct($identifier);
-	}
-
-	/**
-	 *
-	 * This method pushs additional auth levels to the user object
-	 *
-	 * @param array $viewlevels
-	 */
-	public function addAuthLevel($viewlevels) {
-		//No access levels assigned to this domain? return...
-
-		if(!count($viewlevels)) return;
-		//is the user not logged in
-
-		$user = Factory::getUser();
-
-		if(!$this->id) {
-			$user->guest = 1;
-		}
-
-		$user->_authLevels=  $user->getAuthorisedViewLevels();
-
-		//Now add all access levels assigned to this domain
-		foreach($viewlevels as $viewlevel) {
-			if($viewlevel && !in_array($viewlevel, $user->_authLevels)) {
-				$user->_authLevels[] = (int) $viewlevel;
-			}
-		}
-
-		//put this to the session
-		$session = Factory::getSession();
-		$session->set('user', $user);
-	}
 }

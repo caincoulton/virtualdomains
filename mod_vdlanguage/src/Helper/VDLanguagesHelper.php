@@ -1,4 +1,7 @@
 <?php
+
+namespace Janguo\Module\VDLanguages\Site\Helper;
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_languages
@@ -10,8 +13,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Helper for mod_languages
@@ -19,7 +22,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
  * @package     Joomla.Site
  * @subpackage  mod_languages
  */
-abstract class ModVDLanguagesHelper
+abstract class VDLanguagesHelper
 {
 	public static function getList(&$params)
 	{
@@ -83,14 +86,14 @@ abstract class ModVDLanguagesHelper
 				{
 					if (isset($cassociations[$language->lang_code]))
 					{
-						$language->link = JRoute::_($cassociations[$language->lang_code].'&lang='.$language->sef);
+						$language->link = Route::_($cassociations[$language->lang_code].'&lang='.$language->sef);
 					}
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
 						if ($app->getCfg('sef') == '1')
 						{
-							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
+							$language->link = Route::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
 						else {
 							$language->link = 'index.php?lang='.$language->sef.'&amp;Itemid='.$itemid;
@@ -100,7 +103,7 @@ abstract class ModVDLanguagesHelper
 						if ($app->getCfg('sef') == '1')
 						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
-							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
+							$language->link = Route::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
 						else {
 							$language->link = 'index.php?lang='.$language->sef;
@@ -108,7 +111,7 @@ abstract class ModVDLanguagesHelper
 					}
 				}
 				else {
-					$language->link = JRoute::_('&Itemid='.$homes['*']->id);
+					$language->link = Route::_('&Itemid='.$homes['*']->id);
 				}
 			}
 		}
