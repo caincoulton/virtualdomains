@@ -23,7 +23,7 @@
           <strong>Installed</strong>
         </td>
         <td>
-          <img src="../media/media/images/success.png" alt="OK" />
+          <span class="m-1 icon-check text-success"></span>OK
         </td>
         <td>
         </td>
@@ -34,7 +34,7 @@
           <strong>Installed</strong>
         </td>
         <td>
-          <img src="../media/media/images/success.png" alt="OK" />
+          <span class="m-1 icon-check text-success"></span>OK
         </td>
         <td>
         </td>
@@ -45,7 +45,7 @@
           <strong>Installed</strong>
         </td>
         <td>
-          <img src="../media/media/images/success.png" alt="OK" />
+          <span class="m-1 icon-check text-success"></span>OK
         </td>
         <td>
         </td>

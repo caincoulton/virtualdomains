@@ -232,7 +232,7 @@ $rows = 0;
 	<tbody>
 		<tr class="row0">
 			<td class="key" colspan="2"><?php echo 'virtualdomains '.Text::_('Component'); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo Text::_('Installed'); ?></strong></td>
+			<td><span class="m-1 icon-check text-success"></span>OK<strong><?php echo Text::_('Installed'); ?></strong></td>
 		</tr>
 <?php if (count($status->modules)) : ?>
 		<tr>
@@ -244,7 +244,7 @@ $rows = 0;
 		<tr class="row<?php echo (++ $rows % 2); ?>">
 			<td class="key"><?php echo $module['name']; ?></td>
 			<td class="key"><?php echo ucfirst($module['client']); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo Text::_('Installed'); ?></strong></td>
+			<td><span class="m-1 icon-check text-success"></span>OK<strong><?php echo Text::_('Installed'); ?></strong></td>
 		</tr>
 	<?php endforeach;
 	endif;
@@ -258,7 +258,7 @@ if (count($status->plugins)) : ?>
 		<tr class="row<?php echo (++ $rows % 2); ?>">
 			<td class="key"><?php echo ucfirst($plugin['name']); ?></td>
 			<td class="key"><?php echo ucfirst($plugin['group']); ?></td>
-			<td><img src="images/publish_g.png" alt="OK" /> <strong><?php echo Text::_('Installed'); ?></strong></td>
+			<td><span class="m-1 icon-check text-success"></span>OK<strong><?php echo Text::_('Installed'); ?></strong></td>
 		</tr>
 	<?php endforeach;
 endif; ?>
