@@ -20,7 +20,6 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Janguo\Component\VirtualDomains\Administrator\Helper\VirtualDomainsHelper;
-
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -39,19 +38,21 @@ class HtmlView extends BaseHtmlView
 	protected $pagination;
 
 	protected $state;
-	
-	
+
+
 	/**
 	 *  Displays the list view
- 	 * @param string $tpl   
+ 	 * @param string $tpl
      */
 	public function display($tpl = null)
 	{
+		$app = Factory::getApplication();
+
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
-		$this->filter_order 	= $app->getUserStateFromRequest($context.'filter_order', 'filter_order', 'name', 'cmd');
-		$this->filter_order_Dir = $app->getUserStateFromRequest($context.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
+		$this->filter_order 	= $app->getUserStateFromRequest($this->getModel()->context.'filter_order', 'filter_order', 'name', 'cmd');
+		$this->filter_order_Dir = $app->getUserStateFromRequest($this->getModel()->context.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
 
@@ -66,7 +67,7 @@ class HtmlView extends BaseHtmlView
 
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Add the page title and toolbar.
 	 *
@@ -78,35 +79,35 @@ class HtmlView extends BaseHtmlView
 		if($lang != 'de-DE') {
 			$lang = 'en-GB';
 		}
-		
+
 		$help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Parameters-Manager';
 		ToolBarHelper::help('#', false, $help_url);
-		
+
 		$canDo = VirtualDomainsHelper::getActions();
 		$user = Factory::getUser();
 
 		ToolBarHelper::title( Text::_( 'Params' ), 'generic.png' );
 		if ($canDo->get('core.create')) {
 			ToolBarHelper::addNew('param.add');
-		}	
-		
+		}
+
 		if (($canDo->get('core.edit')))
 		{
 			ToolBarHelper::editList('param.edit');
 		}
-		
-				
-				
+
+
+
 
 		if ($canDo->get('core.delete'))
 		{
 			ToolBarHelper::deleteList('', 'params.delete');
 		}
-				
-		
-		ToolBarHelper::preferences('com_virtualdomains', '550');  				
-	}	
-	
+
+
+		ToolBarHelper::preferences('com_virtualdomains', '550');
+	}
+
 
 	/**
 	 * Returns an array of fields the table can be sorted by
@@ -119,5 +120,5 @@ class HtmlView extends BaseHtmlView
 		 	          'a.name' => Text::_('Name'),
 	     	          'a.id' => Text::_('JGRID_HEADING_ID'),
 	     		);
-	}	
+	}
 }
