@@ -12,6 +12,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
 
@@ -51,7 +52,7 @@ $sortFields = $this->getSortFields();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_virtualdomains&view=virtualdomains');?>"
+<form action="<?php echo Route::_('index.php?option=com_virtualdomains&view=VirtualDomains');?>"
 	method="post" name="adminForm" id="adminForm">
 
     <div class="row">
@@ -64,7 +65,7 @@ $sortFields = $this->getSortFields();
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 
-                <?php if (empty($this->items)) : ?> 
+                <?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
 						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -85,7 +86,7 @@ $sortFields = $this->getSortFields();
                                     </th>
                                     <th class="title"><?php echo HTMLHelper::_('grid.sort', 'Template', 'a.template', $listDirn, $listOrder ); ?>
                                     </th>
-                                    <th class="title"><?php echo Text::_('HOST_CHECK');?></th>							
+                                    <th class="title"><?php echo Text::_('HOST_CHECK');?></th>
                                     <th class="title"><?php echo HTMLHelper::_('grid.sort', 'Default_Domain', 'a.home', $listDirn, $listOrder ); ?>
                                     </th>
                                     <th class="title"><?php echo HTMLHelper::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder ); ?>
@@ -93,7 +94,7 @@ $sortFields = $this->getSortFields();
                                     <th width="13%" class="title"><?php echo Text::_('Preview');?> </th>
                                     <th class="title"><?php echo HTMLHelper::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
                                     </th>
-                                </tr>         				
+                                </tr>
                             </thead>
                             <tfoot>
                                 <tr>
@@ -110,7 +111,7 @@ $sortFields = $this->getSortFields();
                                 $canCreate  = $user->authorise('core.create');
                                 $canEdit    = $user->authorise('core.edit');
                                 $canChange  = $user->authorise('core.edit.state');
-                                    
+
                                 $disableClassName = '';
                                 $disabledLabel	  = '';
                                 if (!$saveOrder) {
@@ -119,15 +120,15 @@ $sortFields = $this->getSortFields();
                         }
 
                         $onclick = "";
-                            
+
                         if ($app->input->get('function', null)) {
                             $onclick= "onclick=\"window.parent.jSelectVirtualdomain_id('".$item->id."', '".$this->escape($item->domain)."', '','id')\" ";
                         }
 
-                        $link = JRoute::_( 'index.php?option=com_virtualdomains&view=virtualdomain&task=virtualdomain.edit&id='. $item->id );
+                        $link = Route::_( 'index.php?option=com_virtualdomains&view=VirtualDomain&task=virtualdomain.edit&id='. $item->id );
                         $checked = HTMLHelper::_('grid.checkedout', $item, $i );
                         $preViewModalHandlerLink= "http://". $this->escape( $item->domain );
-                        
+
 
                         ?>
                                 <tr class="row<?php echo $i % 2; ?>"">
@@ -172,7 +173,7 @@ $sortFields = $this->getSortFields();
                                             echo HTMLHelper::_('dropdown.render');
                                             ?>
                                         </div>
-                                    </td>														
+                                    </td>
                                     <td><?php echo $item->template; ?></td>
                                     <td ><span data-host="<?php echo $item->domain; ?>" class="hostcheck"></span></td>														
                                     <td><?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0' , $i, 'virtualdomains.', $item->home!='1');?></td>
@@ -196,7 +197,7 @@ $sortFields = $this->getSortFields();
                             </tbody>
                         </table>
                     </div>
-                    
+
 
                 <?php endif; ?>
 

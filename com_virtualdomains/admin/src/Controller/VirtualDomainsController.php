@@ -17,8 +17,8 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
-
 /**
  * Virtualdomain list controller class.
  *
@@ -132,7 +132,7 @@ class VirtualDomainsController extends AdminController
 			}
 		}
 	
-		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 		
 	}
 	
