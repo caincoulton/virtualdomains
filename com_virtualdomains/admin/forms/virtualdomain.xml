@@ -12,7 +12,7 @@
 			readonly="true" />
 
 		<field id="domain" name="domain" type="text" required="true"
-			validate="host" label="Host_Name" description="hostname_Desc" class="inputbox input-xlarge"
+			label="Host_Name" description="hostname_Desc" class="inputbox input-xlarge"
 			size="40" />
 
 		<field
