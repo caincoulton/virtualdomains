@@ -13,6 +13,7 @@ namespace Janguo\Component\VirtualDomains\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
@@ -83,14 +84,14 @@ class VirtualDomainsController extends AdminController
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
 	 *
-	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   BaseDatabaseModel  $model  The data model object.
 	 * @param   integer       $id     The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 */
-	protected function postDeleteHook(JModelLegacy $model, $id = null)	
+	protected function postDeleteHook(BaseDatabaseModel $model, $id = null)	
 	{
 		
 	}
