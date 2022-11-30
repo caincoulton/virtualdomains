@@ -4,7 +4,7 @@
            method="upgrade"
            client="site"
            group="system">
-	<name>System - virtualdomains</name>
+	<name>System - VirtualDomains</name>
 	<creationDate>March 2011</creationDate>
 	<author>Michael Liebler</author>
 	<authorEmail>michael-liebler@janguo.de</authorEmail>

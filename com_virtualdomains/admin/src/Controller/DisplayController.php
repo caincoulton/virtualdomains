@@ -28,5 +28,5 @@ class DisplayController extends BaseController
 	 * @var		string	The default view.
 	 * @since   1.6
 	 */
-	protected $default_view = 'virtualdomains';
+	protected $default_view = 'VirtualDomains';
 }

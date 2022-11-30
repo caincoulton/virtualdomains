@@ -119,7 +119,7 @@
 
 	<fieldset name="translation">
 		<fields name="params">
-			<field name="translatemenu" type="translatemenu" label="Translate Home Item"
+			<field name="translatemenu" type="TranslateMenu" label="Translate Home Item"
 				description="Translate_Home_Item_DESC">
 			</field>
 		</fields>

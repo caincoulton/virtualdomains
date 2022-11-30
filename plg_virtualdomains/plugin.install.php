@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-class plgSystemVirtualdomainsInstallerScript
+class plgSystemVirtualDomainsInstallerScript
 {
 	public function postflight($route, $adapter)
 	{

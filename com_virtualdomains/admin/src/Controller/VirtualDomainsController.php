@@ -32,13 +32,13 @@ class VirtualDomainsController extends AdminController
 	 *
 	 * @param   array  $config	An optional associative array of configuration settings.
 	 *
-	 * @return  VirtualdomainsControllervirtualdomains
+	 * @return  VirtualDomainsController
 	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
 		$this->input = Factory::getApplication()->input;
-		$this->view_list = 'virtualdomains';
+		$this->view_list = 'VirtualDomains';
 		parent::__construct($config);
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
@@ -52,7 +52,7 @@ class VirtualDomainsController extends AdminController
 	 * @return  JModel
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Virtualdomain', $prefix = 'VirtualdomainsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'VirtualDomain', $prefix = 'VirtualDomainsModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 

@@ -35,7 +35,7 @@ class ParamsController extends AdminController
 	public function __construct($config = array())
 	{
 		$this->input = Factory::getApplication()->input;		
-		$this->view_list = 'params';
+		$this->view_list = 'Params';
 		parent::__construct($config);
 	}
 	
@@ -48,7 +48,7 @@ class ParamsController extends AdminController
 	 * @return  JModel
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Param', $prefix = 'VirtualdomainsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Param', $prefix = 'VirtualDomainsModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 

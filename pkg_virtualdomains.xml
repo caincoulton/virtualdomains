@@ -3,7 +3,7 @@
            method="upgrade"
            version="1.6">
     <name>Virtual Domains</name>
-    <packagename>virtualdomains</packagename>
+    <packagename>VirtualDomains</packagename>
     <version>{VERSION}</version>
     <url>http://www.janguo.de</url>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
@@ -29,7 +29,7 @@
         </td>
       </tr>
       <tr class="row1">
-        <td class="key" colspan="2">Plugin System - virtualdomains</td>
+        <td class="key" colspan="2">Plugin System - VirtualDomains</td>
         <td>
           <strong>Installed</strong>
         </td>
@@ -62,7 +62,7 @@
     </tbody>
   </table>
   <br />
-  <div>Please check <a href="index.php?option=com_plugins">Extensions->Plugin Manager</a> to enable  the <strong>Plugin <i>System - virtualdomains </i>
+  <div>Please check <a href="index.php?option=com_plugins">Extensions->Plugin Manager</a> to enable  the <strong>Plugin <i>System - VirtualDomains </i>
   </strong>if necessary.</div>
   <div>For Multilanguage Sites it is required to replace Joomlas Language switcher module with &quot;VD Language switcher&quot;.</div>
   <br />		]]>

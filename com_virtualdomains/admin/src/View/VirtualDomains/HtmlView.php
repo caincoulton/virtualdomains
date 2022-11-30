@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::preferences('com_virtualdomains', '550');
 		if(version_compare(JVERSION,'4','<')){
-			JHtmlSidebar::setAction('index.php?option=com_virtualdomains&view=virtualdomains');
+			JHtmlSidebar::setAction('index.php?option=com_virtualdomains&view=VirtualDomains');
 		}
 		
 		$excludeOptions = array('archived' => false, 'trash' => false);

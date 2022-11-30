@@ -40,11 +40,11 @@
     </media>
 
     <administration>
-        <menu view="virtualdomains">Virtualdomains</menu>
+        <menu view="VirtualDomains">Virtualdomains</menu>
         <submenu>
-            <menu view="virtualdomains">Virtualdomains</menu>
-            <menu view="params">Params</menu>
-            <menu view="about">About</menu>
+            <menu view="VirtualDomains">Virtualdomains</menu>
+            <menu view="Params">Params</menu>
+            <menu view="About">About</menu>
         </submenu>
 
         <files folder="admin">

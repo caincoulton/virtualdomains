@@ -43,7 +43,7 @@ class VirtualDomainModel extends AdminModel {
 		// Get the form.
 		$form = $this->loadForm(
 			'com_virtualdomains.virtualdomain',
-			'virtualdomain',
+			'VirtualDomain',
 			array(
 				'control' => 'jform',
 				'load_data' => $loadData
@@ -68,7 +68,7 @@ class VirtualDomainModel extends AdminModel {
 
 		// Check the session for previously entered form data.
 		$app  = Factory::getApplication();
-		$data = $app->getUserState('com_virtualdomains.edit.virtualdomain.data', array());
+		$data = $app->getUserState('com_virtualdomains.edit.VirtualDomain.data', array());
 
 		if (empty($data))
 		{
@@ -77,7 +77,7 @@ class VirtualDomainModel extends AdminModel {
 		}
 
 		if(version_compare(JVERSION,'4','<')){
-			$this->preprocessData('com_virtualdomains.virtualdomain', $data);
+			$this->preprocessData('com_virtualdomains.VirtualDomain', $data);
 		}
 
 

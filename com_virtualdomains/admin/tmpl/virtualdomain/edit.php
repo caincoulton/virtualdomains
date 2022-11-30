@@ -73,6 +73,6 @@ if (!$edit) {
 	<input type="hidden" name="cid[]" value="<?php echo $this->item->id ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput( 'viewlevel' ); ?>
-	<input type="hidden" name="view" value="virtualdomain" />
+	<input type="hidden" name="view" value="VirtualDomain" />
 	<?php echo HTMLHelper::_( 'form.token' ); ?>
 </form>

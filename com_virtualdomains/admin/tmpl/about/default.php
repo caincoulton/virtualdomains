@@ -17,7 +17,7 @@ if($lang != 'de-DE') {
 }
 	 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_virtualdomains&view=virtualdomains');?>"
+<form action="<?php echo JRoute::_('index.php?option=com_virtualdomains&view=VirtualDomains');?>"
 	method="post" name="adminForm" id="adminForm">
 
 	<?php if (!empty( $this->sidebar)) : ?>

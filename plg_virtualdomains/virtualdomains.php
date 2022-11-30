@@ -35,7 +35,7 @@ use Janguo\Component\VirtualDomains\Site\Library\VdLanguage;
 use Janguo\Component\VirtualDomains\Site\Library\VdMenuFilter;
 
 
-class PlgSystemVirtualdomains extends CMSPlugin
+class PlgSystemVirtualDomains extends CMSPlugin
 {
 
 	private $_db = null;
