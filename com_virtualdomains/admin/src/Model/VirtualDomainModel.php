@@ -16,8 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Form\FormHelper;
- 
-class VirtualDomainModel extends AdminModel { 
+
+class VirtualDomainModel extends AdminModel {
 	/**
 	 * The URL option for the component.
 	 *
@@ -65,7 +65,7 @@ class VirtualDomainModel extends AdminModel {
 	 */
 	protected function loadFormData()
 	{
-		
+
 		// Check the session for previously entered form data.
 		$app  = Factory::getApplication();
 		$data = $app->getUserState('com_virtualdomains.edit.virtualdomain.data', array());
@@ -73,17 +73,17 @@ class VirtualDomainModel extends AdminModel {
 		if (empty($data))
 		{
 			$data = $this->getItem();
-		
+
 		}
-		
+
 		if(version_compare(JVERSION,'4','<')){
 			$this->preprocessData('com_virtualdomains.virtualdomain', $data);
 		}
-		
+
 
 		return $data;
 	}
-	
+
 	public function beforeSave($data)
 	{
 		$db = Factory::getDbo();
@@ -91,11 +91,11 @@ class VirtualDomainModel extends AdminModel {
 			$db->setQuery('Select template from #__template_styles where id = '.(int) $data['template_style_id']);
 			$data['template'] = $db->loadResult();
 		}
-				
+
 		$query = "SELECT id FROM #__viewlevels WHERE title = ".$db->Quote($data['domain']). " OR id = ". (int) $data['viewlevel'] ;
 		$db->setQuery($query);
 		$viewlevel = $db->loadResult();
-		
+
 		//Add or update viewlevel
 		if($viewlevel) {
 			$query = "UPDATE #__viewlevels SET title = ".$db->Quote($data['domain'])." WHERE id = ". (int) $viewlevel ;
@@ -110,7 +110,7 @@ class VirtualDomainModel extends AdminModel {
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Method to delete assigned viewlevels
 	 * @param int/array $cid
@@ -122,7 +122,6 @@ class VirtualDomainModel extends AdminModel {
 			foreach($cid as $id) {
 				$row = $this->getTable();
 				$row->load($id);
-				var_dump($row);
 				if($row->viewlevel) {
 					echo 'DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel.'<br />';
 					$db->setQuery('DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel);
@@ -138,9 +137,9 @@ class VirtualDomainModel extends AdminModel {
 				$db->execute();
 			}
 		}
-		return true;	
+		return true;
 	}
-	
+
 	/**
 	 * Override parent method validate
 	 * @param JForm $form
@@ -149,14 +148,14 @@ class VirtualDomainModel extends AdminModel {
 	 * @return array
 	 */
 	public function validate($form, $data, $group = null) {
-	
-	
+
+
 		$origparams = isset($data['params']) ? $data['params'] : array();
 		$data = parent::validate($form, $data, $group);
 		$data['params'] = isset($data['params']) ? array_merge($data['params'], $origparams) : $origparams;
 		return $data;
-	}	
-	
+	}
+
 	/**
 	 * Method to set a template style as home.
 	 *
@@ -169,7 +168,7 @@ class VirtualDomainModel extends AdminModel {
 	{
 		// Initialise variables.
 		$user	= Factory::getUser();
-		$db		= $this->getDbo();		
+		$db		= $this->getDbo();
 		$cids = (array) $cids;
 		$id = (int) $cids[0];
 
@@ -179,25 +178,25 @@ class VirtualDomainModel extends AdminModel {
 				' SET home= ' .$db->Quote('0').
 				' WHERE home = '.$db->Quote('1')
 		);
-	
+
 		if (!$db->execute()) {
 			throw new Exception($db->getErrorMsg());
 		}
-	
+
 		// Set the new home style.
 		$db->setQuery(
 				'UPDATE  #__virtualdomain' .
 				' SET home ='. (int) $value.
 				' WHERE id = '.(int) $id
 		);
-	
+
 		if (!$db->execute()) {
 			throw new Exception($db->getErrorMsg());
 		}
-	
+
 		return true;
 	}
-	
+
 
 	/**
 	 * @notice Zurück zu Revision 11
