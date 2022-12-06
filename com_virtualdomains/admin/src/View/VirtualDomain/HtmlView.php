@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView
 		$this->paramFields = $this->get('ParamFields');
 				
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (null != ($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
