@@ -44,7 +44,7 @@ class VdMenuFilter extends AbstractMenu {
 		}
 
 		//Check each item
-		foreach($menu->_items  as $item) {
+		foreach($menu->items  as $item) {
 			//Translate if translation available
 			if ($item->home) {
 				if(isset($translatations->$lang) && ($menutranslation = trim($translatations->$lang))) {
@@ -56,13 +56,13 @@ class VdMenuFilter extends AbstractMenu {
 				case "hide":
 					//Delete menu item, if the item id  is in the items list
 					if(in_array($item->id, $items)) {
-						unset($menu->_items[$item->id]);
+						unset($menu->items[$item->id]);
 					}
 					break;
 				case "show":
 					//Delete menu item, if the item id  is not in the items list
 					if(!in_array($item->id, $items)) {
-						unset($menu->_items[$item->id]);
+						unset($menu->items[$item->id]);
 					}
 			}
 		}
