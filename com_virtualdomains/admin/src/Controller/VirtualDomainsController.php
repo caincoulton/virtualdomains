@@ -42,7 +42,7 @@ class VirtualDomainsController extends AdminController
 		parent::__construct($config);
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
-	
+
 	/**
 	 * Proxy for getModel.
 	 *
@@ -58,8 +58,8 @@ class VirtualDomainsController extends AdminController
 
 		return $model;
 	}
-	
-	
+
+
 	/**
 	 * Removes an item.
 	 *
@@ -71,15 +71,15 @@ class VirtualDomainsController extends AdminController
 	{
 		// Check for request forgeries
 		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
-	
+
 		// Get items to remove from the request.
 		$cid = Factory::getApplication()->input->get('cid', array(), 'array');
-		
+
 		$model = $this->getModel();
 		$model->preDelete($cid);
 		return parent::delete();
 	}
-	
+
 	/**
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
@@ -91,9 +91,9 @@ class VirtualDomainsController extends AdminController
 	 *
 	 * @since   12.2
 	 */
-	protected function postDeleteHook(BaseDatabaseModel $model, $id = null)	
+	protected function postDeleteHook(BaseDatabaseModel $model, $id = null)
 	{
-		
+
 	}
 
 	/**
@@ -119,23 +119,23 @@ class VirtualDomainsController extends AdminController
 		{
 			// Get the model.
 			$model = $this->getModel();
-	
+
 			// Make sure the item ids are integers
 			ArrayHelper::toInteger($cid);
-	
+
 			// Publish the items.
 			if (!$model->setDefault($cid, $value))
 			{
 				JError::raiseWarning(500, $model->getError());
-			} else {				
+			} else {
 				$this->setMessage(Text::_('SUCCESS_DEFAULT_SET'));
 			}
 		}
-	
+
 		$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
-		
+
 	}
-	
+
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *

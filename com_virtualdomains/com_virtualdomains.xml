@@ -40,9 +40,9 @@
     </media>
 
     <administration>
-        <menu view="VirtualDomains">Virtualdomains</menu>
+        <menu view="VirtualDomains">VirtualDomains</menu>
         <submenu>
-            <menu view="VirtualDomains">Virtualdomains</menu>
+            <menu view="VirtualDomains">VirtualDomains</menu>
             <menu view="Params">Params</menu>
             <menu view="About">About</menu>
         </submenu>

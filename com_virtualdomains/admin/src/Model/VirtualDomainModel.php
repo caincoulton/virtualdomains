@@ -42,7 +42,7 @@ class VirtualDomainModel extends AdminModel {
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_virtualdomains.virtualdomain',
+			'com_virtualdomains.VirtualDomain',
 			'VirtualDomain',
 			array(
 				'control' => 'jform',

@@ -28,7 +28,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 $saveOrder	= $listOrder == 'ordering';
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_virtualdomains&task=virtualdomains.saveOrderAjax&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_virtualdomains&task=VirtualDomains.saveOrderAjax&tmpl=component';
 	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
@@ -122,10 +122,10 @@ $sortFields = $this->getSortFields();
                         $onclick = "";
 
                         if ($app->input->get('function', null)) {
-                            $onclick= "onclick=\"window.parent.jSelectVirtualdomain_id('".$item->id."', '".$this->escape($item->domain)."', '','id')\" ";
+                            $onclick= "onclick=\"window.parent.jSelectVirtualDomain_id('".$item->id."', '".$this->escape($item->domain)."', '','id')\" ";
                         }
 
-                        $link = Route::_( 'index.php?option=com_virtualdomains&view=VirtualDomain&task=virtualdomain.edit&id='. $item->id );
+                        $link = Route::_( 'index.php?option=com_virtualdomains&view=VirtualDomain&task=VirtualDomain.edit&id='. $item->id );
                         $checked = HTMLHelper::_('grid.checkedout', $item, $i );
                         $preViewModalHandlerLink= "http://". $this->escape( $item->domain );
 
@@ -159,15 +159,15 @@ $sortFields = $this->getSortFields();
                                         <div class="pull-left">
                                             <?php
                                             // Create dropdown items
-                                            HTMLHelper::_('dropdown.edit', $item->id, 'virtualdomain.');
+                                            HTMLHelper::_('dropdown.edit', $item->id, 'VirtualDomain.');
                                             HTMLHelper::_('dropdown.divider');
                                             if ($item->published) :
-                                            HTMLHelper::_('dropdown.unpublish', 'cb' . $i, 'virtualdomains.');
+                                            HTMLHelper::_('dropdown.unpublish', 'cb' . $i, 'VirtualDomains.');
                                             else :
-                                            HTMLHelper::_('dropdown.publish', 'cb' . $i, 'virtualdomains.');
+                                            HTMLHelper::_('dropdown.publish', 'cb' . $i, 'VirtualDomains.');
                                             endif;
                                             HTMLHelper::_('dropdown.divider');
-                                            HTMLHelper::_('dropdown.trash', 'cb' . $i, 'virtualdomains.');									
+                                            HTMLHelper::_('dropdown.trash', 'cb' . $i, 'VirtualDomains.');
                                             HTMLHelper::_('dropdown.divider');
                                             // render dropdown list
                                             echo HTMLHelper::_('dropdown.render');
@@ -176,8 +176,8 @@ $sortFields = $this->getSortFields();
                                     </td>
                                     <td><?php echo $item->template; ?></td>
                                     <td ><span data-host="<?php echo $item->domain; ?>" class="hostcheck"></span></td>														
-                                    <td><?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0' , $i, 'virtualdomains.', $item->home!='1');?></td>
-                                    <td><?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'virtualdomains.', $canChange, 'cb'); ?>
+                                    <td><?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0' , $i, 'VirtualDomains.', $item->home!='1');?></td>
+                                    <td><?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'VirtualDomains.', $canChange, 'cb'); ?>
                                     </td>
                                 <td style="text-align:center"><a class="modal" title="<?php Text::_('TEST OUT DOMAIN')?>"  href="<?php echo $preViewModalHandlerLink;?>" rel="{classWindow:'testingFrame',handler: 'iframe', size:{x: <?php echo $this->params->get('framewidth',400) ?>, y:<?php echo $this->params->get('frameheight',400) ?>}}"><?php echo Text::_('Preview')?></a></td>
                                     <td><?php echo $item->id; ?></td>
@@ -202,8 +202,8 @@ $sortFields = $this->getSortFields();
                 <?php endif; ?>
 
                 <input type="hidden" name="option" value="com_virtualdomains" /> 
-                <input type="hidden" name="task" value="virtualdomain" /> 
-                <input type="hidden" name="view" value="virtualdomains" /> 
+                <input type="hidden" name="task" value="VirtualDomain" />
+                <input type="hidden" name="view" value="VirtualDomains" />
                 <input type="hidden" name="boxchecked" value="0" /> 
                 <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
                 <input type="hidden" name="filter_order_Dir" value="" />

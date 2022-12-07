@@ -23,15 +23,15 @@ $wa->useScript('keepalive')
 $edit		= Factory::getApplication()->input->get('edit', true);
 $text = !$edit ? Text::_( 'New' ) : Text::_( 'Edit' );
 ToolBarHelper::title(   Text::_( 'Virtualdomain' ).': <small><small>[ ' . $text.' ]</small></small>' );
-ToolBarHelper::apply('virtualdomain.apply');
-ToolBarHelper::save('virtualdomain.save');
-ToolBarHelper::save2new('virtualdomain.save2new');
-ToolBarHelper::save2copy('virtualdomain.save2copy');
+ToolBarHelper::apply('VirtualDomain.apply');
+ToolBarHelper::save('VirtualDomain.save');
+ToolBarHelper::save2new('VirtualDomain.save2new');
+ToolBarHelper::save2copy('VirtualDomain.save2copy');
 if (!$edit) {
-	ToolBarHelper::cancel('virtualdomain.cancel');
+	ToolBarHelper::cancel('VirtualDomain.cancel');
 } else {
 	// for existing items the button is renamed `close`
-	ToolBarHelper::cancel( 'virtualdomain.cancel');
+	ToolBarHelper::cancel( 'VirtualDomain.cancel');
 }
 ?>
 

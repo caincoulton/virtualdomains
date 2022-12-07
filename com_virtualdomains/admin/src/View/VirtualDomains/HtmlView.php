@@ -98,22 +98,22 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::help('#', false, $help_url);
 
 		if ($canDo->get('core.create')) {
-			ToolbarHelper::addNew('virtualdomain.add');
+			ToolbarHelper::addNew('VirtualDomain.add');
 		}
 
 		if (($canDo->get('core.edit')))
 		{
-			ToolbarHelper::editList('virtualdomain.edit');
+			ToolbarHelper::editList('VirtualDomain.edit');
 		}
 
 
 		if ($this->state->get('filter.state') != 2)
 		{
-			ToolbarHelper::publish('virtualdomains.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('virtualdomains.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::publish('VirtualDomains.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('VirtualDomains.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		ToolbarHelper::deleteList('', 'virtualdomains.delete');
+		ToolbarHelper::deleteList('', 'VirtualDomains.delete');
 
 
 		ToolbarHelper::preferences('com_virtualdomains', '550');
