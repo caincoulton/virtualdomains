@@ -118,7 +118,7 @@ class PlgSystemVirtualDomains extends CMSPlugin
 
 			// If URL uses top level segment, then redirect to new URL
 			$this->redirectToRemoveTopLevelAlias($uri);
-			
+
 			// Remove top level menu item from SEF url
 			$router->attachBuildRule(function(&$router, &$uri) {
 				$homeAlias = $this->getBuildSiteAlias($uri);
@@ -378,9 +378,9 @@ class PlgSystemVirtualDomains extends CMSPlugin
 
 	/**
 	 * Retrieves menu root alias with respect to the current URL and domain
-	 * 
+	 *
 	 * @param Uri
-	 * 
+	 *
 	 * @return string
 	 */
 	private function getBuildSiteAlias(&$uri) {
@@ -416,9 +416,9 @@ class PlgSystemVirtualDomains extends CMSPlugin
 
 	/**
 	 * Retrieves menu root alias with respect to the current URL and domain
-	 * 
+	 *
 	 * @param Uri
-	 * 
+	 *
 	 * @return string
 	 */
 	private function getParseSiteAlias(&$uri) {
@@ -448,7 +448,7 @@ class PlgSystemVirtualDomains extends CMSPlugin
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function getDomainMenuItem() {
 		$db = $this->_db;
@@ -463,7 +463,7 @@ class PlgSystemVirtualDomains extends CMSPlugin
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function getTopLevelAlias($domainMenuItem) {
 		$db = $this->_db;
@@ -478,7 +478,7 @@ class PlgSystemVirtualDomains extends CMSPlugin
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function redirectToRemoveTopLevelAlias(&$uri) {
 		$db = $this->_db;
@@ -566,17 +566,17 @@ class PlgSystemVirtualDomains extends CMSPlugin
 		//override style?
 		switch($curDomain->params->get('override')) {
 
-			case 1:
+			case '1':
 				if(!$curDomain->isHome ) {
 					$curDomain->template = null;
 				}
 				break;
 			case '0':
 				$curDomain->template = null;
+				$curDomain->menuid = $curDomain->activeItemId;
 				break;
 		}
 
-		$curDomain->menuid = $curDomain->activeItemId;
 
 		$instance = $curDomain;
 
@@ -638,7 +638,7 @@ class PlgSystemVirtualDomains extends CMSPlugin
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function getLangHomeMenuItem($vdHomeMenuId) {
 		$menu = Factory::getApplication()->getMenu('site', array());
@@ -668,6 +668,9 @@ class PlgSystemVirtualDomains extends CMSPlugin
 			return false;
 		}
 
+		// get domains home item
+		$menu = Factory::getApplication()->getMenu('site', array());
+		$menuItem = $menu->getItem( ( int ) $curDomain->menuid );
 		if ( !$menuItem )
 		{
 			//item is lost
