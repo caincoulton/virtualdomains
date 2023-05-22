@@ -15,8 +15,8 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
-use Joomla\CMS\Form\Rule\OptionsRule;
 use Joomla\Registry\Registry;
+use SimpleXMLElement;
 
 /**
  * Form Rule class for the Joomla Framework.
@@ -44,17 +44,12 @@ class HostRule extends FormRule
 	 * @since	1.6
 	 */
 	
-	public function test(SimpleXMLElement $field, $values, $group = null, Registry $input = null, Form $form = null)	
+	public function test(SimpleXMLElement $field, $values, $group = null, Registry $input = null, Form $form = null)
 	{
-		
-		$return = false;
-		$name	= $field->attributes('name');
-    		if(stristr($values,'http://')) return false;
-			// Test the value against the regular expression.
-			if (parent::test($field, $values)) {
-				$return = true;
-			}
 
-		return $return;
+		if(stristr($values,'http://')) return false;
+
+		// Test the value against the regular expression.
+		return parent::test($field, $values);
 	}
 }

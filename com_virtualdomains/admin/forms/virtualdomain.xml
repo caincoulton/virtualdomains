@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldprefix="Janguo\Component\VirtualDomains\Administrator\Field">
+<form 
+		addfieldprefix="Janguo\Component\VirtualDomains\Administrator\Field"
+		addruleprefix="Janguo\Component\VirtualDomains\Administrator\Rule"
+	>
 	<fieldset name="details">
 
-		<field name="id" type="hidden" default="0" required="true"
-			readonly="true" />
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"
+		/>
 
-		<field name="viewlevel" type="hidden" default="0" required="true"
-			readonly="true" />
+		<field
+			name="viewlevel"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"
+		/>
 
-		<field name="home" type="hidden" default="0" required="true"
-			readonly="true" />
+		<field
+			name="home"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"
+		/>
 
-		<field id="domain" name="domain" type="text" required="true"
-			validate="host" label="Host_Name" description="hostname_Desc" class="inputbox input-xlarge"
-			size="40" />
+		<field 
+			id="domain" 
+			name="domain" 
+			type="text" 
+			required="true"
+			validate="host"
+			label="Host_Name" 
+			description="hostname_Desc" 
+		/>
 
 		<field
 			id="menuid"
@@ -25,18 +49,33 @@
 			description="menuid_Desc"
 		/>
 
-		<field name="template" type="hidden" default="" required="false"
-			readonly="true" />
+		<field
+			name="template"
+			type="hidden"
+			default=""
+			required="false"
+			readonly="true"
+		/>
 
-		<field name="template_style_id" type="templatestyle" label="Template"
-			description="template_Desc" filter="int"
-			class="inputbox">
+		<field
+			name="template_style_id"
+			type="templatestyle"
+			label="Template"
+			description="template_Desc"
+			filter="int"
+		>
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>
 
-		<field id="published" name="published" type="list"
-			default="1" size="1" label="JField_Published_Label"
-			description="JField_Published_Desc">
+		<field
+			id="published"
+			name="published"
+			type="list"
+			default="1"
+			size="1"
+			label="JField_Published_Label"
+			description="JField_Published_Desc"
+		>
 			<option value="1">
 				JOption_Published
 			</option>
@@ -51,11 +90,11 @@
 			</option>
 		</field>
 
-		<field name="checked_out" type="hidden" filter="unset" />
+		<!-- <field name="checked_out" type="hidden" filter="unset" />
 
-		<field name="checked_out_time" type="hidden" filter="unset" />
+		<field name="checked_out_time" type="hidden" filter="unset" /> -->
 
-		<field name="ordering" type="hidden" filter="unset" />
+		<!-- <field name="ordering" type="hidden" filter="unset" /> -->
 
 	</fieldset>
 
@@ -137,7 +176,6 @@
 				size="15"
 				selfexclude="true"
 				multiple="true"
-				class="form-select"
 			/>
 		</fields>
 	</fieldset>
@@ -155,7 +193,6 @@
 				size="15"
 				selfexclude="true"
 				multiple="true"
-				class="form-select"
 			/>
 		</fields>
 	</fieldset>
@@ -178,7 +215,7 @@
 			</field>
 			<field id="menufilter" name="menufilter" type="menuitem"
 				required="false" label="JField_Menuselection" description="JField_Menuselection_Desc"
-				class="inputbox" multiple="true" size="15" />
+				multiple="true" size="15" />
 		</fields>
 	</fieldset>
 
