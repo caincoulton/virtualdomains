@@ -79,8 +79,8 @@ class HtmlView extends BaseHtmlView
 			$lang = 'en-GB';
 		}
 		
-		$help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Parameters-Manager';
-		ToolBarHelper::help('#', false, $help_url);
+		// $help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Parameters-Manager';
+		// ToolBarHelper::help('#', false, $help_url);
 		
 		$canDo = VirtualDomainsHelper::getActions();
 		$user = Factory::getUser();

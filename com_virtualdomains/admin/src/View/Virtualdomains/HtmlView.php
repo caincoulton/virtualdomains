@@ -92,10 +92,11 @@ class HtmlView extends BaseHtmlView
 		if($lang != 'de-DE') {
 			$lang = 'en-GB';
 		}
-		$help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Virtualdomains-Manager';
+		
 		ToolbarHelper::title( Text::_( 'Virtual Domains' ), 'generic.png' );
 
-		ToolbarHelper::help('#', false, $help_url);
+		// $help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Virtualdomains-Manager';
+		// ToolbarHelper::help('#', false, $help_url);
 
 		if ($canDo->get('core.create')) {
 			ToolbarHelper::addNew('virtualdomain.add');
@@ -115,23 +116,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::deleteList('', 'virtualdomains.delete');
 
-
-		ToolbarHelper::preferences('com_virtualdomains', '550');
-		if(version_compare(JVERSION,'4','<')){
-			JHtmlSidebar::setAction('index.php?option=com_virtualdomains&view=virtualdomains');
-		}
-		
-		$excludeOptions = array('archived' => false, 'trash' => false);
-		
-		if(version_compare(JVERSION,'4','<')){
-			JHtmlSidebar::addFilter(
-			Text::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			HTMLHelper::_('select.options', HTMLHelper::_('jgrid.publishedOptions', $excludeOptions ), 'value', 'text', $this->state->get('filter.state'), true)
-			);
-		}
-
-			
+		ToolbarHelper::preferences('com_virtualdomains', '550');	
 	}
 
 
