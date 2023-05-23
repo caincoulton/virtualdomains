@@ -29,7 +29,11 @@ $tabFramework = 'uitab';
 		<?php echo HTMLHelper::_($tabFramework . '.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 		<?php echo HTMLHelper::_($tabFramework . '.addTab', 'myTab', 'details', Text::_('Details')); ?>
+		<div class="row">
+			<div class="col-lg-9">
 			<?php echo $this->form->renderFieldset('details'); ?>
+			</div>
+		</div>
 		<?php echo HTMLHelper::_($tabFramework . '.endTab'); ?>
 
 	<?php echo HTMLHelper::_($tabFramework . '.endTabSet'); ?>	        

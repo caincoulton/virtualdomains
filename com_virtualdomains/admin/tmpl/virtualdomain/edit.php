@@ -43,27 +43,51 @@ if (!$edit) {
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('Details')); ?>
+			<div class="row">
+				<div class="col-lg-9">
 				<?php echo $this->form->renderFieldset('details'); ?>
+				</div>
+			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'siteconfig', Text::_( 'Site_Config' )); ?>
+			<div class="row">
+				<div class="col-lg-9">
 				<?php echo $this->form->renderFieldset('siteconfig'); ?>
+				</div>
+			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>		
 			
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'menufilter', Text::_('Menu_Filter')); ?>
+			<div class="row">
+				<div class="col-lg-9">
 				<?php echo $this->form->renderFieldset('menus'); ?>
+				</div>
+			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'accesslevels', Text::_('Access_Level_Inheritance')); ?>
+			<div class="row">
+				<div class="col-lg-9">
 				<?php echo $this->form->renderFieldset('accesslevels'); ?>
+				</div>
+			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'components', Text::_('COMPONENTS_FILTER')); ?>
+			<div class="row">
+				<div class="col-lg-9">
 				<?php echo $this->form->renderFieldset('components'); ?>
+				</div>
+			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'translation', Text::_('Translation')); ?>
+			<div class="row">
+				<div class="col-lg-9">
 				<?php echo $this->form->renderFieldset('translation'); ?>
+				</div>
+			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>

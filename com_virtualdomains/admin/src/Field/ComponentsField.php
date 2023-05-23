@@ -48,7 +48,7 @@ class ComponentsField extends ListField
 		$attr = '';
 		
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : ' class="form-select"';
 		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
@@ -97,8 +97,6 @@ class ComponentsField extends ListField
 		}
 		
 		return $options;
-
-		
 	}
 	
 }

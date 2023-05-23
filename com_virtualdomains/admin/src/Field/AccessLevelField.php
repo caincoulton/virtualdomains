@@ -48,7 +48,7 @@ class AccessLevelField extends ListField
 		$attr = '';
 		
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].' form-select"' : 'form-select';
+		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].' form-select"' : ' class="form-select"';
 		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';

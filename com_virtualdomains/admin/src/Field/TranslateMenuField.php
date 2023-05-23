@@ -39,14 +39,14 @@ class TranslateMenuField extends FormField
     protected function getInput()
     {
 		$langs = LanguageHelper::getKnownLanguages();
-        $class = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : 'form-control';
+        $class = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : ' class="form-control"';
 		$html ="<table class='table table-striped'>";
 
 					
 		foreach($langs  as $lang) {
 			   $value = (isset($this->value[$lang['tag']])) ? $this->value[$lang['tag']] : ''; 
 			   $html .= '<tr><td class="paramlist_key" width="40%">'.$lang['tag'].'</td>';
-			   $html .= '<td class="paramlist_key" width="40%"><input type="text" name="jform[params][translatemenu]['.$lang['tag'].']" id="jform_'.$lang['tag'].'" value="'.$value.'" class="'.$class.'" size="20"/></td></tr>';	
+			   $html .= '<td class="paramlist_key" width="40%"><input type="text" name="jform[params][translatemenu]['.$lang['tag'].']" id="jform_'.$lang['tag'].'" value="'.$value.'" '.$class.' size="20"/></td></tr>';	
 		}
 		
         $html .="</table>";
