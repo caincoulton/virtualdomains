@@ -1,3 +1,6 @@
+4.0.0
+* Joomla! 4 support
+
 1.4.1
 * Update server added
 

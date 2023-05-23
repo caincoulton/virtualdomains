@@ -36,9 +36,9 @@
     </media>
 
     <administration>
-        <menu view="virtualdomains">Virtualdomains</menu>
+        <menu view="virtualdomains">Virtual Domains</menu>
         <submenu>
-            <menu view="virtualdomains">Virtualdomains</menu>
+            <menu view="virtualdomains">Domains</menu>
             <menu view="params">Params</menu>
             <menu view="about">About</menu>
         </submenu>
@@ -51,7 +51,6 @@
             <folder>tmpl</folder>
             <filename>access.xml</filename>
             <filename>config.xml</filename>
-            <filename>install.script.php</filename>
         </files>
 
         <languages folder="admin/language">

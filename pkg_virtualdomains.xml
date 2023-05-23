@@ -1,79 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="package"
-           method="upgrade"
-           version="1.6">
+<extension type="package" method="upgrade">
     <name>Virtual Domains</name>
     <packagename>virtualdomains</packagename>
     <version>4.0.0</version>
     <creationDate>February 2022</creationDate>
     {CREDITS}
     <description>
-        <![CDATA[	<h3>Virtual Domains</h3>
-  <p>
-    <strong>Multi Domain Support for Joomla.</strong>
-    <br />
-  </p>
-  <table class="adminlist" style="width:50%">
-    <tbody>
-      <tr class="row0">
-        <td class="key" colspan="2">Component</td>
-        <td>
-          <strong>Installed</strong>
-        </td>
-        <td>
-          <img src="../media/media/images/success.png" alt="OK" />
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr class="row1">
-        <td class="key" colspan="2">Plugin System - virtualdomains</td>
-        <td>
-          <strong>Installed</strong>
-        </td>
-        <td>
-          <img src="../media/media/images/success.png" alt="OK" />
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr class="row0">
-        <td class="key" colspan="2">Module - VD Language Switcher</td>
-        <td>
-          <strong>Installed</strong>
-        </td>
-        <td>
-          <img src="../media/media/images/success.png" alt="OK" />
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr class="row1">
-        <td class="key" colspan="2">Help</td>
-        <td >
-          <a href="http://help.janguo.de/vd/en-GB/index.html#03-04-Mccoy-installation" target="_blank">Manual</a>
-        </td>
-        <td>
-          <img src="../media/system/images/notice-info.png" alt="OK" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <br />
-  <div>Please check <a href="index.php?option=com_plugins">Extensions->Plugin Manager</a> to enable  the <strong>Plugin <i>System - virtualdomains </i>
-  </strong>if necessary.</div>
-  <div>For Multilanguage Sites it is required to replace Joomlas Language switcher module with &quot;VD Language switcher&quot;.</div>
-  <br />		]]>
+        <![CDATA[
+          <h1>Virtual Domains</h1>
+          <p class="lead">Multi Domain Support for Joomla.</p>
+          <p>
+            For multi-language sites it is required the <i>Language Switcher | Virtual Domains</i> module instead of the default Joomla! <i>Language Switcher</i> module.</p>
+        ]]>
     </description>
+    
     <files>
-        <file type="plugin"
-              id="virtualdomains"
-              group="system">plg_virtualdomains.zip</file>
-        <file type="component"
-              id="com_virtualdomains">com_virtualdomains.zip</file>
-        <file type="module"
-              id="mod_vdlanguage"
-              client="site">mod_vdlanguage.zip</file>
+        <file type="plugin" id="virtualdomains" group="system">plg_virtualdomains.zip</file>
+        <file type="component" id="com_virtualdomains">com_virtualdomains.zip</file>
+        <file type="module" id="mod_vdlanguage" client="site">mod_vdlanguage.zip</file>
     </files>
     
     <updateservers>

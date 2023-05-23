@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<extension version="2.5"
-           type="plugin"
-           method="upgrade"
-           client="site"
-           group="system">
-	<name>System - virtualdomains</name>
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" method="upgrade" client="site" group="system">
+	<name>System - Virtual Domains</name>
 	<creationDate>March 2011</creationDate>
 	{CREDITS}
 	<version>4.0.0-beta</version>
-	<description>Run virtual domains with different contents from a single Joomla! instance</description>
+	<description>Run separate websites within a single Joomla! instance using Virtual Domains.</description>
 	<files>
 		<filename plugin="virtualdomains">virtualdomains.php</filename>
 	</files>

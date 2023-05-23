@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `#__virtualdomain` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `#__virtualdomain` (`id`, `domain`, `home`, `menuid`, `template`, `template_style_id`, `viewlevel`, `params`, `published`, `checked_out`, `checked_out_time`, `ordering`) VALUES
+INSERT IGNORE INTO `#__virtualdomain` (`id`, `domain`, `home`, `menuid`, `template`, `template_style_id`, `viewlevel`, `params`, `published`, `checked_out`, `checked_out_time`, `ordering`) VALUES
 (1, 'replace-with-your-default-domain', 1, 0, '', 0, 0, '', 1, 0, '0000-00-00 00:00:00', 1);
 
 
