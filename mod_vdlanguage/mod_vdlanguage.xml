@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>michael-liebler@janguo.de</authorEmail>
 	<authorUrl>www.janguo.de</authorUrl>
-	<version>{VERSION}</version>
+	<version>4.0.0-beta</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
 	
 	<files>

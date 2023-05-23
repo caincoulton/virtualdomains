@@ -7,7 +7,7 @@
     <authorUrl>http://www.janguo.de, https://coultoncreation.com</authorUrl>
     <copyright>Copyright (C) 2010 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>{VERSION}</version>
+    <version>4.0.0-beta</version>
     <description>Multi Domain Support for Joomla</description>
 
     <namespace path="src/">Janguo\Component\VirtualDomains</namespace>

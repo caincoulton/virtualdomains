@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="package_vd_build" default="build-all">
 	 <property name="package" value="pkg_virtualdomains" override="true"/>	
-	 <php expression="trim(file_get_contents('version'))" returnProperty="vd.version" />  
 	 	 
 	<target name="clean">
 		<echo msg="Cleaning directories" />
@@ -33,11 +32,6 @@
                 <include name="plg_virtualdomains/virtualdomains.xml"/>
                 <include name="pkg_virtualdomains.xml"/>
             </fileset>
-            <filterchain>
-                <replaceregexp>
-                    <regexp pattern="{VERSION}" replace="${vd.version}"/>
-                </replaceregexp>
-            </filterchain>
         </reflexive>
 		
 		<zip destfile="build/com_virtualdomains.zip" basedir="build/com_virtualdomains" />
@@ -45,7 +39,7 @@
 		<zip destfile="build/mod_vdlanguage.zip" basedir="build/mod_vdlanguage" />
 		
 		<mkdir dir="dist" />
-		<zip destfile="dist/${package}-${vd.version}.zip">
+		<zip destfile="dist/${package}.zip">
 			<fileset dir="build">
 				<include name="*.zip" />
 				<include name="pkg_virtualdomains.xml" />
