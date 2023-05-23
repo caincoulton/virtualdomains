@@ -4,11 +4,9 @@
            version="1.6">
     <name>Virtual Domains</name>
     <packagename>virtualdomains</packagename>
-    <version>4.0.0-beta</version>
-    <url>http://www.janguo.de</url>
-    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <packager>Cain Coulton</packager>
-    <packagerurl>https://github.com/caincoulton/virtualdomains</packagerurl>
+    <version>4.0.0</version>
+    <creationDate>February 2022</creationDate>
+    {CREDITS}
     <description>
         <![CDATA[	<h3>Virtual Domains</h3>
   <p>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="package_vd_build" default="build-all">
-	 <property name="package" value="pkg_virtualdomains" override="true"/>	
+	 <property name="package" value="pkg_virtualdomains" override="true"/>
+	 <php expression="trim(file_get_contents('credits.xml'))" returnProperty="vd.credits" />
 	 	 
 	<target name="clean">
 		<echo msg="Cleaning directories" />
@@ -32,6 +33,11 @@
                 <include name="plg_virtualdomains/virtualdomains.xml"/>
                 <include name="pkg_virtualdomains.xml"/>
             </fileset>
+			<filterchain>
+                <replaceregexp>
+                    <regexp pattern="{CREDITS}" replace="${vd.credits}"/>
+                </replaceregexp>
+            </filterchain>
         </reflexive>
 		
 		<zip destfile="build/com_virtualdomains.zip" basedir="build/com_virtualdomains" />

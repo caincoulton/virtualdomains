@@ -6,11 +6,7 @@
            group="system">
 	<name>System - virtualdomains</name>
 	<creationDate>March 2011</creationDate>
-	<author>Michael Liebler</author>
-	<authorEmail>michael-liebler@janguo.de</authorEmail>
-	<authorUrl>www.janguo.de</authorUrl>
-	<copyright>Copyright (C) 2008 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	{CREDITS}
 	<version>4.0.0-beta</version>
 	<description>Run virtual domains with different contents from a single Joomla! instance</description>
 	<files>

@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
-	<name>Language Switcher - Virtual Domains</name>
-	<author>Michael Liebler</author>
+	<name>Language Switcher | Virtual Domains</name>
 	<creationDate>January 2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<authorEmail>michael-liebler@janguo.de</authorEmail>
-	<authorUrl>www.janguo.de</authorUrl>
+	{CREDITS}
 	<version>4.0.0-beta</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
 	
