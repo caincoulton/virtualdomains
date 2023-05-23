@@ -40,7 +40,6 @@
         <submenu>
             <menu view="virtualdomains">Domains</menu>
             <menu view="params">Params</menu>
-            <menu view="about">About</menu>
         </submenu>
 
         <files folder="admin">
