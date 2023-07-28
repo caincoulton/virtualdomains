@@ -151,7 +151,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		// add viewlevel(s) for the current domain to the user object
 		$vdUser = new VdUser($user->get('id'));
 		// there may be viewlevels inherited from other domains
-		$viewlevels =  (array) $currentDomain ->params->get('access');
+		$viewlevels =  (array) $currentDomain->params->get('access');
 		// add current domains viewlevel
 		$viewlevels[] = $currentDomain ->viewlevel;
 		// override method addAuthorisedViewLevels
@@ -389,6 +389,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		$domainMenuItem = $this->getDomainMenuItem();
 		$parentAlias = $this->getTopLevelAlias($domainMenuItem);
+		$associationAliases = array();
 
 		// Load parent aliases on an associations of home menu item
 		// Check language is not generic signifying that a specific language is set
@@ -580,7 +581,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 					$curDomain->template = null;
 				}
 				break;
-			case 1:
+			case '1':
 				if(!$curDomain->isHome ) {
 					$curDomain->template = null;
 				}
@@ -590,7 +591,14 @@ class PlgSystemVirtualdomains extends CMSPlugin
 				break;
 		}
 
-		$curDomain->menuid = $curDomain->activeItemId;
+		/**
+		 * If languages are used, and a non-default language is being shown to the user, force the menuid to be
+		 * the activeItemId.  This fixes the issue where modules (ie menu) are not shown when switching to a non-default
+		 * language on the home page of the site, with no path (ie site.com/de/)
+		 */
+		if($app->getLanguage()->getDefault() !== $app->getLanguage()->get('tag')) {
+			$curDomain->menuid = $curDomain->activeItemId;
+		}
 
 		$instance = $curDomain;
 
@@ -682,6 +690,9 @@ class PlgSystemVirtualdomains extends CMSPlugin
 			return false;
 		}
 
+		// get domains home item
+		$menu = Factory::getApplication()->getMenu('site', array());
+		$menuItem = $menu->getItem( ( int ) $curDomain->menuid );
 		if ( !$menuItem )
 		{
 			//item is lost
