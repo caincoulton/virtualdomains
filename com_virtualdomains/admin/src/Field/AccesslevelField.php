@@ -32,7 +32,7 @@ class AccessLevelField extends ListField
 	 * @var		string
 	 * @since	1.6
 	 */
-	public $type = 'VdAccessLevel';
+	public $type = 'vdaccesslevel';
 
 	private $_exclude = null;
 	

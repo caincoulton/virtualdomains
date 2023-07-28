@@ -21,9 +21,7 @@ namespace Janguo\Component\VirtualDomains\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 
 class TranslateMenuField extends FormField
@@ -34,7 +32,7 @@ class TranslateMenuField extends FormField
      * @access	protected
      * @var		string
      */
-    public $type = 'TranslateMenu';
+    public $type = 'vdtranslatemenu';
 
     protected function getInput()
     {

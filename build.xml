@@ -20,7 +20,7 @@
 		<copy todir="build" >
           <fileset dir=".">
             <include name="com_virtualdomains/**" />
-            <include name="mod_vdlanguage/**" />
+            <include name="mod_vdlanguages/**" />
             <include name="plg_virtualdomains/**" />
             <include name="pkg_virtualdomains.xml/**" />
           </fileset>
@@ -29,7 +29,7 @@
         <reflexive>
             <fileset dir="build">
                 <include name="com_virtualdomains/com_virtualdomains.xml"/>
-                <include name="mod_vdlanguage/mod_vdlanguage.xml"/>
+                <include name="mod_vdlanguages/mod_vdlanguages.xml"/>
                 <include name="plg_virtualdomains/virtualdomains.xml"/>
                 <include name="pkg_virtualdomains.xml"/>
             </fileset>
@@ -42,7 +42,7 @@
 		
 		<zip destfile="build/com_virtualdomains.zip" basedir="build/com_virtualdomains" />
 		<zip destfile="build/plg_virtualdomains.zip" basedir="build/plg_virtualdomains" />
-		<zip destfile="build/mod_vdlanguage.zip" basedir="build/mod_vdlanguage" />
+		<zip destfile="build/mod_vdlanguages.zip" basedir="build/mod_vdlanguages" />
 		
 		<mkdir dir="dist" />
 		<zip destfile="dist/${package}.zip">
