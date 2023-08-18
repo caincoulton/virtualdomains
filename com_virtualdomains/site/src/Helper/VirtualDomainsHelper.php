@@ -4,6 +4,7 @@ namespace Janguo\Component\VirtualDomains\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Janguo\Component\VirtualDomains\Site\Model\VirtualDomainModel;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -40,5 +41,20 @@ abstract class VirtualDomainsHelper
         $domain = $db->loadResult();
 
         return (strlen($domain) > 0 ? '//' . $domain : '') . Route::_('index.php?Itemid=' . $item->id);
+    }
+
+    /**
+     * Gets all the menu items for the current menu based on the current domain.
+     *
+     * @return MenuItem[]
+     */
+    public static function getCurrentMenuItems() {
+        $model = new VirtualDomainModel();
+        $vd = $model->getCurrentDomain();
+        $app = Factory::getApplication();
+        $menu = $app->getMenu('site');
+        $homeMenuItem = $menu->getItem($vd->menuid);
+        $menuType = $homeMenuItem->menutype;
+        return $menu->getItems(array('menutype'), array($menuType));
     }
 }
