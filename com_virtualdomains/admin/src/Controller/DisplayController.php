@@ -13,7 +13,6 @@ namespace Janguo\Component\VirtualDomains\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -28,5 +27,5 @@ class DisplayController extends BaseController
 	 * @var		string	The default view.
 	 * @since   1.6
 	 */
-	protected $default_view = 'virtualdomains';
+	protected $default_view = 'Virtualdomains';
 }

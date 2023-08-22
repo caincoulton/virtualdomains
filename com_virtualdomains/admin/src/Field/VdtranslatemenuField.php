@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\LanguageHelper;
 
-class TranslateMenuField extends FormField
+class VdTranslateMenuField extends FormField
 {
     /**
      * Element name

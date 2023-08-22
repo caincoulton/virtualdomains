@@ -3,9 +3,11 @@
 /.buildpath
 /.project
 /.settings
+/.vscode
 /build/
 /dist/
 /node_modules/
+/vendor/
 
 .vscode
 gulp*

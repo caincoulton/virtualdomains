@@ -25,7 +25,7 @@ use Joomla\CMS\Filesystem\Folder;
  * @subpackage	Form
  * @since		1.6
  */
-class ComponentsField extends ListField
+class VdComponentsField extends ListField
 {
 	/**
 	 * The form field type.
@@ -33,7 +33,7 @@ class ComponentsField extends ListField
 	 * @var		string
 	 * @since	1.6
 	 */
-	public $type = 'Components';
+	public $type = 'vdcomponents';
 
 	
 	/**

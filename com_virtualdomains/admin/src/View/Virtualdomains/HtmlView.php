@@ -35,11 +35,40 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 class HtmlView extends BaseHtmlView
 {
 
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  \Joomla\CMS\Pagination\Pagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var   \Joomla\CMS\Object\CMSObject
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var  \Joomla\CMS\Form\Form
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var  array
+	 */
+	public $activeFilters;
 
 
 	/**
@@ -62,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		$this->params = ComponentHelper::getParams( 'com_virtualdomains' );
 		
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -103,7 +132,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 
-		if ($this->state->get('filter.state') != 2)
+		if ($this->state->get('filter.published') != 2)
 		{
 			ToolbarHelper::publish('virtualdomains.publish', 'JTOOLBAR_PUBLISH', true);
 			ToolbarHelper::unpublish('virtualdomains.unpublish', 'JTOOLBAR_UNPUBLISH', true);

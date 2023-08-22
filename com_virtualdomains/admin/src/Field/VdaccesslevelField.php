@@ -12,7 +12,6 @@ namespace Janguo\Component\VirtualDomains\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -24,7 +23,7 @@ use Joomla\CMS\Language\Text;
  * @subpackage	Form
  * @since		1.6
  */
-class AccessLevelField extends ListField
+class VdAccessLevelField extends ListField
 {
 	/**
 	 * The form field type.
@@ -76,7 +75,7 @@ class AccessLevelField extends ListField
 		
 		$options = array();
 		
-		$db		= Factory::getDbo();
+		$db		= $this->getDatabase();
 		
 		$query = "SELECT GROUP_CONCAT( DISTINCT `viewlevel`
 						SEPARATOR ', ' )
@@ -102,9 +101,8 @@ class AccessLevelField extends ListField
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
 		}
-		return $options;
-
 		
+		return $options;
 	}
 	
 }
