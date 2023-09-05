@@ -76,14 +76,13 @@ class HtmlView extends BaseHtmlView
 			$lang = 'en-GB';
 		}
 		
-		// $help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Parameters-Manager';
-		// ToolBarHelper::help('#', false, $help_url);
-		
 		$canDo = VirtualDomainsHelper::getActions();
 		$user = Factory::getUser();
 
 		ToolBarHelper::title( Text::_( 'Params' ), 'generic.png' );
-		if ($canDo->get('core.create')) {
+
+		if ($canDo->get('core.create')) 
+		{
 			ToolBarHelper::addNew('param.add');
 		}	
 		
@@ -91,16 +90,13 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolBarHelper::editList('param.edit');
 		}
-		
-				
-				
 
 		if ($canDo->get('core.delete'))
 		{
 			ToolBarHelper::deleteList('', 'params.delete');
 		}
 				
-		
+		ToolbarHelper::help('index', true); //#Parameters-Manager
 		ToolBarHelper::preferences('com_virtualdomains', '550');  				
 	}	
 	

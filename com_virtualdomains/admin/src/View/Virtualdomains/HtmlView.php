@@ -23,6 +23,7 @@ use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Janguo\Component\VirtualDomains\Administrator\Helper\VirtualDomainsHelper;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTML View class for the Virtual Domains component
@@ -119,10 +120,8 @@ class HtmlView extends BaseHtmlView
 		
 		ToolbarHelper::title( Text::_( 'Virtual Domains' ), 'generic.png' );
 
-		// $help_url = 'http://help.janguo.de/vd-mccoy/'.$lang.'/#Virtualdomains-Manager';
-		// ToolbarHelper::help('#', false, $help_url);
-
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create')) 
+		{
 			ToolbarHelper::addNew('virtualdomain.add');
 		}
 
@@ -130,7 +129,6 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::editList('virtualdomain.edit');
 		}
-
 
 		if ($this->state->get('filter.published') != 2)
 		{
@@ -140,6 +138,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::deleteList('', 'virtualdomains.delete');
 
+		ToolbarHelper::help('index', true);
 		ToolbarHelper::preferences('com_virtualdomains', '550');	
 	}
 
