@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
@@ -78,22 +79,6 @@ class VirtualDomainsController extends AdminController
 		$model->preDelete($cid);
 		return parent::delete();
 	}
-	
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $id     The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $id = null)	
-	{
-		
-	}
 
 	/**
 	 * Method to set the default property for a domain
@@ -131,7 +116,7 @@ class VirtualDomainsController extends AdminController
 			}
 		}
 	
-		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+		$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 		
 	}
 	

@@ -75,17 +75,18 @@ class VdAccessLevelField extends ListField
 		
 		$options = array();
 		
-		$db		= $this->getDatabase();
-		
-		$query = "SELECT GROUP_CONCAT( DISTINCT `viewlevel`
-						SEPARATOR ', ' )
-						FROM #__virtualdomain
-						WHERE published =1
-						AND id != ".(int) $this->_exclude." 
-						GROUP BY published";
-		$db->setQuery($query );
+		$db = $this->getDatabase();
+		$query = $db->getQuery(true);
+		$query->select('GROUP_CONCAT(DISTINCT `viewlevel` SEPARATOR ", ")')
+			->from('#__virtualdomain')
+			->where([
+				'published = 1',
+				'id != ' . (int) $this->_exclude 
+			])
+			->group('published');
 
-		
+		$db->setQuery($query);
+
 		$vdlevels = $db->loadResult();
 
 		if($vdlevels) { 
@@ -104,5 +105,4 @@ class VdAccessLevelField extends ListField
 		
 		return $options;
 	}
-	
 }

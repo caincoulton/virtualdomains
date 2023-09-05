@@ -14,23 +14,19 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Table;
 
 /**
  * VirtualdomainsModelParam 
  * @author Michael Liebler
  */
 class ParamModel extends AdminModel { 
-
-		
-/**
+	/**
 	 * Method to get the record form.
 	 *
 	 * @param   array    $data      Data for the form. [optional]
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
-
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -40,6 +36,7 @@ class ParamModel extends AdminModel {
 		{
 			return false;
 		}
+
 		return $form;
 	}
 
@@ -58,12 +55,7 @@ class ParamModel extends AdminModel {
 		{
 			$data = $this->getItem();
 		
-		}
-		
-		if(version_compare(JVERSION,'4','<')){
-			$this->preprocessData('com_virtualdomains.param', $data);
-		}
-		
+		}		
 
 		return $data;
 	}

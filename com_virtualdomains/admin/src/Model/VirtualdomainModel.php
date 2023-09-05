@@ -14,9 +14,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Form\FormHelper;
- 
+use Joomla\CMS\MVC\View\GenericDataException;
+
 class VirtualDomainModel extends AdminModel { 
 	/**
 	 * The URL option for the component.
@@ -86,13 +86,21 @@ class VirtualDomainModel extends AdminModel {
 	
 	public function beforeSave($data)
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
+
 		if(isset($data['template_style_id'])) {
-			$db->setQuery('Select template from #__template_styles where id = '.(int) $data['template_style_id']);
+			$query = $db->getQuery(true);
+			$query->select('template')
+				->from('#__template_styles')
+				->where('id = ' . (int) $data['template_style_id']);
+			$db->setQuery($query);
 			$data['template'] = $db->loadResult();
 		}
-				
-		$query = "SELECT id FROM #__viewlevels WHERE title = ".$db->Quote($data['domain']). " OR id = ". (int) $data['viewlevel'] ;
+
+		$query = $db->getQuery(true);
+		$query->select('id')
+			->from('#__viewlevels')
+			->where('title = ' . $db->Quote($data['domain']) . ' OR id = ' . (int) $data['viewlevel']);
 		$db->setQuery($query);
 		$viewlevel = $db->loadResult();
 		
@@ -108,6 +116,7 @@ class VirtualDomainModel extends AdminModel {
 			$db->execute();
 			$data['viewlevel'] = $db->insertid();
 		}
+
 		return $data;
 	}
 	
@@ -117,7 +126,8 @@ class VirtualDomainModel extends AdminModel {
 	 * @return boolean
 	 */
 	public function preDelete($cid) {
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
+
 		if(is_array($cid)) {
 			foreach($cid as $id) {
 				$row = $this->getTable();
@@ -131,26 +141,25 @@ class VirtualDomainModel extends AdminModel {
 			}
 		} else {
 			$row = $this->getTable();
-			$row->load($id);
+			$row->load($cid);
 			if($row->viewlevel) {
 				echo 'DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel.'<br />';
 				$db->setQuery('DELETE FROM #__viewlevels WHERE id = '.(int) $row->viewlevel);
 				$db->execute();
 			}
 		}
+
 		return true;	
 	}
 	
 	/**
 	 * Override parent method validate
-	 * @param JForm $form
+	 * @param Form $form
 	 * @param array $data
 	 * @param string $group
 	 * @return array
 	 */
 	public function validate($form, $data, $group = null) {
-	
-	
 		$origparams = isset($data['params']) ? $data['params'] : array();
 		$data = parent::validate($form, $data, $group);
 		$data['params'] = isset($data['params']) ? array_merge($data['params'], $origparams) : $origparams;
@@ -168,8 +177,7 @@ class VirtualDomainModel extends AdminModel {
 	public function setDefault($cids, $value = 1)
 	{
 		// Initialise variables.
-		$user	= Factory::getUser();
-		$db		= $this->getDbo();		
+		$db		= $this->getDatabase();		
 		$cids = (array) $cids;
 		$id = (int) $cids[0];
 
@@ -181,7 +189,7 @@ class VirtualDomainModel extends AdminModel {
 		);
 	
 		if (!$db->execute()) {
-			throw new Exception($db->getErrorMsg());
+			throw new GenericDataException($db->getErrorMsg(), 500);
 		}
 	
 		// Set the new home style.
@@ -192,7 +200,7 @@ class VirtualDomainModel extends AdminModel {
 		);
 	
 		if (!$db->execute()) {
-			throw new Exception($db->getErrorMsg());
+			throw new GenericDataException($db->getErrorMsg(), 500);
 		}
 	
 		return true;
@@ -208,12 +216,19 @@ class VirtualDomainModel extends AdminModel {
 	 */
 	public function getParamFields()
 	{
-		$item =$this->getItem();
-		$this->_db->setQuery('Select name, "" as value From #__virtualdomain_params Where 1');
-		$result = $this->_db->loadObjectList();
+		$item = $this->getItem();
+
+		$db = $this->getDatabase();
+		$query = $db->getQuery(true);
+		$query->select('name, "" AS value')
+			->from('#__virtualdomain_params');
+
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
 		$params = (array)  $item->params;
+
 		if (count($params )) {
-			for ($i=0;$i<count($result);$i++) {
+			for ($i = 0; $i < count($result); $i++) {
 				foreach ($params as $key=>$value) {
 					if ($result[$i]->name == $key) {
 						$result[$i]->value = $value;
@@ -221,6 +236,7 @@ class VirtualDomainModel extends AdminModel {
 				}
 			}
 		}
+		
 		return $result;
 	}
 }

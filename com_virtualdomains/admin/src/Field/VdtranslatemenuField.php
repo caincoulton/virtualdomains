@@ -40,7 +40,6 @@ class VdTranslateMenuField extends FormField
         $class = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : ' class="form-control"';
 		$html ="<table class='table table-striped'>";
 
-					
 		foreach($langs  as $lang) {
 			   $value = (isset($this->value[$lang['tag']])) ? $this->value[$lang['tag']] : ''; 
 			   $html .= '<tr><td class="paramlist_key" width="40%">'.$lang['tag'].'</td>';

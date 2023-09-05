@@ -76,21 +76,22 @@ class VdComponentsField extends ListField
 		
 		$options = array();
 		
-		$db		= Factory::getDbo();
-		
-		$folders = Folder::folders(JPATH_SITE.'/components');
-		
-		$query = "SELECT element
-						FROM #__extensions
-						WHERE TYPE = 'component'
-						AND client_id = 1";
+		$db	= $this->getDatabase();
+		$query = $db->getQuery(true);
+		$query->select('element')
+			->from('#__extensions')
+			->where([
+				'type = "component"',
+				'client_id = 1'
+			]);
 		
 		$db->setQuery($query );
 		
 		$components = $db->loadObjectList();
+
+		$folders = Folder::folders(JPATH_SITE.'/components');
 		
 		foreach ($components as $component) {
-			
 			if (in_array($component->element, $folders)) {
 				$options[] = array('value' => $component->element, 'text' =>$component->element);
 			}
