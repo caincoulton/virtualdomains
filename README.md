@@ -2,14 +2,14 @@
 
 Multi Domain Support for Joomla.
 
-A fork that supports PHP 7.1 and later.
+A fork that supports PHP8.
 
 Supports Joomla 4.
 
 ## Installation
 
-Download the [latest release](https://github.com/smehrbrodt/virtualdomains/releases/latest) and install the package in Joomla.
-Future updates should be available via the Joomla Extension update mechanism.
+Download the [latest release](https://github.com/caincoulton/virtualdomains/releases/latest) and install the package in Joomla.
+*Future updates should be available via the Joomla Extension update mechanism. TODO*
 
 ## Building
 
@@ -35,7 +35,7 @@ php phing-latest.phar
 
 ### Remove menu root
 
-Removes the root menu item from the SEF URL
+Removes the root menu item from the SEF URL (Experimental)
 
 #### Why is this needed?
 

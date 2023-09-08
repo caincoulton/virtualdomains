@@ -3,7 +3,7 @@
     <name>Virtual Domains</name>
     <creationDate>February 2022</creationDate>
     {CREDITS}
-    <version>4.0.2-beta</version>
+    <version>4.0.2</version>
     <description>Multi Domain Support for Joomla</description>
 
     <namespace path="src/">Janguo\Component\VirtualDomains</namespace>

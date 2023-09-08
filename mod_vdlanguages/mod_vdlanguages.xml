@@ -3,7 +3,7 @@
 	<name>Language Switcher | Virtual Domains</name>
 	<creationDate>January 2014</creationDate>
 	{CREDITS}
-	<version>4.0.0-beta</version>
+	<version>4.0.0</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
 
 	<namespace path="src/">Janguo\Module\VDLanguages</namespace>
