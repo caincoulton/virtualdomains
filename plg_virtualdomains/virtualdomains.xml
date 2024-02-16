@@ -3,7 +3,7 @@
 	<name>System - Virtual Domains</name>
 	<creationDate>March 2011</creationDate>
 	{CREDITS}
-	<version>4.0.1</version>
+	<version>4.0.2</version>
 	<description>Run separate websites within a single Joomla! instance using Virtual Domains.</description>
 	<files>
 		<filename plugin="virtualdomains">virtualdomains.php</filename>

@@ -248,7 +248,9 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	 */
 	private function checkHome(&$curDomain) {
 
+		/** @var Joomla\CMS\Application\SiteApplication $app */
 	    $app = Factory::getApplication();
+		$app->setTemplate($curDomain->template);
 
 	    $menu = $app->getMenu('site', array());
 		$menuItem = $menu->getItem(( int ) $curDomain->menuid );
@@ -457,7 +459,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		// Get menutype from domain
 		$query->select('m.*')
-			->from($db->quoteName('#__menu') . ' AS m')
+			->from($db->quoteName('#__menu', 'm'))
 			->join('INNER', '#__virtualdomain AS vd ON m.id = vd.menuid')
 			->where('domain = ' . $db->quote($this->_curhost));
 		return $db->setQuery($query)->loadObject();
@@ -473,7 +475,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		// Get parent alias for given domain
 		$query->clear()
 			->select('alias')
-			->from('#__menu AS m')
+			->from($db->quoteName('#__menu', 'm'))
 			->where('id = ' . $domainMenuItem->parent_id);
 		return $db->setQuery($query)->loadResult();
 	}
@@ -507,7 +509,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		// Get menu item path
 		$query = $db->getQuery(true);
 		$query->select('m.id')
-			->from($db->quoteName('#__menu') . ' AS m')
+			->from($db->quoteName('#__menu', 'm'))
 			->where('path = ' . $db->quote($searchPath));
 		$itemId = $db->setQuery($query)->loadResult();
 
@@ -533,10 +535,14 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		if(!empty($instance)) return $instance;
 
-		$db->setQuery(
-			"SELECT * FROM #__virtualdomain
-			WHERE `domain` = ".$db->Quote($this->_curhost ). " AND published > 0"
-		);
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from('#__virtualdomain')
+			->where([
+				"`domain` = " . $db->quote($this->_curhost),
+				"published > 0"
+			]);
+		$db->setQuery($query);
 
 		try {
             $curDomain = $db->loadObject();
@@ -623,13 +629,27 @@ class PlgSystemVirtualdomains extends CMSPlugin
 			$db = $this->_db;
 
 			// first try to find a language specific home item
-			$query  = "SELECT * FROM #__menu WHERE home = 1 AND language = ".$db->Quote(Factory::getLanguage()->getTag())." AND published >0";
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from('#__menu')
+				->where([
+					'home = 1',
+					'language = ' . $db->Quote($lang->getTag()),
+					'published > 0'
+				]);
 			$db->setQuery($query);
 			$_defaultmenu = $db->loadObject();
 
 			// language specific home item was not found - get the global one
 			if($_defaultmenu === null) {
-				$query  = "SELECT * FROM #__menu WHERE home = 1 AND language = '*' AND published >0";
+				$query = $db->getQuery(true);
+				$query->select('*')
+					->from('#__menu')
+					->where([
+						'home = 1',
+						'language = "*"',
+						'published > 0'
+					]);
 				$db->setQuery($query);
 				$_defaultmenu = $db->loadObject();
 			}
@@ -754,7 +774,10 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	private function setActions( $home = 0 )
 	{
 		$db = $this->_db;
-		$db->setQuery( 'Select * From #__virtualdomain_params Where 1' );
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from("#__virtualdomain_params");
+		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
 		$params = $this->_hostparams->getProperties();
@@ -862,7 +885,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	 */
 	private function setRequests() {
 		if(count($this->_request)) {
-			foreach( $this->_request as $key=>$var) {
+			foreach( $this->_request as $key => $var) {
 				// set the request
 				$this->input->set($key, $var);
 			}
@@ -873,7 +896,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 	 *
 	 *  Method to switch the menu to the VD-hosts home
 	 */
-	private function switchMenu( & $menu, &$newhome )
+	private function switchMenu(&$menu, &$newhome)
 	{
 
 		// nohome should be a reference to menu object
@@ -886,7 +909,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 
 		// set new home item
 		$newhome->home = 1;
-		$menu->setDefault( $newhome->id);
+		$menu->setDefault($newhome->id);
 	}
 
 }
