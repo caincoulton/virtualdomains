@@ -33,7 +33,8 @@ use Janguo\Component\VirtualDomains\Site\Library\VdUser;
 use Janguo\Component\VirtualDomains\Site\Library\VdAccess;
 use Janguo\Component\VirtualDomains\Site\Library\VdLanguage;
 use Janguo\Component\VirtualDomains\Site\Library\VdMenuFilter;
-
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\Component\Templates\Administrator\Model\StyleModel;
 
 class PlgSystemVirtualdomains extends CMSPlugin
 {
@@ -530,6 +531,7 @@ class PlgSystemVirtualdomains extends CMSPlugin
 		static $instance;
 
 		$vd = ComponentHelper::getComponent('com_virtualdomains');
+		/** @var SiteApplication $app */
 		$app = Factory::getApplication();
 		$db = $this->_db;
 
@@ -577,13 +579,16 @@ class PlgSystemVirtualdomains extends CMSPlugin
 				// Try and find correct menuItem id from path
 				preg_match('/\/(.*)\.html/', $uri->getPath(), $matches);
 				$path = $matches[1];
-				$db->setQuery("SELECT * FROM #__menu WHERE path = '$path'");
+				$db->setQuery("SELECT id FROM #__menu WHERE path = '$path'");
 				$menuItemId = $db->loadResult();
 
 				$menuItem = $app->getMenu()->getItem($menuItemId);
 
 				// Don't set VD template if style id exists on menu item
 				if($menuItem->template_style_id) {
+					$styleModel = new StyleModel();
+					$template = $styleModel->getItem($menuItem->template_style_id);
+					$app->setTemplate($template);
 					$curDomain->template = null;
 				}
 				break;
