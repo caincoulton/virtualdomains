@@ -71,10 +71,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$lang = Factory::getLanguage()->getTag();
-		if($lang != 'de-DE') {
-			$lang = 'en-GB';
-		}
 		
 		$canDo = VirtualDomainsHelper::getActions();
 		$user = Factory::getUser();

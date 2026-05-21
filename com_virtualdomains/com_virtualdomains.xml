@@ -3,7 +3,7 @@
     <name>Virtual Domains</name>
     <creationDate>February 2022</creationDate>
     {CREDITS}
-    <version>4.0.2</version>
+    <version>4.0.3</version>
     <description>Multi Domain Support for Joomla</description>
 
     <namespace path="src/">Janguo\Component\VirtualDomains</namespace>
@@ -53,12 +53,12 @@
         </files>
 
         <languages folder="admin/language">
-            <language tag="en-GB">en-GB/en-GB.com_virtualdomains.ini</language>
-            <language tag="en-GB">en-GB/en-GB.com_virtualdomains.sys.ini</language>
-            <language tag="de-DE">de-DE/de-DE.com_virtualdomains.ini</language>
-            <language tag="de-DE">de-DE/de-DE.com_virtualdomains.sys.ini</language>
-            <language tag="bg-BG">bg-BG/bg-BG.com_virtualdomains.ini</language>
-            <language tag="bg-BG">bg-BG/bg-BG.com_virtualdomains.sys.ini</language>
+            <language tag="en-GB">en-GB/com_virtualdomains.ini</language>
+            <language tag="en-GB">en-GB/com_virtualdomains.sys.ini</language>
+            <language tag="de-DE">de-DE/com_virtualdomains.ini</language>
+            <language tag="de-DE">de-DE/com_virtualdomains.sys.ini</language>
+            <language tag="bg-BG">bg-BG/com_virtualdomains.ini</language>
+            <language tag="bg-BG">bg-BG/com_virtualdomains.sys.ini</language>
         </languages>
 
     </administration>

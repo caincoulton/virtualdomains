@@ -113,10 +113,6 @@ class HtmlView extends BaseHtmlView
 		$canDo = VirtualDomainsHelper::getActions();
 		$user = Factory::getUser();
 
-		$lang = Factory::getLanguage()->getTag();
-		if($lang != 'de-DE') {
-			$lang = 'en-GB';
-		}
 		
 		ToolbarHelper::title( Text::_( 'Virtual Domains' ), 'generic.png' );
 

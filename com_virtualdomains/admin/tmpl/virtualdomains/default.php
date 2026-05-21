@@ -9,9 +9,9 @@ defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
 
@@ -31,6 +31,7 @@ if ($saveOrder)
 	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
+
 ?>
 <style>.romacron {height:100%; width:100%;left:10%!important; top:10%!important;}</style>
 <script type="text/javascript">
@@ -51,7 +52,7 @@ $sortFields = $this->getSortFields();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_virtualdomains&view=virtualdomains');?>"
+<form action="<?php echo Route::_('index.php?option=com_virtualdomains&view=virtualdomains');?>"
 	method="post" name="adminForm" id="adminForm">
 
     <div class="row">
@@ -124,7 +125,7 @@ $sortFields = $this->getSortFields();
                             $onclick= "onclick=\"window.parent.jSelectVirtualdomain_id('".$item->id."', '".$this->escape($item->domain)."', '','id')\" ";
                         }
 
-                        $link = JRoute::_( 'index.php?option=com_virtualdomains&view=virtualdomain&task=virtualdomain.edit&id='. $item->id );
+                        $link = Route::_( 'index.php?option=com_virtualdomains&view=virtualdomain&task=virtualdomain.edit&id='. $item->id );
                         $checked = HTMLHelper::_('grid.checkedout', $item, $i );
                         $preViewModalHandlerLink= "http://". $this->escape( $item->domain );
                         

@@ -3,7 +3,7 @@
 namespace Janguo\Component\VirtualDomains\Administrator\Field;
 
 use Joomla\CMS\Form\Field\ListField;
-use Janguo\Component\VirtualDomains\Administrator\Model\VirtualDomainsModel;
+use Janguo\Component\VirtualDomains\Administrator\Model\VirtualdomainsModel;
 use Joomla\CMS\HTML\HTMLHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
